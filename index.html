@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Noa Narisawa</title>
+  <meta name="description" content="Portfolio of artworks, studies, experiments, and notes." />
+  <style>
+    :root{
+      --bg:#0e0f12; --fg:#e9e9e9; --muted:#a3a3a3; --link:#71b7ff; --card:#121318; --border:#1f242c; --maxw:1100px;
+    }
+    body{margin:0;font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;color:var(--fg);background:var(--bg)}
+    a{color:var(--link);text-decoration:none} a:hover{text-decoration:underline}
+    .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+    header{position:sticky;top:0;z-index:50;background:rgba(14,15,18,.7);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+    .h-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+    nav a{color:inherit;margin-left:16px;padding:8px 10px;border-radius:10px}
+    nav a:hover{background:var(--border);text-decoration:none}
+    section{padding:40px 0}
+    h2{font-size:26px;margin:0 0 16px}
+    h3{margin:20px 0 8px;font-size:20px}
+    img{max-width:100%;border-radius:8px;margin-bottom:12px}
+    .notes{border-left:2px solid var(--border);padding-left:14px;color:var(--muted)}
+    footer{border-top:1px solid var(--border);padding:28px 0 60px;color:var(--muted);font-size:14px;margin-top:40px}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap h-inner">
+      <div class="brand">Noa Narisawa</div>
+      <nav>
+        <a href="#project1">Procedural Plotter Series</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="project1">
+      <h2>Procedural Plotter Series</h2>
+      <h3>Final Works</h3>
+      <img src="images/forest-final1.jpg" alt="Final work">
+      <h3>Studies</h3>
+      <img src="images/study1.jpeg" alt="Study">
+      <h3>Experiments</h3>
+      <img src="images/forest-exp1.jpg" alt="Experiment">
+      <h3>Notes</h3>
+      <div class="notes">
+        <p>2025-09-09 — </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap">© <span id="y"></span> Noa Narisawa</div>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
