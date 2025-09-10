@@ -28,8 +28,9 @@
   <header>
     <div class="wrap h-inner">
       <div class="brand">Works</div>
-      <nav>
+    <nav class="tabs">
         <a href="#project1">Procedural Plotter Series</a>
+        <a href="#y2024" class="tablink" data-target="y2024" aria-selected="false">2024–2025</a>
       </nav>
     </div>
   </header>
@@ -49,14 +50,57 @@
       </div>
     </section>
 
+    <section id="y2024" hidden>
+<h2>2024–2025</h2>
+<h3>Final Works</h3>
+<img src="images/2024-2025/final1.jpg" alt="Final work">
+<h3>Studies</h3>
+<img src="images/2024-2025/study1.jpg" alt="Study">
+<h3>Experiments</h3>
+<img src="images/2024-2025/exp1.jpg" alt="Experiment">
+<h3>Notes</h3>
+<div class="notes">
+<p><strong>Notes</strong> — ...</p>
+</div>
+</section>
   </main>
 
   <footer>
     <div class="wrap">© <span id="y"></span> Noa Narisawa</div>
   </footer>
 
-  <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
-  </script>
+ <script>
+document.getElementById('y').textContent = new Date().getFullYear();
+const navLinks = document.querySelectorAll('nav a');
+const sections = document.querySelectorAll('main section');
+navLinks.forEach(link => {
+link.addEventListener('click', () => {
+navLinks.forEach(l => l.classList.remove('active'));
+sections.forEach(s => s.classList.remove('active'));
+link.classList.add('active');
+document.getElementById(link.dataset.target).classList.add('active');
+});
+});
+// Tabs toggle
+document.querySelectorAll('.tablink').forEach(el=>{
+el.addEventListener('click', (e)=>{
+e.preventDefault();
+const target = el.getAttribute('data-target');
+// update selected state
+document.querySelectorAll('.tablink').forEach(a=>a.setAttribute('aria-selected','false'));
+el.setAttribute('aria-selected','true');
+// show/hide sections
+const ids = ['projects','y2024'];
+ids.forEach(id=>{
+const sec = document.getElementById(id);
+if (!sec) return;
+if (id === target) sec.hidden = false; else sec.hidden = true;
+});
+// focus target for accessibility
+const sec = document.getElementById(target);
+if (sec) sec.scrollIntoView({behavior:'smooth', block:'start'});
+});
+});
+</script>
 </body>
 </html>
