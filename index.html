@@ -6,105 +6,158 @@
   <title>Works</title>
   <meta name="description" content="Portfolio of artworks, studies, experiments, and notes." />
   <style>
-    :root{
-      --bg:#0e0f12;; --fg:#e9e9e9; --muted:#555555;--link:#0a66c2; --card:#f9f9f9; --border:#e6e6e6; --maxw:1100px;
+    :root {
+      --bg:#0e0f12;
+      --fg:#e9e9e9;
+      --muted:#555555;
+      --link:#0a66c2;
+      --card:#f9f9f9;
+      --border:#e6e6e6;
+      --maxw:1100px;
     }
-    body{margin:0;font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;color:var(--fg);background:var(--bg);display: flex;
-    flex-direction: column;
-    min-height: 100vh;} 
+    body {
+      margin:0;
+      font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+      color:var(--fg);
+      background:var(--bg);
+      display:flex;
+      flex-direction:column;
+      min-height:100vh;
+    }
     main {
-    flex:1; 
+      flex:1;
     }
-    a{color:var(--link);text-decoration:none} a:hover{text-decoration:underline}
-    .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
-    header{position:sticky;top:0;z-index:50;background:rgba(14,15,18,.7);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
-    .h-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
-    nav a{color:inherit;margin-left:16px;padding:8px 10px;border-radius:10px}
-    nav a:hover{background:var(--border);text-decoration:none}
-    section{padding:40px 0;scroll-margin-top: 80px;}
-    h2{font-size:26px;margin:0 0 16px}
-    h3{margin:20px 0 8px;font-size:20px}
-    img{max-width:100%;border-radius:8px;margin-bottom:12px}
-    .notes{border-left:2px solid var(--border);padding-left:14px;color:var(--muted)}
-    footer{border-top:1px solid var(--border);padding:28px 0 60px;color: var(--fg); ;font-size:14px;margin-top:40px}
+    a {color:var(--link);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap {
+      max-width:var(--maxw);
+      margin:0;
+      padding:0 20px;
+    }
+    header {
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:rgba(14,15,18,.7);
+      backdrop-filter:blur(8px);
+      border-bottom:1px solid var(--border);
+    }
+    .h-inner {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      height:64px;
+    }
+    nav a {
+      color:inherit;
+      margin-left:16px;
+      padding:8px 10px;
+      border-radius:10px;
+    }
+    nav a:hover {
+      background:var(--border);
+      text-decoration:none;
+    }
+    section {
+      padding:40px 0;
+      scroll-margin-top:80px;
+    }
+    h2 {font-size:26px;margin:0 0 16px}
+    h3 {margin:20px 0 8px;font-size:20px}
+    img {max-width:100%;border-radius:8px;margin-bottom:12px}
+    .notes {border-left:2px solid var(--border);padding-left:14px;color:var(--muted)}
+    footer {
+      border-top:1px solid var(--border);
+      padding:20px 0 40px;
+      color:var(--fg);
+      font-size:14px;
+      margin-top:40px;
+    }
+    footer p {
+      margin:0;
+      text-align:left;
+    }
   </style>
 </head>
 <body>
   <header>
     <div class="wrap h-inner">
       <div class="brand">Works</div>
-<nav class="tabs">
-  <a href="#project1" class="tablink" data-target="project1" aria-selected="true">Procedural Plotter Series</a>
-  <a href="#y2024"   class="tablink" data-target="y2024"   aria-selected="false">2024–2025</a>
-</nav>
+      <nav class="tabs">
+        <a href="#project1" class="tablink" data-target="project1" aria-selected="true">Procedural Plotter Series</a>
+        <a href="#y2024" class="tablink" data-target="y2024" aria-selected="false">2024–2025</a>
+      </nav>
     </div>
   </header>
+
   <main class="wrap">
-  <section id="project1">
-    <h2>Procedural Plotter Series</h2>
-    <h3>Final Works</h3>
-    <img src="images/forest-final1.jpg" alt="Final work">
-    <h3>Studies</h3>
-    <img src="images/study1.jpeg" alt="Study">
-    <h3>Experiments</h3>
-    <img src="images/forest-exp1.jpg" alt="Experiment">
-    <h3>Notes</h3>
-    <div class="notes">
-      <p>2025-09-09 — </p>
+    <section id="project1">
+      <h2>Procedural Plotter Series</h2>
+      <h3>Final Works</h3>
+      <img src="images/forest-final1.jpg" alt="Final work">
+      <h3>Studies</h3>
+      <img src="images/study1.jpeg" alt="Study">
+      <h3>Experiments</h3>
+      <img src="images/forest-exp1.jpg" alt="Experiment">
+      <h3>Notes</h3>
+      <div class="notes">
+        <p>2025-09-09 — </p>
+      </div>
+    </section>
+
+    <section id="y2024" hidden>
+      <h2>2024–2025</h2>
+      <h3>Final Works</h3>
+      <img src="images/2024-2025/final1.jpg" alt="Final work">
+      <h3>Studies</h3>
+      <img src="images/2024-2025/study1.jpg" alt="Study">
+      <h3>Experiments</h3>
+      <img src="images/2024-2025/exp1.jpg" alt="Experiment">
+      <h3>Notes</h3>
+      <div class="notes">
+        <p><strong>Notes</strong> — ...</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>© <span id="y"></span> Noa Narisawa</p>
     </div>
-  </section>
+  </footer>
 
-  <section id="y2024" hidden>
-    <h2>2024–2025</h2>
-    <h3>Final Works</h3>
-    <img src="images/2024-2025/final1.jpg" alt="Final work">
-    <h3>Studies</h3>
-    <img src="images/2024-2025/study1.jpg" alt="Study">
-    <h3>Experiments</h3>
-    <img src="images/2024-2025/exp1.jpg" alt="Experiment">
-    <h3>Notes</h3>
-    <div class="notes">
-      <p><strong>Notes</strong> — ...</p>
-    </div>
-  </section>
-</main>
+  <script>
+    // footer year
+    const yEl = document.getElementById('y');
+    if (yEl) yEl.textContent = new Date().getFullYear();
 
-<script>
-  // footer year
-  const yEl = document.getElementById('y');
-  if (yEl) yEl.textContent = new Date().getFullYear();
+    // simple tabs: show one section, hide the other(s)
+    const tabs = document.querySelectorAll('.tablink');
+    const sections = ['project1','y2024'].map(id => document.getElementById(id));
 
+    // initial state: show #project1, hide #y2024
+    sections.forEach(sec => { if(sec) sec.hidden = sec.id !== 'project1'; });
 
-  // simple tabs: show one section, hide the other(s)
-  const tabs = document.querySelectorAll('.tablink');
-  const sections = ['project1','y2024'].map(id => document.getElementById(id));
-
-  // initial state: show #project1, hide #y2024
-  sections.forEach(sec => { if(sec) sec.hidden = sec.id !== 'project1'; });
-
-  tabs.forEach(tab => {
-    tab.addEventListener('click', (e) => {
-      e.preventDefault(); // prevent jump/scroll
-      const targetId = tab.dataset.target;
-      // update selected state
-      tabs.forEach(t => t.setAttribute('aria-selected', t === tab ? 'true' : 'false'));
-      // show/hide sections
-      sections.forEach(sec => { if(sec) sec.hidden = (sec.id !== targetId); });
-      // update the URL hash without scrolling
-      if (history.replaceState) {
-        history.replaceState(null, '', '#' + targetId);
-      }
-      // optional: focus the heading for accessibility
-      const h = document.querySelector('#' + targetId + ' h2');
-      if (h) h.setAttribute('tabindex','-1'), h.focus();
+    tabs.forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = tab.dataset.target;
+        tabs.forEach(t => t.setAttribute('aria-selected', t === tab ? 'true' : 'false'));
+        sections.forEach(sec => { if(sec) sec.hidden = (sec.id !== targetId); });
+        if (history.replaceState) {
+          history.replaceState(null, '', '#' + targetId);
+        }
+        const h = document.querySelector('#' + targetId + ' h2');
+        if (h) h.setAttribute('tabindex','-1'), h.focus();
+      });
     });
-  });
 
-  // open tab from URL hash on load
-  const hash = location.hash.replace('#','');
-  if (hash && document.getElementById(hash)) {
-    const tab = document.querySelector(`.tablink[data-target="${hash}"]`);
-    if (tab) tab.click();
-  }
-</script>
-
+    // open tab from URL hash on load
+    const hash = location.hash.replace('#','');
+    if (hash && document.getElementById(hash)) {
+      const tab = document.querySelector(`.tablink[data-target="${hash}"]`);
+      if (tab) tab.click();
+    }
+  </script>
+</body>
+</html>
