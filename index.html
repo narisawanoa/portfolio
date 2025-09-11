@@ -6,77 +6,161 @@
   <title>Works</title>
   <meta name="description" content="Portfolio of artworks, studies, experiments, and notes." />
   <style>
-    :root {
-      --bg:#0e0f12;
-      --fg:#e9e9e9;
-      --muted:#555555;
-      --link:#0a66c2;
-      --card:#f9f9f9;
-      --border:#e6e6e6;
-      --maxw:1100px;
-    }
-    body {
-      margin:0;
-      font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
-      color:var(--fg);
-      background:var(--bg);
-      display:flex;
-      flex-direction:column;
-      min-height:100vh;
-    }
-    main {
-      flex:1;
-    }
-    a {color:var(--link);text-decoration:none}
-    a:hover{text-decoration:underline}
-    .wrap {
-      max-width:var(--maxw);
-      margin:0;
-      padding:0 20px;
-    }
-    header {
-      position:sticky;
-      top:0;
-      z-index:50;
-      background:rgba(14,15,18,.7);
-      backdrop-filter:blur(8px);
-      border-bottom:1px solid var(--border);
-    }
-    .h-inner {
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      height:64px;
-    }
-    nav a {
-      color:inherit;
-      margin-left:16px;
-      padding:8px 10px;
-      border-radius:10px;
-    }
-    nav a:hover {
-      background:var(--border);
-      text-decoration:none;
-    }
-    section {
-      padding:40px 0;
-      scroll-margin-top:80px;
-    }
-    h2 {font-size:26px;margin:0 0 16px}
-    h3 {margin:20px 0 8px;font-size:20px}
-    img {max-width:100%;border-radius:8px;margin-bottom:12px}
-    .notes {border-left:2px solid var(--border);padding-left:14px;color:var(--muted)}
-    footer {
-      border-top:1px solid var(--border);
-      padding:20px 0 40px;
-      color:var(--fg);
-      font-size:14px;
-      margin-top:40px;
-    }
-    footer p {
-      margin:0;
-      text-align:left;
-    }
+
+.gallery {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  gap: 12px;
+  padding: 6px 0 14px;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
+}
+.gallery::-webkit-scrollbar { height: 10px; }
+.gallery::-webkit-scrollbar-track { background: transparent; } 
+.gallery::-webkit-scrollbar-thumb { background: rgba(200,200,200,0.5); border-radius: 5px; }
+.gallery::-webkit-scrollbar-thumb:hover { background: rgba(200,200,200,0.8); }
+.gallery { scrollbar-width: thin; scrollbar-color: rgba(200,200,200,0.5) transparent; }
+.gallery img {
+  height: 160px;
+  flex: 0 0 auto;
+  border-radius: 8px;
+  object-fit: cover;
+  scroll-snap-align: start;
+  cursor: pointer; 
+}
+
+
+:root {
+  --bg:#0e0f12;
+  --fg:#e9e9e9;
+  --muted:#555555;
+  --link:#0a66c2;
+  --card:#f9f9f9;
+  --border:#e6e6e6;
+  --maxw:1100px;
+}
+body {
+  margin:0;
+  font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+  color:var(--fg);
+  background:var(--bg);
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+}
+main { flex:1; }
+a { color:var(--link); text-decoration:none }
+a:hover { text-decoration:underline }
+.wrap {
+  max-width:var(--maxw);
+  margin:0 auto;        
+  padding:0 20px;
+}
+header {
+  position:sticky; top:0; z-index:50;
+  background:rgba(14,15,18,.7);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border);
+}
+.h-inner { display:flex; align-items:center; justify-content:space-between; height:64px; }
+nav a { color:inherit; margin-left:16px; padding:8px 10px; border-radius:10px; }
+nav a:hover { background:var(--border); text-decoration:none; }
+section { padding:40px 0; scroll-margin-top:80px; }
+h2 { font-size:26px; margin:0 0 16px }
+h3 { margin:20px 0 8px; font-size:20px }
+img { max-width:100%; border-radius:8px; margin-bottom:12px }
+
+
+.section-note {
+  color: var(--muted);
+  margin: 6px 0 14px;
+  max-width: 70ch;
+  font-size: 14px;
+}
+
+.notes { border-left:2px solid var(--border); padding-left:14px; color:var(--muted) }
+footer {
+  border-top:1px solid var(--border);
+  padding:20px 0 40px;
+  color:var(--fg);
+  font-size:14px;
+  margin-top:40px;
+}
+footer p { margin:0; text-align:left }
+
+
+.lightbox{
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.5);   
+  display:none; align-items:center; justify-content:center;
+  z-index:1000;
+}
+.lightbox.open{ display:flex; }
+
+.lb-nav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:44px; height:44px;
+  border:0;
+  border-radius:999px;
+  background:rgba(255,255,255,.15);
+  color:#fff;
+  font-size:28px;
+  line-height:1;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+  backdrop-filter: blur(2px);
+}
+.lb-prev{ left:8px; }
+.lb-next{ right:8px; }
+.lb-nav:hover{ background:rgba(255,255,255,.28); }
+.lb-nav:active{ background:rgba(255,255,255,.4); }
+
+
+.lb-wrap, .lb-wrap * { pointer-events:auto; }
+
+
+.lb-wrap{
+  display:flex; align-items:stretch; gap:18px;
+  max-width:min(1100px, 92vw); max-height:88vh;
+  padding:14px; background:rgba(20,20,20,.5); border-radius:10px;
+  backdrop-filter: blur(3px);
+  position: relative;
+}
+#lb-img{
+  max-width:72vw; max-height:80vh; border-radius:8px; flex:1 1 auto;
+}
+.lb-panel{
+  width:min(340px, 40vw);
+  color:#eaeaea; font-size:14px; line-height:1.4;
+  overflow:auto; padding:6px 2px 6px 8px;
+  border-left:1px solid rgba(255,255,255,.15);
+}
+.lb-panel.left{
+  order:-1; border-left:none; border-right:1px solid rgba(255,255,255,.15);
+  padding:6px 8px 6px 2px;
+}
+.lb-panel h4{ margin:0 0 8px; font-size:18px; }
+.lb-meta{ margin:0 0 8px; }
+.lb-meta dt{ font-weight:600; margin:0 0 4px; }
+.lb-meta dd{ margin:0 0 8px; color:#cfcfcf; }
+
+.lb-close{
+  position:absolute; top:8px; right:12px;
+  background:transparent; border:0; color:#fff; font-size:28px; line-height:1;
+  cursor:pointer;
+}
+
+
+@media (max-width: 720px){
+  .lb-wrap{ flex-direction:column; max-height:90vh; }
+  .lb-panel, .lb-panel.left{ order:2; width:auto; border:0; padding:8px 0 0; }
+  #lb-img{ max-width:90vw; max-height:60vh; }
+}
   </style>
 </head>
 <body>
@@ -93,26 +177,85 @@
   <main class="wrap">
     <section id="project1">
       <h2>Procedural Plotter Series</h2>
-      <h3>Final Works</h3>
-      <img src="images/forest-final1.jpg" alt="Final work">
+
       <h3>Studies</h3>
-      <img src="images/study1.jpeg" alt="Study">
-      <h3>Experiments</h3>
-      <img src="images/forest-exp1.jpg" alt="Experiment">
+      <p class="section-note">From a single 3D object (head sculpture) I made in Blender, I have attempted to explore various shading methods, rendering, and vectorizations to create 2D images.</p>
+      <div class="gallery">
+        
+        <img src="images/stud.jpg"  alt="Study 1"
+             data-title="Study 1"
+             data-materials="pen, bristol paper"
+             data-description="Projected raw surface information directly onto the 3D surface. Instead of natural shading, I used Blender’s geometry and distance data.">
+        <img src="images/stud6.jpg" alt="Study 2"
+             data-title="Study 2"
+             data-materials="pen, bristol paper"
+             data-description="The 3D model was unwrapped into a UV layout, flattening the surface into 2D silhouettes. ">
+        <img src="images/stud3.jpg" alt="Study 3"
+             data-title="Study 3"
+             data-materials="pen, bristol paper"
+             data-description="UV unwrapping test. The lines across the shapes are the wireframe topology, showing how the geometry is organized for texture baking and shader experiments.">
+        <img src="images/stud4.jpg" alt="Study 4"
+             data-title="Study 4" data-materials="pen, bristol paper"  data-description="Continuation of study 3. ">
+        <img src="images/stud5.jpg" alt="Study 5"
+             data-title="Study 5" data-materials="pen, bristol paper" data-description="By remapping the object’s position or distance from the camera into a gradient, the head transforms into stacked layers of color.">
+        <img src="images/stud1.jpg" alt="Study 6"
+             data-title="Study 6" data-materials="pen, bristol paper" data-description="Continuation of study 5. Experimenting with different thresholds to adjust visibility.">
+        <img src="images/stud7.jpg" alt="Study 7"
+             data-title="Study 7" data-materials="pen, bristol paper" data-description="Continuation of study 5. Layering experimentation.">
+      </div>
+
+      <h3>Material Experiments</h3>
+      <p class="section-note">Overview for Experiments—materials, techniques, or variables under test.</p>
+      <div class="gallery">
+        <img src="images/exp1.jpg" alt="Experiment 1"
+             data-title="Experiment 1"
+             data-materials="pencil, tracing paper, pen"
+             data-description="Different drawing tool for the plotter. Constant adjustment of pen holder height was necessary to avoid pencil from shortening and floating in the plotter.">
+        <img src="images/exp2.jpg" alt="Experiment 2"
+             data-title="Experiment 2"
+             data-materials="pen, bristol paper"
+             data-description="My attempt to layer two different files. The pen plotter does not always precisely align location with the digital file.">
+        <img src="images/exp4.jpg" alt="Experiment 3"
+             data-title="Experiment 3"
+             data-materials="pen, rice paper"
+             data-description="Exploring texture for the background paper. Difficult to set thinner paper in the plotter.">
+      </div>
+
       <h3>Notes</h3>
       <div class="notes">
-        <p>2025-09-09 — </p>
+        <p>2025-09-10 —updated </p>
       </div>
     </section>
 
     <section id="y2024" hidden>
       <h2>2024–2025</h2>
+
       <h3>Final Works</h3>
-      <img src="images/2024-2025/final1.jpg" alt="Final work">
+      <p class="section-note">Overview of completed works in this period.</p>
+      <div class="gallery">
+        <img src="images/2024-2025/final1.jpg" alt="Final 1"
+             data-title="Final 1" data-materials="Ink on paper"
+             data-description="Final composition derived from iterative studies.">
+      </div>
+
       <h3>Studies</h3>
-      <img src="images/2024-2025/study1.jpg" alt="Study">
+      <p class="section-note">Short overview of studies for 2024–2025.</p>
+      <div class="gallery">
+        <img src="images/2024-2025/study1.jpg" alt="Study"
+             data-title="Study"
+             data-materials="Paper, ink"
+             data-description="Parameter sweep documentation.">
+      </div>
+
       <h3>Experiments</h3>
-      <img src="images/2024-2025/exp1.jpg" alt="Experiment">
+      <p class="section-note">Overview of experiments for 2024–2025.</p>
+      <div class="gallery">
+        <img src="images/2024-2025/exp1.jpg" alt="Experiment"
+             data-title="Experiment"
+             data-materials="Mixed media"
+             data-description="Noise injection and thresholding.">
+      </div>
+
       <h3>Notes</h3>
       <div class="notes">
         <p><strong>Notes</strong> — ...</p>
@@ -126,38 +269,126 @@
     </div>
   </footer>
 
+
+  <div id="lightbox" class="lightbox" aria-hidden="true">
+    <div class="lb-wrap" role="dialog" aria-modal="true">
+      <button class="lb-close" aria-label="Close">×</button>
+
+      <button class="lb-nav lb-prev" aria-label="Previous">‹</button>
+      <img id="lb-img" src="" alt="">
+      <button class="lb-nav lb-next" aria-label="Next">›</button>
+
+      <aside id="lb-panel" class="lb-panel">
+        <h4 id="lb-title"></h4>
+        <dl class="lb-meta">
+          <dt>Materials</dt>
+          <dd id="lb-mats"></dd>
+        </dl>
+        <p id="lb-desc"></p>
+      </aside>
+    </div>
+  </div>
+
   <script>
-    // footer year
+
     const yEl = document.getElementById('y');
     if (yEl) yEl.textContent = new Date().getFullYear();
 
-    // simple tabs: show one section, hide the other(s)
+
     const tabs = document.querySelectorAll('.tablink');
     const sections = ['project1','y2024'].map(id => document.getElementById(id));
-
-    // initial state: show #project1, hide #y2024
     sections.forEach(sec => { if(sec) sec.hidden = sec.id !== 'project1'; });
-
     tabs.forEach(tab => {
       tab.addEventListener('click', (e) => {
         e.preventDefault();
         const targetId = tab.dataset.target;
         tabs.forEach(t => t.setAttribute('aria-selected', t === tab ? 'true' : 'false'));
         sections.forEach(sec => { if(sec) sec.hidden = (sec.id !== targetId); });
-        if (history.replaceState) {
-          history.replaceState(null, '', '#' + targetId);
-        }
+        if (history.replaceState) { history.replaceState(null, '', '#' + targetId); }
         const h = document.querySelector('#' + targetId + ' h2');
         if (h) h.setAttribute('tabindex','-1'), h.focus();
       });
     });
-
-    // open tab from URL hash on load
     const hash = location.hash.replace('#','');
     if (hash && document.getElementById(hash)) {
       const tab = document.querySelector(`.tablink[data-target="${hash}"]`);
       if (tab) tab.click();
     }
-  </script>
+
+  
+ 
+  const lightbox   = document.getElementById('lightbox');
+  const lbImg      = document.getElementById('lb-img');
+  const lbPanel    = document.getElementById('lb-panel');
+  const lbTitle    = document.getElementById('lb-title');
+  const lbMats     = document.getElementById('lb-mats');
+  const lbDesc     = document.getElementById('lb-desc');
+  const lbCloseBtn = document.querySelector('.lb-close');
+  const lbPrev     = document.querySelector('.lb-prev');
+  const lbNext     = document.querySelector('.lb-next');
+
+  let currentGallery = [];
+  let currentIndex   = 0;
+
+  function fillPanelFrom(imgEl){
+    lbTitle.textContent = imgEl.dataset.title || imgEl.alt || '';
+    lbMats.textContent  = imgEl.dataset.materials || '';
+    lbDesc.textContent  = imgEl.dataset.description || '';
+
+    lbPanel.classList.toggle('left', (imgEl.dataset.side || '').toLowerCase() === 'left');
+  }
+
+  function showAt(index){
+    if (!currentGallery.length) return;
+    currentIndex = (index + currentGallery.length) % currentGallery.length;
+    const imgEl = currentGallery[currentIndex];
+    lbImg.src = imgEl.src;
+    lbImg.alt = imgEl.alt || '';
+    fillPanelFrom(imgEl);
+  }
+
+  function openLightbox(fromImg){
+  
+    const gallery = fromImg.closest('.gallery');
+    currentGallery = gallery ? Array.from(gallery.querySelectorAll('img')) : [fromImg];
+    currentIndex   = Math.max(0, currentGallery.indexOf(fromImg));
+    showAt(currentIndex);
+
+    lightbox.classList.add('open');
+    lightbox.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox(){
+    lightbox.classList.remove('open');
+    lightbox.setAttribute('aria-hidden','true');
+    lbImg.src = '';
+    lbTitle.textContent = lbMats.textContent = lbDesc.textContent = '';
+    document.body.style.overflow = '';
+    currentGallery = [];
+    currentIndex   = 0;
+  }
+
+  document.addEventListener('click', (e) => {
+    const img = e.target.closest('.gallery img');
+    if (img) { openLightbox(img); return; }
+
+
+    if (e.target === lightbox) closeLightbox();
+  });
+
+
+  lbCloseBtn.addEventListener('click', closeLightbox);
+  lbPrev.addEventListener('click', (e)=>{ e.stopPropagation(); showAt(currentIndex - 1); });
+  lbNext.addEventListener('click', (e)=>{ e.stopPropagation(); showAt(currentIndex + 1); });
+
+
+  window.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft')  showAt(currentIndex - 1);
+    if (e.key === 'ArrowRight') showAt(currentIndex + 1);
+  });
+</script>
 </body>
 </html>
