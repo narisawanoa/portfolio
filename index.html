@@ -48,9 +48,6 @@
   display: inline-block;
 }
 
-
-
-
 :root {
   --bg:#0e0f12;
   --fg:#e9e9e9;
@@ -60,6 +57,7 @@
   --border:#e6e6e6;
   --maxw:1100px;
 }
+
 body {
   margin:0;
   font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
@@ -72,11 +70,20 @@ body {
 main { flex:1; }
 a { color:var(--link); text-decoration:none }
 a:hover { text-decoration:underline }
+
 .wrap {
   max-width:var(--maxw);
   margin:0 auto;        
   padding:0 20px;
 }
+
+.left-section {
+  max-width: none;        
+  margin: 0;             
+  padding-left: 20px;   
+  padding-right: 20px;   
+}
+
 header {
   position:sticky; top:0; z-index:50;
   background:rgba(14,15,18,.7);
@@ -210,7 +217,7 @@ footer p { margin:0; text-align:left }
              data-description="The 3D model was unwrapped into a UV layout, flattening the surface into 2D silhouettes. ">
         <img src="images/stud3.jpg" alt="Study 3"
              data-title="Study 3"
-             data-materials="pen, bristol paper"
+             data-materials="pen, tracing paper"
              data-description="UV unwrapping test. The lines across the shapes are the wireframe topology, showing how the geometry is organized for texture baking and shader experiments.">
         <img src="images/stud4.jpg" alt="Study 4"
              data-title="Study 4" data-materials="pen, bristol paper"  data-description="Continuation of study 3. ">
@@ -222,13 +229,6 @@ footer p { margin:0; text-align:left }
              data-title="Study 7" data-materials="pen, bristol paper" data-description="Continuation of study 5. Layering experimentation.">
       </div>
 
-<h3>Blender rendering example for study 5, 6, and 7</h3>
-<div class="video-container narrow">
-  <video autoplay loop muted playsinline>
-    <source src="videos/video.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
-</div>
 
       <h3>Material Experiments</h3>
       <p class="section-note">Tested materials and techniques of plotting, printing, and image making.</p>
@@ -251,15 +251,23 @@ footer p { margin:0; text-align:left }
              data-description="Exploring texture for the background paper. Difficult to set thinner paper in the plotter.">
       </div>
 
+
+
+<h3>Blender rendering example for study 5, 6, and 7</h3>
+<div class="video-container narrow">
+  <video autoplay loop muted playsinline>
+    <source src="videos/video.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+</div>
       <h3>Notes</h3>
       <div class="notes">
         <p>2025-09-10 —updated </p>
       </div>
     </section>
 
-    <section id="y2024" hidden>
+    <section id="y2024" class="left-section" hidden>
       <h2>2024–2025</h2>
-
       <h3>Final Works</h3>
       <p class="section-note">Overview of completed works in this period.</p>
       <div class="gallery">
