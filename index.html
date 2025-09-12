@@ -96,6 +96,7 @@ header {
   backdrop-filter:blur(8px);
   border-bottom:1px solid var(--border);
 }
+
 .h-inner { display:flex; align-items:center; justify-content:space-between; height:64px; }
 nav a { color:inherit; margin-left:16px; padding:8px 10px; border-radius:10px; }
 nav a:hover { background:var(--border); text-decoration:none; }
@@ -202,6 +203,28 @@ footer p { margin:0; text-align:left }
   .lb-panel, .lb-panel.left{ order:2; width:auto; border:0; padding:8px 0 0; }
   #lb-img{ max-width:90vw; max-height:60vh; }
 }
+
+header .wrap{
+  margin:0; width:100%; max-width:none;
+  padding:0 20px;               
+  box-sizing:border-box;       
+}
+.h-inner{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:12px; flex-wrap:nowrap;   
+
+.brand{ flex:0 0 auto; }
+.tabs{
+  display:flex; justify-content:flex-end; gap:12px;
+  flex:1 1 auto; min-width:0;  
+  overflow:auto;                 
+  white-space:nowrap;
+  padding-right:2px;          
+}
+
+html, body{ overflow-x:hidden; }
+
+
   </style>
 </head>
 <body>
