@@ -18,6 +18,20 @@
   -webkit-overflow-scrolling: touch;
   scrollbar-gutter: stable;
 }
+
+.video-gallery {
+  display: flex;
+  gap: 12px;              
+  align-items: center;    
+}
+
+.video-gallery video,
+.video-gallery img {
+  height: 180px;         
+  width: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
 .gallery::-webkit-scrollbar { height: 10px; }
 .gallery::-webkit-scrollbar-track { background: transparent; } 
 .gallery::-webkit-scrollbar-thumb { background: rgba(200,200,200,0.5); border-radius: 5px; }
@@ -31,6 +45,16 @@
   scroll-snap-align: start;
   cursor: pointer; 
 }
+
+.gallery video {
+  height: 160px;       
+  flex: 0 0 auto;
+  border-radius: 8px;
+  object-fit: cover;
+  scroll-snap-align: start;
+  cursor: pointer;
+}
+
 
 .video-container {
   margin: 20px 0 0;   
@@ -182,6 +206,12 @@ footer p { margin:0; text-align:left }
   flex:0 1 auto;
 }
 
+#lb-video {
+  max-width: 90vw;
+  max-height: 80vh;
+  border-radius: 8px;
+}
+
 .lb-panel.left{
   order:-1; border-left:none; border-right:1px solid rgba(255,255,255,.15);
   padding:6px 8px 6px 2px;
@@ -233,7 +263,7 @@ html, body{ overflow-x:hidden; }
       <div class="brand">Works</div>
       <nav class="tabs">
         <a href="#project1" class="tablink" data-target="project1" aria-selected="true">Procedural Plotter Series</a>
-        <a href="#y2024" class="tablink" data-target="y2024" aria-selected="false">2024–2025</a>
+        <a href="#y2024" class="tablink" data-target="y2024" aria-selected="false">Future Assignments</a>
       </nav>
     </div>
   </header>
@@ -242,7 +272,7 @@ html, body{ overflow-x:hidden; }
     <section id="project1">
       <h2>Procedural Plotter Series</h2>
 
-      <h3>Studies</h3>
+      <h3>W1 Studies</h3>
       <p class="section-note">From a single 3D object (head sculpture) I made in Blender, I have attempted to explore various shading methods, rendering, and vectorizations to create 2D images.</p>
       <div class="gallery">
         
@@ -267,14 +297,29 @@ html, body{ overflow-x:hidden; }
         <img src="images/stud7.jpg" alt="Study 7"
              data-title="Study 7" data-materials="pen, bristol paper" data-description="Continuation of study 5. Layering experimentation.">
       </div>
-      
-      <h3>Blender rendering examples of the studies</h3>
-      <div class="video-container narrow">
-      <video autoplay loop muted playsinline>
-      <source src="videos/video.mp4" type="video/mp4" />
+
+     <h3>W2 Studies</h3>
+      <p class="section-note">Using 3D scan data from my walking route in Providence—passing the Mailroom, Trader Joe’s, Coffee Exchange, and the riverside—I mapped each object in Blender by analyzing its form. The combined scans were then composed into a map, weaving together the objects from my path.</p>
+      <div class="gallery">
+        <img src="images/pilmap.png" alt="Study (15 objects)"
+             data-title="Study (15 objects)" data-materials="markers, pen, pencil, bristol paper"
+             data-description="I transformed 3D scans of my surroundings into layered drawings. In Blender, algorithmic analyses of form become vector maps, which the plotter redraws with different shades of markers and pencils. Each plot translates the physical traces of the walk to digitally processed images, then to physical traces again. ">
+
+     <video class="expandable" autoplay loop muted playsinline>
+      <source src="videos/IMG_4861.mp4" type="video/mp4" />
       Your browser does not support the video tag.
       </video>
       </div>
+      
+    <h3>Blender rendering examples of the studies (W1-2)</h3>
+<div class="video-gallery">
+  <video class="expandable" autoplay loop muted playsinline>
+    <source src="videos/video.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  <img class="expandable" src="images/pilgrimage.png" data-materials="" data-description="">
+</div>
+
 
       <h3>Material Experiments</h3>
       <p class="section-note">Tested materials and techniques of plotting, printing, and image making.</p>
@@ -297,15 +342,16 @@ html, body{ overflow-x:hidden; }
              data-description="Exploring texture for the background paper. Difficult to set thinner paper in the plotter.">
       </div>
 
-
       <h3>Notes</h3>
       <div class="notes">
         <p>2025-09-10 —updated </p>
       </div>
+      
     </section>
 
     <section id="y2024" class="left-section" hidden>
-      <h2>2024–2025</h2>
+      <h2>Future Assignments</h2>
+      
       <h3>Final Works</h3>
       <p class="section-note">Overview of completed works in this period.</p>
       <div class="gallery">
@@ -402,6 +448,7 @@ html, body{ overflow-x:hidden; }
   const lbCloseBtn = document.querySelector('.lb-close');
   const lbPrev     = document.querySelector('.lb-prev');
   const lbNext     = document.querySelector('.lb-next');
+  const lbWrap     = document.querySelector('.lb-wrap');
 
   let currentGallery = [];
   let currentIndex   = 0;
@@ -445,13 +492,101 @@ html, body{ overflow-x:hidden; }
     currentIndex   = 0;
   }
 
-  document.addEventListener('click', (e) => {
-    const img = e.target.closest('.gallery img');
-    if (img) { openLightbox(img); return; }
+document.addEventListener('click', (e) => {
+  const media = e.target.closest('.gallery img, img.expandable, video.expandable');
+  if (media) { openMedia(media); return; }
+
+  if (e.target === lightbox) closeLightbox();
+});
+
+function openMedia(el){
+  const oldVid = document.getElementById('lb-video');
+  if (oldVid) oldVid.remove();
+  lbImg.style.display = '';
+  lbPanel.style.display = '';
+  lbPrev.style.display = '';
+  lbNext.style.display = '';
+
+  lightbox.classList.add('open');
+  lightbox.setAttribute('aria-hidden','false');
+  document.body.style.overflow = 'hidden';
+
+  const isImg = el.tagName.toLowerCase() === 'img';
+  const inGallery = !!el.closest('.gallery');
+
+ if (isImg){
+  lbImg.src = el.src;
+  lbImg.alt = el.alt || '';
+
+  const hasMeta = el.dataset.title || el.dataset.materials || el.dataset.description;
+  if (el.dataset.nometa || !hasMeta){
+    lbPanel.style.display = 'none';
+    lbTitle.textContent = lbMats.textContent = lbDesc.textContent = '';
+
+    // ✅ Center anything from Blender rendering (.video-gallery)
+    if (el.closest('.video-gallery')) {
+      lbWrap.style.justifyContent = 'center';
+      lbImg.style.display = 'block';
+      lbImg.style.margin = '0 auto';
+      lbImg.style.maxWidth = '90vw';
+      lbImg.style.maxHeight = '80vh';
+
+      // optional: hide next/prev for single items
+      lbPrev.style.display = 'none';
+      lbNext.style.display = 'none';
+    } else {
+      // reset for other no-meta images
+      lbWrap.style.justifyContent = '';
+      lbImg.style.margin = '';
+      lbImg.style.maxWidth = '';
+      lbImg.style.maxHeight = '';
+    }
+  } else {
+    lbPanel.style.display = '';
+    fillPanelFrom(el);
+
+    // reset centering when metadata panel is shown
+    lbWrap.style.justifyContent = '';
+    lbImg.style.margin = '';
+    lbImg.style.maxWidth = '';
+    lbImg.style.maxHeight = '';
+  }
+  if (!inGallery){ lbPrev.style.display = 'none'; lbNext.style.display = 'none'; }
 
 
-    if (e.target === lightbox) closeLightbox();
-  });
+  if (inGallery){
+    currentGallery = Array.from(el.closest('.gallery').querySelectorAll('img'));
+    currentIndex = currentGallery.indexOf(el);
+  } else {
+    currentGallery = [el];
+    currentIndex = 0;
+  }
+} else {
+    lbImg.src = '';
+    lbImg.style.display = 'none';
+    lbPanel.style.display = 'none';
+    lbPrev.style.display = 'none';
+    lbNext.style.display = 'none';
+
+    const vid = document.createElement('video');
+    vid.id = 'lb-video';
+
+    const source = el.querySelector && el.querySelector('source');
+    vid.src = source ? source.src : (el.currentSrc || el.src);
+    vid.controls = true;
+    vid.autoplay = true;
+    vid.playsInline = true;
+    vid.style.maxWidth = '92vw';
+    vid.style.maxHeight = '86vh';
+    vid.style.borderRadius = '8px';
+
+    document.querySelector('.lb-wrap').appendChild(vid);
+
+
+    currentGallery = [];
+    currentIndex = 0;
+  }
+}
 
 
   lbCloseBtn.addEventListener('click', closeLightbox);
