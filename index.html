@@ -6,7 +6,7 @@
   <title>Works</title>
   <meta name="description" content="Portfolio of artworks, studies, experiments, and notes." />
   <style>
-
+/* ---------- Gallery (left-aligned, single-row scroller) ---------- */
 .gallery {
   display: flex;
   flex-wrap: nowrap;
@@ -18,60 +18,38 @@
   -webkit-overflow-scrolling: touch;
   scrollbar-gutter: stable;
 }
-
-.video-gallery {
-  display: flex;
-  gap: 12px;              
-  align-items: center;    
-}
-
-.video-gallery video,
-.video-gallery img {
-  height: 180px;         
-  width: auto;
-  border-radius: 8px;
-  object-fit: cover;
-}
 .gallery::-webkit-scrollbar { height: 10px; }
-.gallery::-webkit-scrollbar-track { background: transparent; } 
+.gallery::-webkit-scrollbar-track { background: transparent; }
 .gallery::-webkit-scrollbar-thumb { background: rgba(200,200,200,0.5); border-radius: 5px; }
 .gallery::-webkit-scrollbar-thumb:hover { background: rgba(200,200,200,0.8); }
-.gallery { scrollbar-width: thin; scrollbar-color: rgba(200,200,200,0.5) transparent; }
-.gallery img {
-  height: 160px;
-  flex: 0 0 auto;
-  border-radius: 8px;
-  object-fit: cover;
-  scroll-snap-align: start;
-  cursor: pointer; 
-}
 
+/* Thumbs scale with window but stay one row, left-aligned */
+.gallery img,
 .gallery video {
-  height: 160px;       
+  height: clamp(140px, 20vw, 240px); /* min → fluid → max */
   flex: 0 0 auto;
   border-radius: 8px;
   object-fit: cover;
   scroll-snap-align: start;
   cursor: pointer;
+  display: block;
 }
 
-
-.video-container {
-  margin: 20px 0 0;   
-  padding: 0;
-  max-width: 800px;    
-  display: block;      
+/* (Optional) separate side-by-side block if you keep any elsewhere */
+.video-gallery {
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
-
-.video-container video {
-  height: 180px;    
-  width: auto;        
-  max-width: 100%;     
+.video-gallery video,
+.video-gallery img {
+  height: 180px;
+  width: auto;
   border-radius: 8px;
-  object-fit: cover;    
-  display: inline-block;
+  object-fit: cover;
 }
 
+/* ---------- Site chrome ---------- */
 :root {
   --bg:#0e0f12;
   --fg:#e9e9e9;
@@ -97,22 +75,14 @@ a:hover { text-decoration:underline }
 
 .wrap {
   max-width:var(--maxw);
-  margin:0 auto;        
+  margin:0 auto;
   padding:0 20px;
 }
 
 header .wrap, footer .wrap { margin: 0 auto; }
-main.wrap {
-  margin-left: 0;     
-  margin-right: auto; 
-}
+main.wrap { margin-left: 0; margin-right: auto; } /* keep left-aligned layout */
 
-.left-section {
-  max-width: none;        
-  margin: 0;             
-  padding-left: 20px;   
-  padding-right: 20px;   
-}
+.left-section { max-width: none; margin: 0; padding-left: 20px; padding-right: 20px; }
 
 header {
   position:sticky; top:0; z-index:50;
@@ -129,7 +99,27 @@ h2 { font-size:26px; margin:0 0 16px }
 h3 { margin:20px 0 8px; font-size:20px }
 img { max-width:100%; border-radius:8px; margin-bottom:12px }
 
+header .wrap {
+  margin: 0;           
+  max-width: none;     
+  padding-left: 20px;  
+  padding-right: 20px;
+}
 
+header .brand {
+  text-align: left;
+}
+
+footer .wrap {
+  margin: 0;
+  max-width: none;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+footer p {
+  text-align: left;
+}
 .section-note {
   color: var(--muted);
   margin: 6px 0 14px;
@@ -147,28 +137,31 @@ footer {
 }
 footer p { margin:0; text-align:left }
 
+html, body{ overflow-x:hidden; }
 
+/* ---------- Lightbox ---------- */
 .lightbox{
   position:fixed; inset:0;
-  background:rgba(0,0,0,.75);   
+  background:rgba(0,0,0,.75);
   display:none; align-items:center; justify-content:center;
   z-index:1000;
 }
 .lightbox.open{ display:flex; }
 
+.lb-wrap, .lb-wrap * { pointer-events:auto; }
+.lb-wrap{
+  display:flex; gap:18px;
+  max-width:min(1100px, 92vw);
+  max-height:86vh;
+  padding:14px; border-radius:10px;
+  align-items:center;
+}
+
 .lb-nav{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  width:44px; height:44px;
-  border:0;
-  border-radius:999px;
-  background:rgba(255,255,255,.15);
-  color:#fff;
-  font-size:28px;
-  line-height:1;
-  display:flex; align-items:center; justify-content:center;
-  cursor:pointer;
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:44px; height:44px; border:0; border-radius:999px;
+  background:rgba(255,255,255,.15); color:#fff; font-size:28px; line-height:1;
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
   backdrop-filter: blur(2px);
 }
 .lb-prev{ left:8px; }
@@ -176,50 +169,26 @@ footer p { margin:0; text-align:left }
 .lb-nav:hover{ background:rgba(255,255,255,.28); }
 .lb-nav:active{ background:rgba(255,255,255,.4); }
 
-
-.lb-wrap, .lb-wrap * { pointer-events:auto; }
-
-
-
-.lb-wrap{
-  display:flex; gap:18px;
-  max-width:min(1100px, 92vw);
-  max-height:86vh;             
-  padding:14px; border-radius:10px;
-  align-items:center;       
-}
-
-
 .lb-panel{
-  flex: 0 0 320px;            
+  flex: 0 0 320px;
   max-width: 40vw;
-  overflow: auto;            
+  overflow: auto;
 }
-
-
-#lb-img{
-  width:auto; height:auto;     
-  max-height:62vh;            
-  max-width: calc(100% - 320px - 18px); 
-  border-radius:8px;
-  object-fit:contain;
-  flex:0 1 auto;
-}
-
-#lb-video {
-  max-width: 90vw;
-  max-height: 80vh;
-  border-radius: 8px;
-}
-
-.lb-panel.left{
-  order:-1; border-left:none; border-right:1px solid rgba(255,255,255,.15);
-  padding:6px 8px 6px 2px;
-}
+.lb-panel.left{ order:-1; border-left:none; border-right:1px solid rgba(255,255,255,.15); padding:6px 8px 6px 2px; }
 .lb-panel h4{ margin:0 0 8px; font-size:18px; }
 .lb-meta{ margin:0 0 8px; }
 .lb-meta dt{ font-weight:600; margin:0 0 4px; }
 .lb-meta dd{ margin:0 0 8px; color:#cfcfcf; }
+
+#lb-img{
+  width:auto; height:auto;
+  max-height:62vh;
+  max-width: calc(100% - 320px - 18px);
+  border-radius:8px;
+  object-fit:contain;
+  flex:0 1 auto;
+}
+#lb-video { max-width: 90vw; max-height: 80vh; border-radius: 8px; }
 
 .lb-close{
   position:absolute; top:8px; right:12px;
@@ -227,34 +196,11 @@ footer p { margin:0; text-align:left }
   cursor:pointer;
 }
 
-
 @media (max-width: 720px){
   .lb-wrap{ flex-direction:column; max-height:90vh; }
   .lb-panel, .lb-panel.left{ order:2; width:auto; border:0; padding:8px 0 0; }
   #lb-img{ max-width:90vw; max-height:60vh; }
 }
-
-header .wrap{
-  margin:0; width:100%; max-width:none;
-  padding:0 20px;               
-  box-sizing:border-box;       
-}
-.h-inner{
-  display:flex; align-items:center; justify-content:space-between;
-  gap:12px; flex-wrap:nowrap;   
-
-.brand{ flex:0 0 auto; }
-.tabs{
-  display:flex; justify-content:flex-end; gap:12px;
-  flex:1 1 auto; min-width:0;  
-  overflow:auto;                 
-  white-space:nowrap;
-  padding-right:2px;          
-}
-
-html, body{ overflow-x:hidden; }
-
-
   </style>
 </head>
 <body>
@@ -275,7 +221,6 @@ html, body{ overflow-x:hidden; }
       <h3>W1 Studies</h3>
       <p class="section-note">From a single 3D object (head sculpture) I made in Blender, I have attempted to explore various shading methods, rendering, and vectorizations to create 2D images.</p>
       <div class="gallery">
-        
         <img src="images/stud.jpg"  alt="Study 1"
              data-title="Study 1"
              data-materials="pen, bristol paper"
@@ -298,28 +243,28 @@ html, body{ overflow-x:hidden; }
              data-title="Study 7" data-materials="pen, bristol paper" data-description="Continuation of study 5. Layering experimentation.">
       </div>
 
-     <h3>W2 Studies (The Map of Algorithmic Geography)</h3>
+      <h3>W2 Studies (The Map of Algorithmic Geography)</h3>
       <p class="section-note">Using 3D scan data from my walking route in Providence—passing my mailroom, Trader Joe’s, Coffee Exchange, and the riverside—I mapped each object in Blender by analyzing its form. The combined scans were then composed into a map, re-tracing the digitally processed objects from my path.</p>
       <div class="gallery">
         <img src="images/pilmap.png" alt="Study (15 objects)"
              data-title="Study (15 objects)" data-materials="markers, pen, pencil, bristol paper"
              data-description="I transformed 3D scans of my surroundings into layered drawings. In Blender, algorithmic analyses of form become vector maps, which the plotter redraws with different shades of markers and pencils. Each plot translates the physical traces of the walk to digitally processed images, then to physical traces again. ">
-
-     <video class="expandable" autoplay loop muted playsinline>
-      <source src="videos/IMG_4861.mp4" type="video/mp4" />
-      Your browser does not support the video tag.
-      </video>
+        <!-- Video INSIDE the W2 gallery, with sound (no muted). Let user press play. -->
+        <video class="expandable" loop playsinline controls preload="metadata">
+          <source src="videos/IMG_4861.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
       </div>
-      
-    <h3>Blender rendering examples of the studies (W1-2)</h3>
-<div class="video-gallery">
-  <video class="expandable" autoplay loop muted playsinline>
-    <source src="videos/video.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
-  <img class="expandable" src="images/pilgrimage.png" data-materials="" data-description="">
-</div>
 
+      <h3>Blender rendering examples of the studies (W1-2)</h3>
+      <div class="video-gallery">
+        <video class="expandable" loop playsinline controls preload="metadata">
+          <source src="videos/video.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <!-- empty data-* means “no metadata”; panel will auto-hide for this one -->
+        <img class="expandable" src="images/pilgrimage.png" alt="Pilgrimage map">
+      </div>
 
       <h3>Material Experiments</h3>
       <p class="section-note">Tested materials and techniques of plotting, printing, and image making.</p>
@@ -332,11 +277,11 @@ html, body{ overflow-x:hidden; }
              data-title="Experiment 2"
              data-materials="pen, bristol paper"
              data-description="My attempt to layer two different files. The pen plotter does not always precisely align location with the digital file.">
-       <img src="images/exp3.jpg" alt="Experiment 3"
+        <img src="images/exp3.jpg" alt="Experiment 3"
              data-title="Experiment 3"
              data-materials="pen, tracing paper"
              data-description="Using tracing paper to create a translucent layering effect. The pen plotter had difficulty gripping the thin paper, resulting in some misalignment.">
-             <img src="images/exp4.jpg" alt="Experiment 4"
+        <img src="images/exp4.jpg" alt="Experiment 4"
              data-title="Experiment 4"
              data-materials="pen, rice paper"
              data-description="Exploring texture for the background paper. Difficult to set thinner paper in the plotter.">
@@ -344,14 +289,12 @@ html, body{ overflow-x:hidden; }
 
       <h3>Notes</h3>
       <div class="notes">
-        <p>2025-09-10 —updated </p>
+        <p>2025-09-10 —updated</p>
       </div>
-      
     </section>
 
     <section id="y2024" class="left-section" hidden>
       <h2>Future Assignments</h2>
-      
       <h3>Final Works</h3>
       <p class="section-note">Overview of completed works in this period.</p>
       <div class="gallery">
@@ -364,8 +307,7 @@ html, body{ overflow-x:hidden; }
       <p class="section-note">Short overview of studies for 2024–2025.</p>
       <div class="gallery">
         <img src="images/2024-2025/study1.jpg" alt="Study"
-             data-title="Study"
-             data-materials="Paper, ink"
+             data-title="Study" data-materials="Paper, ink"
              data-description="Parameter sweep documentation.">
       </div>
 
@@ -373,8 +315,7 @@ html, body{ overflow-x:hidden; }
       <p class="section-note">Overview of experiments for 2024–2025.</p>
       <div class="gallery">
         <img src="images/2024-2025/exp1.jpg" alt="Experiment"
-             data-title="Experiment"
-             data-materials="Mixed media"
+             data-title="Experiment" data-materials="Mixed media"
              data-description="Noise injection and thresholding.">
       </div>
 
@@ -391,15 +332,13 @@ html, body{ overflow-x:hidden; }
     </div>
   </footer>
 
-
+  <!-- Lightbox -->
   <div id="lightbox" class="lightbox" aria-hidden="true">
     <div class="lb-wrap" role="dialog" aria-modal="true">
       <button class="lb-close" aria-label="Close">×</button>
-
       <button class="lb-nav lb-prev" aria-label="Previous">‹</button>
       <img id="lb-img" src="" alt="">
       <button class="lb-nav lb-next" aria-label="Next">›</button>
-
       <aside id="lb-panel" class="lb-panel">
         <h4 id="lb-title"></h4>
         <dl class="lb-meta">
@@ -412,94 +351,79 @@ html, body{ overflow-x:hidden; }
   </div>
 
   <script>
+/* Footer year */
+const yEl = document.getElementById('y');
+if (yEl) yEl.textContent = new Date().getFullYear();
 
-    const yEl = document.getElementById('y');
-    if (yEl) yEl.textContent = new Date().getFullYear();
+/* Tabs */
+const tabs = document.querySelectorAll('.tablink');
+const sections = ['project1','y2024'].map(id => document.getElementById(id));
+sections.forEach(sec => { if(sec) sec.hidden = sec.id !== 'project1'; });
+tabs.forEach(tab => {
+  tab.addEventListener('click', (e) => {
+    e.preventDefault();
+    const targetId = tab.dataset.target;
+    tabs.forEach(t => t.setAttribute('aria-selected', t === tab ? 'true' : 'false'));
+    sections.forEach(sec => { if(sec) sec.hidden = (sec.id !== targetId); });
+    if (history.replaceState) { history.replaceState(null, '', '#' + targetId); }
+    const h = document.querySelector('#' + targetId + ' h2');
+    if (h) h.setAttribute('tabindex','-1'), h.focus();
+  });
+});
+const hash = location.hash.replace('#','');
+if (hash && document.getElementById(hash)) {
+  const tab = document.querySelector(`.tablink[data-target="${hash}"]`);
+  if (tab) tab.click();
+}
 
+/* Lightbox */
+const lightbox   = document.getElementById('lightbox');
+const lbImg      = document.getElementById('lb-img');
+const lbPanel    = document.getElementById('lb-panel');
+const lbTitle    = document.getElementById('lb-title');
+const lbMats     = document.getElementById('lb-mats');
+const lbDesc     = document.getElementById('lb-desc');
+const lbCloseBtn = document.querySelector('.lb-close');
+const lbPrev     = document.querySelector('.lb-prev');
+const lbNext     = document.querySelector('.lb-next');
+const lbWrap     = document.querySelector('.lb-wrap');
 
-    const tabs = document.querySelectorAll('.tablink');
-    const sections = ['project1','y2024'].map(id => document.getElementById(id));
-    sections.forEach(sec => { if(sec) sec.hidden = sec.id !== 'project1'; });
-    tabs.forEach(tab => {
-      tab.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetId = tab.dataset.target;
-        tabs.forEach(t => t.setAttribute('aria-selected', t === tab ? 'true' : 'false'));
-        sections.forEach(sec => { if(sec) sec.hidden = (sec.id !== targetId); });
-        if (history.replaceState) { history.replaceState(null, '', '#' + targetId); }
-        const h = document.querySelector('#' + targetId + ' h2');
-        if (h) h.setAttribute('tabindex','-1'), h.focus();
-      });
-    });
-    const hash = location.hash.replace('#','');
-    if (hash && document.getElementById(hash)) {
-      const tab = document.querySelector(`.tablink[data-target="${hash}"]`);
-      if (tab) tab.click();
-    }
+let currentGallery = [];
+let currentIndex   = 0;
 
-  
- 
-  const lightbox   = document.getElementById('lightbox');
-  const lbImg      = document.getElementById('lb-img');
-  const lbPanel    = document.getElementById('lb-panel');
-  const lbTitle    = document.getElementById('lb-title');
-  const lbMats     = document.getElementById('lb-mats');
-  const lbDesc     = document.getElementById('lb-desc');
-  const lbCloseBtn = document.querySelector('.lb-close');
-  const lbPrev     = document.querySelector('.lb-prev');
-  const lbNext     = document.querySelector('.lb-next');
-  const lbWrap     = document.querySelector('.lb-wrap');
+function fillPanelFrom(imgEl){
+  lbTitle.textContent = imgEl.dataset.title || imgEl.alt || '';
+  lbMats.textContent  = imgEl.dataset.materials || '';
+  lbDesc.textContent  = imgEl.dataset.description || '';
+  lbPanel.classList.toggle('left', (imgEl.dataset.side || '').toLowerCase() === 'left');
+}
 
-  let currentGallery = [];
-  let currentIndex   = 0;
+function showAt(index){
+  if (!currentGallery.length) return;
+  currentIndex = (index + currentGallery.length) % currentGallery.length;
+  const imgEl = currentGallery[currentIndex];
 
-  function fillPanelFrom(imgEl){
-    lbTitle.textContent = imgEl.dataset.title || imgEl.alt || '';
-    lbMats.textContent  = imgEl.dataset.materials || '';
-    lbDesc.textContent  = imgEl.dataset.description || '';
+  lbImg.src = imgEl.src;
+  lbImg.alt = imgEl.alt || '';
 
-    lbPanel.classList.toggle('left', (imgEl.dataset.side || '').toLowerCase() === 'left');
-  }
-
-  function showAt(index){
-    if (!currentGallery.length) return;
-    currentIndex = (index + currentGallery.length) % currentGallery.length;
-    const imgEl = currentGallery[currentIndex];
-    lbImg.src = imgEl.src;
-    lbImg.alt = imgEl.alt || '';
+  const hasMeta = !!(imgEl.dataset.title || imgEl.dataset.materials || imgEl.dataset.description);
+  if (!hasMeta){
+    lbPanel.style.display = 'none';
+    lbTitle.textContent = lbMats.textContent = lbDesc.textContent = '';
+    lbWrap.style.justifyContent = 'center';
+    lbImg.style.maxWidth = '90vw';
+    lbImg.style.maxHeight = '80vh';
+  } else {
+    lbPanel.style.display = '';
+    lbWrap.style.justifyContent = '';
+    lbImg.style.maxWidth = '';
+    lbImg.style.maxHeight = '';
     fillPanelFrom(imgEl);
   }
-
-  function openLightbox(fromImg){
-  
-    const gallery = fromImg.closest('.gallery');
-    currentGallery = gallery ? Array.from(gallery.querySelectorAll('img')) : [fromImg];
-    currentIndex   = Math.max(0, currentGallery.indexOf(fromImg));
-    showAt(currentIndex);
-
-    lightbox.classList.add('open');
-    lightbox.setAttribute('aria-hidden','false');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeLightbox(){
-    lightbox.classList.remove('open');
-    lightbox.setAttribute('aria-hidden','true');
-    lbImg.src = '';
-    lbTitle.textContent = lbMats.textContent = lbDesc.textContent = '';
-    document.body.style.overflow = '';
-    currentGallery = [];
-    currentIndex   = 0;
-  }
-
-document.addEventListener('click', (e) => {
-  const media = e.target.closest('.gallery img, img.expandable, video.expandable');
-  if (media) { openMedia(media); return; }
-
-  if (e.target === lightbox) closeLightbox();
-});
+}
 
 function openMedia(el){
+  /* reset */
   const oldVid = document.getElementById('lb-video');
   if (oldVid) oldVid.remove();
   lbImg.style.display = '';
@@ -514,54 +438,38 @@ function openMedia(el){
   const isImg = el.tagName.toLowerCase() === 'img';
   const inGallery = !!el.closest('.gallery');
 
- if (isImg){
-  lbImg.src = el.src;
-  lbImg.alt = el.alt || '';
+  if (isImg){
+    lbImg.src = el.src;
+    lbImg.alt = el.alt || '';
 
-  const hasMeta = el.dataset.title || el.dataset.materials || el.dataset.description;
-  if (el.dataset.nometa || !hasMeta){
-    lbPanel.style.display = 'none';
-    lbTitle.textContent = lbMats.textContent = lbDesc.textContent = '';
-
-    // ✅ Center anything from Blender rendering (.video-gallery)
-    if (el.closest('.video-gallery')) {
+    const hasMeta = !!(el.dataset.title || el.dataset.materials || el.dataset.description);
+    if (!hasMeta){
+      lbPanel.style.display = 'none';
+      lbTitle.textContent = lbMats.textContent = lbDesc.textContent = '';
       lbWrap.style.justifyContent = 'center';
-      lbImg.style.display = 'block';
-      lbImg.style.margin = '0 auto';
       lbImg.style.maxWidth = '90vw';
       lbImg.style.maxHeight = '80vh';
-
-      // optional: hide next/prev for single items
       lbPrev.style.display = 'none';
       lbNext.style.display = 'none';
     } else {
-      // reset for other no-meta images
+      lbPanel.style.display = '';
       lbWrap.style.justifyContent = '';
-      lbImg.style.margin = '';
       lbImg.style.maxWidth = '';
       lbImg.style.maxHeight = '';
+      fillPanelFrom(el);
+    }
+
+    if (!inGallery){ lbPrev.style.display = 'none'; lbNext.style.display = 'none'; }
+
+    if (inGallery){
+      currentGallery = Array.from(el.closest('.gallery').querySelectorAll('img'));
+      currentIndex = currentGallery.indexOf(el);
+    } else {
+      currentGallery = [el];
+      currentIndex = 0;
     }
   } else {
-    lbPanel.style.display = '';
-    fillPanelFrom(el);
-
-    // reset centering when metadata panel is shown
-    lbWrap.style.justifyContent = '';
-    lbImg.style.margin = '';
-    lbImg.style.maxWidth = '';
-    lbImg.style.maxHeight = '';
-  }
-  if (!inGallery){ lbPrev.style.display = 'none'; lbNext.style.display = 'none'; }
-
-
-  if (inGallery){
-    currentGallery = Array.from(el.closest('.gallery').querySelectorAll('img'));
-    currentIndex = currentGallery.indexOf(el);
-  } else {
-    currentGallery = [el];
-    currentIndex = 0;
-  }
-} else {
+    /* VIDEO enlarged */
     lbImg.src = '';
     lbImg.style.display = 'none';
     lbPanel.style.display = 'none';
@@ -570,7 +478,6 @@ function openMedia(el){
 
     const vid = document.createElement('video');
     vid.id = 'lb-video';
-
     const source = el.querySelector && el.querySelector('source');
     vid.src = source ? source.src : (el.currentSrc || el.src);
     vid.controls = true;
@@ -579,27 +486,43 @@ function openMedia(el){
     vid.style.maxWidth = '92vw';
     vid.style.maxHeight = '86vh';
     vid.style.borderRadius = '8px';
-
-    document.querySelector('.lb-wrap').appendChild(vid);
-
+    lbWrap.appendChild(vid);
 
     currentGallery = [];
     currentIndex = 0;
   }
 }
 
+document.addEventListener('click', (e) => {
+  const media = e.target.closest('.gallery img, img.expandable, video.expandable');
+  if (media) { openMedia(media); return; }
+  if (e.target === lightbox) closeLightbox();
+});
 
-  lbCloseBtn.addEventListener('click', closeLightbox);
-  lbPrev.addEventListener('click', (e)=>{ e.stopPropagation(); showAt(currentIndex - 1); });
-  lbNext.addEventListener('click', (e)=>{ e.stopPropagation(); showAt(currentIndex + 1); });
+lbCloseBtn.addEventListener('click', closeLightbox);
+lbPrev.addEventListener('click', (e)=>{ e.stopPropagation(); showAt(currentIndex - 1); });
+lbNext.addEventListener('click', (e)=>{ e.stopPropagation(); showAt(currentIndex + 1); });
 
+function closeLightbox(){
+  lightbox.classList.remove('open');
+  lightbox.setAttribute('aria-hidden','true');
+  lbImg.src = '';
+  lbImg.style.display = '';
+  lbTitle.textContent = lbMats.textContent = lbDesc.textContent = '';
+  lbWrap.style.justifyContent = '';
+  lbImg.style.maxWidth = '';
+  lbImg.style.maxHeight = '';
+  document.body.style.overflow = '';
+  currentGallery = [];
+  currentIndex   = 0;
+}
 
-  window.addEventListener('keydown', (e) => {
-    if (!lightbox.classList.contains('open')) return;
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowLeft')  showAt(currentIndex - 1);
-    if (e.key === 'ArrowRight') showAt(currentIndex + 1);
-  });
-</script>
+window.addEventListener('keydown', (e) => {
+  if (!lightbox.classList.contains('open')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft')  showAt(currentIndex - 1);
+  if (e.key === 'ArrowRight') showAt(currentIndex + 1);
+});
+  </script>
 </body>
 </html>
