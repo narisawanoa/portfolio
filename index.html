@@ -52,7 +52,7 @@
 /* ---------- Site chrome ---------- */
 :root {
   --bg:#ffffff;
-  --fg:#969696;
+  --fg:#1b3682;
   --muted:#545454;
   --link:#0a66c2;
   --card:#f9f9f9;
@@ -86,7 +86,7 @@ main.wrap { margin-left: 0; margin-right: auto; } /* keep left-aligned layout */
 
 header {
   position:sticky; top:0; z-index:50;
-  background:rgba(0, 0, 0, 0.7);
+  background:rgb(255, 255, 255);
   backdrop-filter:blur(8px);
   border-bottom:1px solid var(--border);
 }
@@ -219,30 +219,12 @@ html, body{ overflow-x:hidden; }
     <section id="project1">
       <h2>Procedural Plotter Series</h2>
 
-      <h3>W1 Studies</h3>
-      <p class="section-note">From a single 3D object (head sculpture) I made in Blender, I have attempted to explore various shading methods, rendering, and vectorizations to create 2D images.</p>
+     <h3>W3 Plot for the plotter</h3>
+      <p class="section-note"> I want to focus on the plotter's receiving end of action. My aim is to make an instruction for the plotter for the plotter.</p>
       <div class="gallery">
-        <img src="images/stud.jpg"  alt="Study 1"
-             data-title="Study 1"
-             data-materials="pen, bristol paper"
-             data-description="Projected raw surface information directly onto the 3D surface. Instead of natural shading, I used Blender’s geometry and distance data.">
-        <img src="images/stud6.jpg" alt="Study 2"
-             data-title="Study 2"
-             data-materials="pen, bristol paper"
-             data-description="The 3D model was unwrapped into a UV layout, flattening the surface into 2D silhouettes. ">
-        <img src="images/stud3.jpg" alt="Study 3"
-             data-title="Study 3"
-             data-materials="pen, tracing paper"
-             data-description="UV unwrapping test. The lines across the shapes are the wireframe topology, showing how the geometry is organized for texture baking and shader experiments.">
-        <img src="images/stud4.jpg" alt="Study 4"
-             data-title="Study 4" data-materials="pen, bristol paper"  data-description="Continuation of study 3. ">
-        <img src="images/stud5.jpg" alt="Study 5"
-             data-title="Study 5" data-materials="pen, bristol paper" data-description="By remapping the object’s position or distance from the camera into a gradient, the head transforms into stacked layers of color.">
-        <img src="images/stud1.jpg" alt="Study 6"
-             data-title="Study 6" data-materials="pen, bristol paper" data-description="Continuation of study 5. Experimenting with different thresholds to adjust visibility.">
-        <img src="images/stud7.jpg" alt="Study 7"
-             data-title="Study 7" data-materials="pen, bristol paper" data-description="Continuation of study 5. Layering experimentation.">
-      </div>
+     </div>
+
+
 
       <h3>W2 Studies (The Map of Algorithmic Geography)</h3>
       <p class="section-note">After Week 1 studies, I was interested in working with specific objects rather than a generic head sculpture that I made in blender for last week. Using 3D scan data from my walking route in Providence, I mapped each object in Blender by analyzing its form. The combined scans were then composed into a map, re-tracing the digitally processed objects from my path.
@@ -278,20 +260,48 @@ html, body{ overflow-x:hidden; }
              data-description="">
             </div>
             
-      <h3>W3 Plot for the plotter</h3>
-      <p class="section-note"> I want to focus on the plotter's receiving end of action. My aim is to make an instruction for the plotter for the plotter.</p>
+      <h3>W1 Studies</h3>
+      <p class="section-note">From a single 3D object (head sculpture) I made in Blender, I have attempted to explore various shading methods, rendering, and vectorizations to create 2D images.</p>
       <div class="gallery">
-       </div>
-
+        <img src="images/stud.jpg"  alt="Study 1"
+             data-title="Study 1"
+             data-materials="pen, bristol paper"
+             data-description="Projected raw surface information directly onto the 3D surface. Instead of natural shading, I used Blender’s geometry and distance data.">
+        <img src="images/stud6.jpg" alt="Study 2"
+             data-title="Study 2"
+             data-materials="pen, bristol paper"
+             data-description="The 3D model was unwrapped into a UV layout, flattening the surface into 2D silhouettes. ">
+        <img src="images/stud3.jpg" alt="Study 3"
+             data-title="Study 3"
+             data-materials="pen, tracing paper"
+             data-description="UV unwrapping test. The lines across the shapes are the wireframe topology, showing how the geometry is organized for texture baking and shader experiments.">
+        <img src="images/stud4.jpg" alt="Study 4"
+             data-title="Study 4" data-materials="pen, bristol paper"  data-description="Continuation of study 3. ">
+        <img src="images/stud5.jpg" alt="Study 5"
+             data-title="Study 5" data-materials="pen, bristol paper" data-description="By remapping the object’s position or distance from the camera into a gradient, the head transforms into stacked layers of color.">
+        <img src="images/stud1.jpg" alt="Study 6"
+             data-title="Study 6" data-materials="pen, bristol paper" data-description="Continuation of study 5. Experimenting with different thresholds to adjust visibility.">
+        <img src="images/stud7.jpg" alt="Study 7"
+             data-title="Study 7" data-materials="pen, bristol paper" data-description="Continuation of study 5. Layering experimentation.">
+      </div>
 
       <h3>Blender rendering examples of the studies (W1-2)</h3>
+      <div class="gallery">
       <div class="video-gallery">
-        <video class="expandable" loop playsinline controls preload="metadata">
+
+     <img class="expandable" src="images/Screenshot 2025-09-09 022712.png">
+      <img class="expandable" src="images/Screenshot 2025-09-12 110429.png">
+      <img class="expandable" src="images/gardenmesh.png">
+       
+        <!-- empty data-* means “no metadata”; panel will auto-hide for this one -->
+        <img class="expandable" src="images/pilgrimage.png" alt="Pilgrimage map">
+         <img class="expandable" src="images/walk6.png">
+           <video class="expandable" loop playsinline controls preload="metadata">
           <source src="videos/video.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-        <!-- empty data-* means “no metadata”; panel will auto-hide for this one -->
-        <img class="expandable" src="images/pilgrimage.png" alt="Pilgrimage map">
+      <img class="expandable" src="images/pilgrimagemap2.3.png">
+      </div>
       </div>
 
       <h3>Material Experiments</h3>
