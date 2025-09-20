@@ -54,11 +54,23 @@
   --bg:#ffffff;
   --fg:#1b3682;
   --muted:#545454;
-  --link:#0a66c2;
-  --card:#f9f9f9;
+  --link:#fefefe;
+  --card:#ffffff;
   --border:#e6e6e6;
   --maxw:1100px;
+  --lb-title: #a0a0a0;          /* main title color */
+  --lb-altTitle: #ffffff;       /* when using alt fallback */
+  --lb-mats: #ffffff;           /* materials text */
+  --lb-desc: #ffffff;           /* description text */
 }
+
+.lb-panel h4#lb-title{ color: var(--lb-title); }
+.lb-panel h4#lb-title.is-alt{ color: var(--lb-altTitle); } /* alt fallback */
+
+.lb-meta dt{ color: var(--lb-mats-label); } /* "Materials" */
+.lb-meta dd#lb-mats{ color: var(--lb-mats); }
+
+#lb-desc{ color: var(--lb-desc); }
 
 body {
   margin:0;
@@ -388,7 +400,6 @@ html, body{ overflow-x:hidden; }
       <aside id="lb-panel" class="lb-panel">
         <h4 id="lb-title"></h4>
         <dl class="lb-meta">
-          <dt>Materials</dt>
           <dd id="lb-mats"></dd>
         </dl>
         <p id="lb-desc"></p>
