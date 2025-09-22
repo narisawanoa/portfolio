@@ -151,70 +151,202 @@ footer p { margin:0; text-align:left }
 
 html, body{ overflow-x:hidden; }
 
-
-.lightbox{
-  position:fixed; inset:0;
-  background:rgba(0,0,0,.75);
-  display:none; align-items:center; justify-content:center;
-  z-index:1000;
-}
-.lightbox.open{ display:flex; }
-
-.lb-wrap, .lb-wrap * { pointer-events:auto; }
-.lb-wrap{
-  display:flex; gap:18px;
-  max-width:min(1100px, 92vw);
-  max-height:86vh;
-  padding:14px; border-radius:10px;
-  align-items:center;
+/* Portfolio specific styles */
+.portfolio-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  margin: 40px 0;
 }
 
-.lb-nav{
-  position:absolute; top:50%; transform:translateY(-50%);
-  width:44px; height:44px; border:0; border-radius:999px;
-  background:rgba(255,255,255,.15); color:#fff; font-size:28px; line-height:1;
-  display:flex; align-items:center; justify-content:center; cursor:pointer;
-  backdrop-filter: blur(2px);
-}
-.lb-prev{ left:8px; }
-.lb-next{ right:8px; }
-.lb-nav:hover{ background:rgba(255,255,255,.28); }
-.lb-nav:active{ background:rgba(255,255,255,.4); }
-
-.lb-panel{
-  flex: 0 0 320px;
-  max-width: 40vw;
-  overflow: auto;
+.project-card {
+  background: transparent;
+  border: none;
+  padding: 0;
+  transition: none;
 }
 
-.lb-panel.left{ order:-1; border-left:none; border-right:1px solid rgba(255,255,255,.15); padding:6px 8px 6px 2px; }
-.lb-panel h4{ margin:0 0 8px; font-size:18px; }
-.lb-meta{ margin:0 0 8px; }
-.lb-meta dt{ font-weight:600; margin:0 0 4px; }
-.lb-meta dd{ margin:0 0 8px; color:#cfcfcf; }
-
-#lb-img{
-  width:auto; height:auto;
-  max-height:62vh;
-  max-width: calc(100% - 320px - 18px);
-  border-radius:8px;
-  object-fit:contain;
-  flex:0 1 auto;
-}
-#lb-video { max-width: 90vw; max-height: 80vh; border-radius: 8px; }
-
-.lb-close{
-  position:absolute; top:8px; right:12px;
-  background:transparent; border:0; color:#fff; font-size:28px; line-height:1;
-  cursor:pointer;
+.project-card:hover {
+  transform: none;
 }
 
-@media (max-width: 720px){
-  .lb-wrap{ flex-direction:column; max-height:90vh; }
-  .lb-panel, .lb-panel.left{ order:2; width:auto; border:0; padding:8px 0 0; }
-  #lb-img{ max-width:90vw; max-height:60vh; }
+.project-card h4 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 500;
 }
-  </style>
+
+.project-card .project-meta {
+  color: var(--muted);
+  font-size: 16px;
+  margin-bottom: 20px;
+  font-weight: 400;
+}
+
+/* ---- Portfolio only: single row, no scroll, all images visible ---- */
+#portfolio .project-card .gallery{
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1px;
+  margin-top: 20px;
+  
+  /* Remove full-bleed - stay within container bounds */
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  
+  /* Normal padding within the section */
+  padding-left: 0;
+  padding-right: 0;
+  box-sizing: border-box;
+  
+  /* No scrolling - fit all images in view */
+  overflow-x: visible;
+  overflow-y: visible;
+}
+
+/* Remove the extra spacer */
+#portfolio .project-card .gallery::before{
+  display: none;
+}
+
+#portfolio .project-card .gallery img,
+#portfolio .project-card .gallery video{
+  /* Make images smaller and flexible to fit all in one row */
+  height: clamp(120px, 12vw, 200px);
+  width: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  flex: 0 0 auto;
+  /* Ensure minimum width so images don't get too compressed */
+  min-width: clamp(80px, 10vw, 150px);
+}
+
+#portfolio .project-card .gallery img:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+}
+
+/* ---- Mobile overrides ---- */
+@media (max-width: 720px) {
+  #portfolio .project-card .gallery {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    justify-content: flex-start;
+    gap: 1px;
+    margin: 0;
+    padding: 0;
+    overflow-x: visible;
+    flex-wrap: wrap; /* Allow wrapping on mobile if needed */
+  }
+
+  #portfolio .project-card .gallery img,
+  #portfolio .project-card .gallery video {
+    height: clamp(100px, 15vw, 140px);
+    min-width: clamp(60px, 12vw, 100px);
+    object-fit: contain;
+  }
+
+  .project-card h4 {
+    font-size: 24px;
+  }
+}
+
+/* Lightbox styles */
+.lightbox {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.lightbox.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lb-wrap {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.lb-close {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.lb-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  font-size: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lb-prev { left: -60px; }
+.lb-next { right: -60px; }
+
+#lb-img {
+  max-width: 60vw;
+  max-height: 80vh;
+  border-radius: 8px;
+}
+
+.lb-panel {
+  max-width: 300px;
+  color: white;
+  padding: 20px;
+}
+
+.lb-panel h4 {
+  margin: 0 0 10px;
+  font-size: 20px;
+}
+
+.lb-meta {
+  margin: 0 0 15px;
+}
+
+.lb-meta dd {
+  margin: 0;
+  font-style: italic;
+}
+
+#lb-desc {
+  line-height: 1.5;
+  margin: 0;
+}
+</style>
 </head>
 <body>
   <header>
@@ -223,6 +355,7 @@ html, body{ overflow-x:hidden; }
       <nav class="tabs">
         <a href="#project1" class="tablink" data-target="project1" aria-selected="true">Procedural Plotter Series</a>
         <a href="#y2024" class="tablink" data-target="y2024" aria-selected="false">Future Assignments</a>
+        <!-- <a href="#portfolio" class="tablink" data-target="portfolio" aria-selected="false">Portfolio</a>-->
       </nav>
     </div>
   </header>
@@ -236,8 +369,6 @@ html, body{ overflow-x:hidden; }
       <div class="gallery">
      </div>
 
-
-
       <h3>W2 Studies (The Map of Algorithmic Geography)</h3>
       <p class="section-note">After Week 1 studies, I was interested in working with specific objects rather than a generic head sculpture that I made in blender for last week. Using 3D scan data from my walking route in Providence, I mapped each object in Blender by analyzing its form. The combined scans were then composed into a map, re-tracing the digitally processed objects from my path.
         Upon creating this map, I began to think about the plotter as a processor of my translated words. I thought about how my trace is interprested by the multiple softwartes that came in between me and the plotter (Blender, Illustrator, and Silhouette Studio), which led me to create the second series where I showed the messages from those softwares on the map as a process of "softwares tracinig my walking track". </p>
@@ -247,6 +378,7 @@ html, body{ overflow-x:hidden; }
              data-description="I transformed 3D scans of my surroundings into layered drawings. In Blender, algorithmic analyses of form become vector maps, which the plotter redraws with different shades of markers and pencils. Each plot translates the physical traces of the walk to digitally processed images, then to physical traces again. ">
         <!-- Video INSIDE the W2 gallery, with sound (no muted). Let user press play. -->
         <video class="expandable" loop playsinline controls preload="metadata">
+          
           <source src="videos/IMG_4861.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
@@ -278,7 +410,7 @@ html, body{ overflow-x:hidden; }
         <img src="images/stud.jpg"  alt="Study 1"
              data-title="Study 1"
              data-materials="pen, bristol paper"
-             data-description="Projected raw surface information directly onto the 3D surface. Instead of natural shading, I used Blender’s geometry and distance data.">
+             data-description="Projected raw surface information directly onto the 3D surface. Instead of natural shading, I used Blender's geometry and distance data.">
         <img src="images/stud6.jpg" alt="Study 2"
              data-title="Study 2"
              data-materials="pen, bristol paper"
@@ -290,7 +422,7 @@ html, body{ overflow-x:hidden; }
         <img src="images/stud4.jpg" alt="Study 4"
              data-title="Study 4" data-materials="pen, bristol paper"  data-description="Continuation of study 3. ">
         <img src="images/stud5.jpg" alt="Study 5"
-             data-title="Study 5" data-materials="pen, bristol paper" data-description="By remapping the object’s position or distance from the camera into a gradient, the head transforms into stacked layers of color.">
+             data-title="Study 5" data-materials="pen, bristol paper" data-description="By remapping the object's position or distance from the camera into a gradient, the head transforms into stacked layers of color.">
         <img src="images/stud1.jpg" alt="Study 6"
              data-title="Study 6" data-materials="pen, bristol paper" data-description="Continuation of study 5. Experimenting with different thresholds to adjust visibility.">
         <img src="images/stud7.jpg" alt="Study 7"
@@ -305,7 +437,7 @@ html, body{ overflow-x:hidden; }
       <img class="expandable" src="images/Screenshot 2025-09-12 110429.png">
       <img class="expandable" src="images/gardenmesh.png">
        
-        <!-- empty data-* means “no metadata”; panel will auto-hide for this one -->
+        <!-- empty data-* means "no metadata"; panel will auto-hide for this one -->
         <img class="expandable" src="images/pilgrimage.png" alt="Pilgrimage map">
          <img class="expandable" src="images/walk6.png">
            <video class="expandable" loop playsinline controls preload="metadata">
@@ -382,7 +514,136 @@ html, body{ overflow-x:hidden; }
         <p><strong>Notes</strong> — ...</p>
       </div>
     </section>
-  </main>
+
+    <!-- NEW PORTFOLIO SECTION -->
+    <section id="portfolio" class="left-section" hidden>
+      <h2>Portfolio</h2>
+      <p class="section-note"></p>
+
+      <div class="project-card">
+        <h4>No more understanding of the world (Live recording and projection of the sky)</h4>
+        <div class="project-meta">April 2025 / Multimedia Installation <p>This is a live projection of the sky that is recording live on site. The sky is something that is devided by invisible borders that can easily be trespassed. Yet, I am bounded on the land unable to see the other skys but my own as I have no means to escape my own sky, that is, political, economical, and personal situations that bound me to this place.</p></div>
+        <div class="gallery"> 
+          <video class="expandable" loop playsinline controls preload="metadata">
+                  data-title="no more understanding of the world"
+            <source src="videos/beach.mp4" type="video/mp4" /> 
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+
+
+      <div class="project-card">
+        <h4>Mission Statement</h4>
+        <div class="project-meta">March 2025 / Multimedia Installation <p>This is a site specific installation I made for RISD beach. The mission statement of RISD administratioin is played on repeat from a speaker inside an enclosed cube. RISD beach was chosen as a site that symbolizes the institution where students gather. The mission statement played from the speaker is flitered by the cube that represents the institution and the traffic noise surrounding the institution.</p></div>
+        <div class="gallery">
+          <video class="expandable" loop playsinline controls preload="metadata">
+                  data-title="mission Statement"
+            <source src="videos/missionstatement.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+
+       <div class="project-card">
+        <h4>Coffin, design and installation (collaborative work : Drawing by Constance Wang on the right)</h4>
+        <div class="project-meta">April 2025</div>
+        <div class="gallery">
+          <img src="images/grave0.jpeg" alt="coffin"
+                data-title="coffin" data-materials="Wood, pencil, aclyric painit, color pencil, soil"
+                data-description="coffin installation">
+          <img src="images/grave.jpeg" alt="coffin"
+                data-title="coffin" data-materials="Wood, pencil, aclyric painit, color pencil, soil"
+                data-description="coffin installation">
+          <img src="images/grave2.jpeg" alt="coffin"
+                data-title="coffin" data-materials="Wood, pencil, aclyric painit, color pencil, soil"
+                data-description="coffin installation">
+          <img src="images/grave3.jpeg" alt="coffin"
+                data-title="coffin" data-materials="Wood, pencil, aclyric painit, color pencil, soil"
+                data-description="coffin installation">
+      </div>
+ 
+      <div class="project-card">
+        <h4>Hole in the colony</h4>
+        <div class="project-meta">Aprili 2025</div>
+        <div class="gallery">
+          <img src="images/colony.jpg" alt="colony"
+                data-title="Hole in the colony" data-materials="Wire, rice paper, reed, wood"
+                data-description="">
+          <img src="images/colony2.jpg" alt="colony"
+                data-title="Self Portrait" data-materials="Wire, rice paper, reed, wood"
+                data-description="">
+          <img src="images/colony3.jpg" alt="colony"
+                data-title="Self Portrait" data-materials="Wire, rice paper, reed, wood"
+                data-description="">
+          <img src="images/colony4.jpg" alt="colony"
+                data-title="Self Portrait" data-materials="Wire, rice paper, reed, wood"
+                data-description="">
+        </div>
+
+      <div class="project-card">
+        <h4>Tide</h4>
+        <div class="project-meta">March 2025</div>
+        <div class="gallery">
+          <img src="images/paper1.jpeg" alt="Bristol paper"
+                data-title="Paper" data-materials="Bristol paper"
+                data-description="Paper construction of water.">
+          <img src="images/paper.jpeg" alt="Bristol paper"
+                data-title="Paper" data-materials="Bristol paper"
+                data-description="Paper construction of water.">
+          <img src="images/paper4.jpeg" alt="Bristol paper"
+                data-title="Paper" data-materials="Bristol paper"
+                data-description="Paper construction of water.">
+          <img src="images/paper3.jpeg" alt="Bristol paper"
+                data-title="Paper" data-materials="Bristol paper"
+                data-description="Paper construction of water.">
+       </div>
+ 
+
+      <div class="project-card">
+        <h4>Observational Paintings</h4>
+        <div class="project-meta">January 2025</div>
+        <div class="gallery">
+          <img src="images/painting1.jpg" alt="Observational Painting 1"
+                data-title="Observational Painting 1" data-materials="9 × 11 inches, oil on canvas"
+                data-description="Surface of water, light reflection, and shadow.">
+          <img src="images/painting2.jpg" alt="Observational Painting 2"
+                data-title="Observational Painting 2" data-materials="9 × 11 inches, oil on canvas"
+                data-description="Surface of water, light reflection, and shadow.">
+          <img src="images/painting3.jpg" alt="Observational Painting 3"
+                data-title="Observational Painting 3" data-materials="16 × 20 inches, oil on masonite"
+                data-description="Featuring a wood sculpture made by my friend.">
+          <img src="images/painting4.jpg" alt="Observational Painting 4"
+                data-title="Observational Painting 4" data-materials="14 × 20 inches, oil on canvas"
+                data-description="life model">
+          <img src="images/painting5.jpg" alt="Observational Painting 5"
+                data-title="Observational Painting 5" data-materials="16 × 20 inches, oil on masonite"
+                data-description="Pomelos from California.">
+        </div>
+
+
+
+      <div class="project-card">
+        <h4>Observational Sculptures</h4>
+        <div class="project-meta">May 2024 - September 2025</div>
+        <div class="gallery">
+          <img src="images/face3.HEIC" alt="Self Portrait"
+                data-title="Self Portrait" data-materials="clay"
+                data-description="Self Portrait">
+          <img src="images/face1.HEIC" alt="Self Portrait"
+                data-title="Self Portrait" data-materials="clay"
+                data-description="Self Portrait.">
+          <img src="images/face2.HEIC" alt="Self Portrait"
+                data-title="Self Portrait" data-materials="clay"
+                data-description="Self Portrait">
+          <img src="images/bike1.JPG" alt="Bike"
+                data-title="Tricyle from memory" data-materials="wire"
+                data-description="Tricyle from memory">
+          <img src="images/bike2.JPG" alt="Bike"
+                data-title="Tricyle from memory" data-materials="wire"
+                data-description="Tricyle from memory">
+        </div>
+
 
   <footer>
     <div class="wrap">
@@ -414,8 +675,8 @@ if (yEl) yEl.textContent = new Date().getFullYear();
 
 /* Tabs */
 const tabs = document.querySelectorAll('.tablink');
-const sections = ['project1','y2024'].map(id => document.getElementById(id));
-sections.forEach(sec => { if(sec) sec.hidden = sec.id !== 'project1'; });
+const sections = ['project1','y2024','portfolio'].map(id => document.getElementById(id));
+sections.forEach(sec => { if(sec) sec.hidden = sec.id !== 'portfolio'; }); // Start with portfolio visible
 tabs.forEach(tab => {
   tab.addEventListener('click', (e) => {
     e.preventDefault();
@@ -427,6 +688,14 @@ tabs.forEach(tab => {
     if (h) h.setAttribute('tabindex','-1'), h.focus();
   });
 });
+
+// Set portfolio as active tab by default
+const portfolioTab = document.querySelector('.tablink[data-target="portfolio"]');
+if (portfolioTab) {
+  portfolioTab.setAttribute('aria-selected', 'true');
+  document.querySelector('.tablink[data-target="project1"]').setAttribute('aria-selected', 'false');
+}
+
 const hash = location.hash.replace('#','');
 if (hash && document.getElementById(hash)) {
   const tab = document.querySelector(`.tablink[data-target="${hash}"]`);
@@ -526,12 +795,22 @@ function openMedia(el){
       currentIndex = 0;
     }
   } else {
-    /* VIDEO enlarged */
-    lbImg.src = '';
-    lbImg.style.display = 'none';
+  /* VIDEO enlarged */
+  lbImg.src = '';
+  lbImg.style.display = 'none';
+  lbPrev.style.display = 'none';
+  lbNext.style.display = 'none';
+
+  // Show panel with video metadata only for portfolio section
+  const inPortfolio = !!el.closest('#portfolio');
+  const hasMeta = !!(el.dataset.title || el.dataset.materials || el.dataset.description);
+  
+  if (inPortfolio && hasMeta) {
+    lbPanel.style.display = '';
+    fillPanelFrom(el);
+  } else {
     lbPanel.style.display = 'none';
-    lbPrev.style.display = 'none';
-    lbNext.style.display = 'none';
+  }
 
     const vid = document.createElement('video');
     vid.id = 'lb-video';
