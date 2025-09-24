@@ -676,31 +676,34 @@ if (yEl) yEl.textContent = new Date().getFullYear();
 /* Tabs */
 const tabs = document.querySelectorAll('.tablink');
 const sections = ['project1','y2024','portfolio'].map(id => document.getElementById(id));
-sections.forEach(sec => { if(sec) sec.hidden = sec.id !== 'portfolio'; }); // Start with portfolio visible
+
 tabs.forEach(tab => {
   tab.addEventListener('click', (e) => {
     e.preventDefault();
     const targetId = tab.dataset.target;
     tabs.forEach(t => t.setAttribute('aria-selected', t === tab ? 'true' : 'false'));
-    sections.forEach(sec => { if(sec) sec.hidden = (sec.id !== targetId); });
+    sections.forEach(sec => { if (sec) sec.hidden = (sec.id !== targetId); });
     if (history.replaceState) { history.replaceState(null, '', '#' + targetId); }
     const h = document.querySelector('#' + targetId + ' h2');
     if (h) h.setAttribute('tabindex','-1'), h.focus();
   });
 });
 
-// Set portfolio as active tab by default
-const portfolioTab = document.querySelector('.tablink[data-target="portfolio"]');
-if (portfolioTab) {
-  portfolioTab.setAttribute('aria-selected', 'true');
-  document.querySelector('.tablink[data-target="project1"]').setAttribute('aria-selected', 'false');
+// Default: pick the first *visible* tab
+const firstTab = document.querySelector('.tablink:not([hidden])');
+if (firstTab) {
+  const targetId = firstTab.dataset.target;
+  firstTab.setAttribute('aria-selected', 'true');
+  sections.forEach(sec => { if (sec) sec.hidden = (sec.id !== targetId); });
 }
 
+// Respect URL hash if present
 const hash = location.hash.replace('#','');
 if (hash && document.getElementById(hash)) {
   const tab = document.querySelector(`.tablink[data-target="${hash}"]`);
   if (tab) tab.click();
 }
+
 
 /* Lightbox */
 const lightbox   = document.getElementById('lightbox');
