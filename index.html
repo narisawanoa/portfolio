@@ -92,7 +92,12 @@ a:hover { text-decoration:underline }
 }
 
 header .wrap, footer .wrap { margin: 0 auto; }
-main.wrap { margin-left: 0; margin-right: auto; } /* keep left-aligned layout */
+main.wrap { 
+  margin-left: 0; 
+  margin-right: 0; 
+  max-width: none;
+  padding-right: 0;
+}
 
 .left-section { max-width: none; margin: 0; padding-left: 20px; padding-right: 20px; }
 
@@ -362,14 +367,26 @@ html, body{ overflow-x:hidden; }
 
   <main class="wrap">
     <section id="project1">
-      <h2>Procedural Plotter Series</h2>
+     <h2>Procedural Plotter Series</h2>
 
      <h3>W3 Plot for the plotter</h3>
-      <p class="section-note"> ...</p>
+      <p class="section-note"> For this week, </p>
       <div class="gallery">
+          <video class="expandable" loop playsinline controls preload="metadata">
+          <source src="videos/plotter9comprssed.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+          </video>
+          <video class="expandable" loop playsinline controls preload="metadata">
+          <source src="videos/sr9_24_1-ezgif.com-crop.gif" type="video/mp4" />
+          Your browser does not support the video tag.
+          </video>
+          <video class="expandable" loop playsinline controls preload="metadata">
+          <source src="videos/plotter9_24com_1.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+          </video>
      </div>
 
-      <h3>W2 Studies (The Map of Algorithmic Geography)</h3>
+      <h3>W2 Studies The Map of Algorithmic Geography</h3>
       <p class="section-note">After Week 1 studies, I was interested in working with specific objects rather than a generic head sculpture that I made in blender for last week. Using 3D scan data from my walking route in Providence, I mapped each object in Blender by analyzing its form. The combined scans were then composed into a map, re-tracing the digitally processed objects from my path.
         Upon creating this map, I began to think about the plotter as a processor of my translated words. I thought about how my trace is interprested by the multiple softwartes that came in between me and the plotter (Blender, Illustrator, and Silhouette Studio), which led me to create the second series where I showed the messages from those softwares on the map as a process of "softwares tracinig my walking track". </p>
       <div class="gallery">
@@ -378,7 +395,6 @@ html, body{ overflow-x:hidden; }
              data-description="I transformed 3D scans of my surroundings into layered drawings. In Blender, algorithmic analyses of form become vector maps, which the plotter redraws with different shades of markers and pencils. Each plot translates the physical traces of the walk to digitally processed images, then to physical traces again. ">
         <!-- Video INSIDE the W2 gallery, with sound (no muted). Let user press play. -->
         <video class="expandable" loop playsinline controls preload="metadata">
-          
           <source src="videos/IMG_4861.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
@@ -430,56 +446,27 @@ html, body{ overflow-x:hidden; }
       </div>
 
       <h3>Blender rendering examples of the studies (W1-2)</h3>
+      <p class="section-note">Inside Blender, I set up shader and geometry nodes that can create visual analysis of each 3d objects. For example, I used distant maps rediating from a chosen vector point or curvature maps that emphasized edges and valleys. I baked these images as a flat image to be printed by plotter.</p>
       <div class="gallery">
       <div class="video-gallery">
 
      <img class="expandable" src="images/Screenshot 2025-09-09 022712.png">
       <img class="expandable" src="images/Screenshot 2025-09-12 110429.png">
+      <video class="expandable" autoplay loop muted playsinline preload="metadata">
+      <source src="videos/video.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+      </video>
       <img class="expandable" src="images/gardenmesh.png">
        
         <!-- empty data-* means "no metadata"; panel will auto-hide for this one -->
         <img class="expandable" src="images/pilgrimage.png" alt="Pilgrimage map">
-         <img class="expandable" src="images/walk6.png">
-           <video class="expandable" loop playsinline controls preload="metadata">
-          <source src="videos/video.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
       <img class="expandable" src="images/pilgrimagemap2.3.png">
       </div>
       </div>
 
-      <h3>Material Experiments</h3>
-      <p class="section-note">Tested materials and techniques of plotting, printing, and image making.</p>
-      <div class="gallery">
-        <img src="images/exp1.jpg" alt="Experiment 1"
-             data-title="Experiment 1"
-             data-materials="pencil, tracing paper, pen"
-             data-description="Different drawing tool for the plotter. Constant adjustment of pen holder height was necessary to avoid pencil from shortening and floating in the plotter.">
-        <img src="images/exp2.jpg" alt="Experiment 2"
-             data-title="Experiment 2"
-             data-materials="pen, bristol paper"
-             data-description="My attempt to layer two different files. The pen plotter does not always precisely align location with the digital file.">
-        <img src="images/exp3.jpg" alt="Experiment 3"
-             data-title="Experiment 3"
-             data-materials="pen, tracing paper"
-             data-description="Using tracing paper to create a translucent layering effect. The pen plotter had difficulty gripping the thin paper, resulting in some misalignment.">
-        <img src="images/exp4.jpg" alt="Experiment 4"
-             data-title="Experiment 4"
-             data-materials="pen, rice paper"
-             data-description="Exploring texture for the background paper. Difficult to set thinner paper in the plotter.">
-        <img src="images/exp5.png" alt="Experiment 5"
-             data-title="Experiment 5"
-             data-materials="pencil, bristol paper"
-             data-description="Combined texture and the silhouette of the object.">
-        <img src="images/exp6.png" alt="Experiment 6"
-              data-title="Experiment 6"
-              data-materials="pen, bristol paper"
-              data-description="Continuation of the precious experiment.">
-      </div>
-
       <h3>Notes</h3>
       <div class="notes">
-        <p>2025-09-16—updated</p>
+        <p>2025-09-24—updated</p>
       </div>
     </section>
 
@@ -515,7 +502,6 @@ html, body{ overflow-x:hidden; }
       </div>
     </section>
 
-    <!-- NEW PORTFOLIO SECTION -->
     <section id="portfolio" class="left-section" hidden>
       <h2>Portfolio</h2>
       <p class="section-note"></p>
@@ -524,28 +510,29 @@ html, body{ overflow-x:hidden; }
         <h4>No more understanding of the world (Live recording and projection of the sky)</h4>
         <div class="project-meta">April 2025 / Multimedia Installation <p>This is a live projection of the sky that is recording live on site. The sky is something that is devided by invisible borders that can easily be trespassed. Yet, I am bounded on the land unable to see the other skys but my own as I have no means to escape my own sky, that is, political, economical, and personal situations that bound me to this place.</p></div>
         <div class="gallery"> 
-          <video class="expandable" loop playsinline controls preload="metadata">
-                  data-title="no more understanding of the world"
+          <video class="expandable" loop playsinline controls preload="metadata"
+                 data-title="no more understanding of the world">
             <source src="videos/beach.mp4" type="video/mp4" /> 
             Your browser does not support the video tag.
           </video>
         </div>
       </div>
 
-
       <div class="project-card">
         <h4>Mission Statement</h4>
         <div class="project-meta">March 2025 / Multimedia Installation <p>This is a site specific installation I made for RISD beach. The mission statement of RISD administratioin is played on repeat from a speaker inside an enclosed cube. RISD beach was chosen as a site that symbolizes the institution where students gather. The mission statement played from the speaker is flitered by the cube that represents the institution and the traffic noise surrounding the institution.</p></div>
         <div class="gallery">
-          <video class="expandable" loop playsinline controls preload="metadata">
-                  data-title="mission Statement"
+          <video class="expandable" loop playsinline controls preload="metadata"
+                 data-title="Mission Statement"
+                 data-materials="Video installation, 3 minutes"
+                 data-description="This is a site specific installation I made for RISD beach. The mission statement of RISD administration is played on repeat from a speaker inside an enclosed cube.">
             <source src="videos/missionstatement.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>
       </div>
 
-       <div class="project-card">
+      <div class="project-card">
         <h4>Coffin, design and installation (collaborative work : Drawing by Constance Wang on the right)</h4>
         <div class="project-meta">April 2025</div>
         <div class="gallery">
@@ -561,11 +548,12 @@ html, body{ overflow-x:hidden; }
           <img src="images/grave3.jpeg" alt="coffin"
                 data-title="coffin" data-materials="Wood, pencil, aclyric painit, color pencil, soil"
                 data-description="coffin installation">
+        </div>
       </div>
- 
+
       <div class="project-card">
         <h4>Hole in the colony</h4>
-        <div class="project-meta">Aprili 2025</div>
+        <div class="project-meta">April 2025</div>
         <div class="gallery">
           <img src="images/colony.jpg" alt="colony"
                 data-title="Hole in the colony" data-materials="Wire, rice paper, reed, wood"
@@ -580,6 +568,7 @@ html, body{ overflow-x:hidden; }
                 data-title="Self Portrait" data-materials="Wire, rice paper, reed, wood"
                 data-description="">
         </div>
+      </div>
 
       <div class="project-card">
         <h4>Tide</h4>
@@ -597,8 +586,8 @@ html, body{ overflow-x:hidden; }
           <img src="images/paper3.jpeg" alt="Bristol paper"
                 data-title="Paper" data-materials="Bristol paper"
                 data-description="Paper construction of water.">
-       </div>
- 
+        </div>
+      </div>
 
       <div class="project-card">
         <h4>Observational Paintings</h4>
@@ -620,8 +609,7 @@ html, body{ overflow-x:hidden; }
                 data-title="Observational Painting 5" data-materials="16 × 20 inches, oil on masonite"
                 data-description="Pomelos from California.">
         </div>
-
-
+      </div>
 
       <div class="project-card">
         <h4>Observational Sculptures</h4>
@@ -643,7 +631,9 @@ html, body{ overflow-x:hidden; }
                 data-title="Tricyle from memory" data-materials="wire"
                 data-description="Tricyle from memory">
         </div>
-
+      </div>
+    </section>
+  </main>
 
   <footer>
     <div class="wrap">
@@ -703,7 +693,6 @@ if (hash && document.getElementById(hash)) {
   const tab = document.querySelector(`.tablink[data-target="${hash}"]`);
   if (tab) tab.click();
 }
-
 
 /* Lightbox */
 const lightbox   = document.getElementById('lightbox');
@@ -798,22 +787,22 @@ function openMedia(el){
       currentIndex = 0;
     }
   } else {
-  /* VIDEO enlarged */
-  lbImg.src = '';
-  lbImg.style.display = 'none';
-  lbPrev.style.display = 'none';
-  lbNext.style.display = 'none';
+    /* VIDEO enlarged */
+    lbImg.src = '';
+    lbImg.style.display = 'none';
+    lbPrev.style.display = 'none';
+    lbNext.style.display = 'none';
 
-  // Show panel with video metadata only for portfolio section
-  const inPortfolio = !!el.closest('#portfolio');
-  const hasMeta = !!(el.dataset.title || el.dataset.materials || el.dataset.description);
-  
-  if (inPortfolio && hasMeta) {
-    lbPanel.style.display = '';
-    fillPanelFrom(el);
-  } else {
-    lbPanel.style.display = 'none';
-  }
+    // Show panel with video metadata only for portfolio section
+    const inPortfolio = !!el.closest('#portfolio');
+    const hasMeta = !!(el.dataset.title || el.dataset.materials || el.dataset.description);
+    
+    if (inPortfolio && hasMeta) {
+      lbPanel.style.display = '';
+      fillPanelFrom(el);
+    } else {
+      lbPanel.style.display = 'none';
+    }
 
     const vid = document.createElement('video');
     vid.id = 'lb-video';
