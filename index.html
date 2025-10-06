@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Works</title>
+  <title>portfolio</title>
   <meta name="description" content="Portfolio of artworks, studies, experiments, and notes." />
   <style>
 /* ---------- Gallery (left-aligned, single-row scroller) ---------- */
@@ -26,7 +26,7 @@
 /* Thumbs scale with window but stay one row, left-aligned */
 .gallery img,
 .gallery video {
-  height: clamp(140px, 20vw, 240px); /* min → fluid → max */
+  height: clamp(140px, 20vw, 240px);
   flex: 0 0 auto;
   border-radius: 8px;
   object-fit: cover;
@@ -35,7 +35,6 @@
   display: block;
 }
 
-/* (Optional) separate side-by-side block if you keep any elsewhere */
 .video-gallery {
   display: flex;
   gap: 12px;
@@ -52,22 +51,22 @@
 /* ---------- Site chrome ---------- */
 :root {
   --bg:#ffffff;
-  --fg:#1b3682;
+  --fg:#000000;
   --muted:#545454;
   --link:#fefefe;
   --card:#ffffff;
   --border:#e6e6e6;
   --maxw:1100px;
-  --lb-title: #a0a0a0;          /* main title color */
-  --lb-altTitle: #ffffff;       /* when using alt fallback */
-  --lb-mats: #ffffff;           /* materials text */
-  --lb-desc: #ffffff;           /* description text */
+  --lb-title: #a0a0a0;
+  --lb-altTitle: #ffffff;
+  --lb-mats: #ffffff;
+  --lb-desc: #ffffff;
 }
 
 .lb-panel h4#lb-title{ color: var(--lb-title); }
-.lb-panel h4#lb-title.is-alt{ color: var(--lb-altTitle); } /* alt fallback */
+.lb-panel h4#lb-title.is-alt{ color: var(--lb-altTitle); }
 
-.lb-meta dt{ color: var(--lb-mats-label); } /* "Materials" */
+.lb-meta dt{ color: var(--lb-mats-label); }
 .lb-meta dd#lb-mats{ color: var(--lb-mats); }
 
 #lb-desc{ color: var(--lb-desc); }
@@ -95,11 +94,11 @@ header .wrap, footer .wrap { margin: 0 auto; }
 main.wrap { 
   margin-left: 0; 
   margin-right: 0; 
-  max-width: none;
-  padding-right: 0;
+  max-width: 100%;
+  padding: 0;
 }
 
-.left-section { max-width: none; margin: 0; padding-left: 20px; padding-right: 20px; }
+.left-section { max-width: 100%; margin: 0; padding: 0 20px; }
 
 header {
   position:sticky; top:0; z-index:50;
@@ -140,8 +139,9 @@ footer p {
 .section-note {
   color: var(--muted);
   margin: 6px 0 14px;
-  max-width: 150ch;
+  max-width: 100%;
   font-size: 14px;
+  word-wrap: break-word;
 }
 
 .notes { border-left:2px solid var(--border); padding-left:14px; color:var(--muted) }
@@ -158,10 +158,13 @@ html, body{ overflow-x:hidden; }
 
 /* Portfolio specific styles */
 .portfolio-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 60px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 60px 50px;
   margin: 40px 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .project-card {
@@ -169,6 +172,8 @@ html, body{ overflow-x:hidden; }
   border: none;
   padding: 0;
   transition: none;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .project-card:hover {
@@ -179,6 +184,7 @@ html, body{ overflow-x:hidden; }
   margin: 0 0 8px;
   font-size: 28px;
   font-weight: 500;
+  word-wrap: break-word;
 }
 
 .project-card .project-meta {
@@ -186,47 +192,49 @@ html, body{ overflow-x:hidden; }
   font-size: 16px;
   margin-bottom: 20px;
   font-weight: 400;
+  word-wrap: break-word;
 }
 
-/* ---- Portfolio only: single row, no scroll, all images visible ---- */
 #portfolio .project-card .gallery{
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: flex-start;
-  gap: 1px;
+  gap: 8px;
   margin-top: 20px;
-  
-  /* Remove full-bleed - stay within container bounds */
   width: 100%;
   margin-left: 0;
   margin-right: 0;
-  
-  /* Normal padding within the section */
   padding-left: 0;
   padding-right: 0;
   box-sizing: border-box;
-  
-  /* No scrolling - fit all images in view */
   overflow-x: visible;
   overflow-y: visible;
 }
 
-/* Remove the extra spacer */
 #portfolio .project-card .gallery::before{
   display: none;
 }
 
-#portfolio .project-card .gallery img,
-#portfolio .project-card .gallery video{
-  /* Make images smaller and flexible to fit all in one row */
-  height: clamp(120px, 12vw, 200px);
+#portfolio .project-card .gallery img {
+  height: auto;
+  max-height: 200px;
   width: auto;
+  max-width: 200px;
   object-fit: contain;
   border-radius: 8px;
   flex: 0 0 auto;
-  /* Ensure minimum width so images don't get too compressed */
-  min-width: clamp(80px, 10vw, 150px);
+}
+
+#portfolio .project-card .gallery video{
+  height: auto;
+  max-height: 240px;
+  width: auto;
+  max-width: 240px;
+  object-fit: contain;
+  border-radius: 8px;
+  flex: 0 0 auto;
+}: 0 0 auto;
 }
 
 #portfolio .project-card .gallery img:hover {
@@ -234,8 +242,12 @@ html, body{ overflow-x:hidden; }
   box-shadow: 0 8px 32px rgba(0,0,0,0.12);
 }
 
-/* ---- Mobile overrides ---- */
 @media (max-width: 720px) {
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
   #portfolio .project-card .gallery {
     width: 100%;
     margin-left: 0;
@@ -245,7 +257,7 @@ html, body{ overflow-x:hidden; }
     margin: 0;
     padding: 0;
     overflow-x: visible;
-    flex-wrap: wrap; /* Allow wrapping on mobile if needed */
+    flex-wrap: wrap;
   }
 
   #portfolio .project-card .gallery img,
@@ -356,26 +368,24 @@ html, body{ overflow-x:hidden; }
 <body>
   <header>
     <div class="wrap h-inner">
-      <div class="brand">Works</div>
-      <nav class="tabs">
-        <a href="#project1" class="tablink" data-target="project1" aria-selected="true">Procedural Plotter Series</a>
-        <a href="#y2024" class="tablink" data-target="y2024" aria-selected="false">Future Assignments</a>
-        <!-- <a href="#portfolio" class="tablink" data-target="portfolio" aria-selected="false">Portfolio</a>-->
-      </nav>
+      <div class="brand">Noa Narisawa</div>
     </div>
   </header>
 
   <main class="wrap">
-    <section id="project1">
-     <h2>Procedural Plotter Series</h2>
+    <section id="portfolio" class="left-section">
+      <h2>Works</h2>
+      <p class="section-note"></p>
 
-     <h3>W3 Plot for the plotter</h3>
-      <p class="section-note"> For this week, I made a walking plotter. By bypassing inkscape, I made the plotter walk, generating a walking path for the plotter in real time. From the initial script I wrote in Processing, I asked 
+      <div class="portfolio-grid">
+      <div class="project-card">
+        <h4>Plot for the plotter</h4>
+        <p class="section-note"> I made a walking track for the plotter. I made the plotter walk, generating a walking path for the plotter in real time. From the initial script I wrote in Processing, I asked 
         claude to translate from Java to Python. I added several variables to track the walk, such as distance in pixels, duration time in seconds, motor usage, the density of lines, etc. The walk will be executed in rounds while each rounds
         will have diifferent tendencies in randomness that I have applied to the walk. Such variables are visualized in real time. I used white pencil on white paper, which makes us difficult to see the traces of walk by the plotter. I made this 
         choice in order for the viewers to focus on the internal argorithms of the plotter for it to walk. I stayed away from humanizing the plotter to highlight the plotter's inner complexity without emotion or consciousness.
-      </p>
-      <div class="gallery">
+        </p>
+        <div class="gallery">
           <video class="expandable" loop playsinline controls preload="metadata">
           <source src="videos/plotter.mp4" type="video/mp4" />
           Your browser does not support the video tag.
@@ -388,127 +398,29 @@ html, body{ overflow-x:hidden; }
           <source src="videos/plotter9_24com_1.mp4" type="video/mp4" />
           Your browser does not support the video tag.
           </video>
-     </div>
-
-      <h3>W2 Map of algorithmic geography</h3>
-      <p class="section-note">After Week 1 studies, I was interested in working with specific objects rather than a generic head sculpture that I made in blender for last week. Using 3D scan data from my walking route in Providence, I mapped each object in Blender by analyzing its form. The combined scans were then composed into a map, re-tracing the digitally processed objects from my path.
-        Upon creating this map, I began to think about the plotter as a processor of my translated words. I thought about how my trace is interprested by the multiple softwartes that came in between me and the plotter (Blender, Illustrator, and Silhouette Studio), which led me to create the second series where I showed the messages from those softwares on the map as a process of "softwares tracinig my walking track". </p>
-      <div class="gallery">
-        <img src="images/exp7.png" alt="Study (15 objects)"
-             data-title="Study (15 objects)" data-materials="markers, pen, pencil, bristol paper"
-             data-description="I transformed 3D scans of my surroundings into layered drawings. In Blender, algorithmic analyses of form become vector maps, which the plotter redraws with different shades of markers and pencils. Each plot translates the physical traces of the walk to digitally processed images, then to physical traces again. ">
-        <!-- Video INSIDE the W2 gallery, with sound (no muted). Let user press play. -->
-        <video class="expandable" loop playsinline controls preload="metadata">
-          <source src="videos/IMG_4861.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-
-         <img src="images/001.jpg" alt="Study 1"
-             data-title="Study 1" data-materials="markers, pen, print paper"
-             data-description="I incorporated the messages from softwares into the drawing to show the interaction between me and the plotter during the process.">
-     
-             <img src="images/002.jpg" alt="Study 2"
-             data-title="Study 2" data-materials="markers, pen, print paper"
-             data-description="">
-
-             <img src="images/003.jpg" alt="Study 3"
-             data-title="Study 3" data-materials="markers, pen, print paper"
-             data-description="">
-
-             <img src="images/004.jpg" alt="Study 4"
-             data-title="Study 4" data-materials="markers, pen, print paper"
-             data-description="">
-
-             <img src="images/005.jpg" alt="Study 5"
-             data-title="Study 5" data-materials="markers, pen, print paper"
-             data-description="">
-            </div>
-            
-      <h3>W1 Blender in 2D</h3>
-      <p class="section-note">From a single 3D object (head sculpture) I made in Blender, I have attempted to explore various shading methods, rendering, and vectorizations to create 2D images.</p>
-      <div class="gallery">
-        <img src="images/stud.jpg"  alt="Study 1"
-             data-title="Study 1"
-             data-materials="pen, bristol paper"
-             data-description="Projected raw surface information directly onto the 3D surface. Instead of natural shading, I used Blender's geometry and distance data.">
-        <img src="images/stud6.jpg" alt="Study 2"
-             data-title="Study 2"
-             data-materials="pen, bristol paper"
-             data-description="The 3D model was unwrapped into a UV layout, flattening the surface into 2D silhouettes. ">
-        <img src="images/stud3.jpg" alt="Study 3"
-             data-title="Study 3"
-             data-materials="pen, tracing paper"
-             data-description="UV unwrapping test. The lines across the shapes are the wireframe topology, showing how the geometry is organized for texture baking and shader experiments.">
-        <img src="images/stud4.jpg" alt="Study 4"
-             data-title="Study 4" data-materials="pen, bristol paper"  data-description="Continuation of study 3. ">
-        <img src="images/stud5.jpg" alt="Study 5"
-             data-title="Study 5" data-materials="pen, bristol paper" data-description="By remapping the object's position or distance from the camera into a gradient, the head transforms into stacked layers of color.">
-        <img src="images/stud1.jpg" alt="Study 6"
-             data-title="Study 6" data-materials="pen, bristol paper" data-description="Continuation of study 5. Experimenting with different thresholds to adjust visibility.">
-        <img src="images/stud7.jpg" alt="Study 7"
-             data-title="Study 7" data-materials="pen, bristol paper" data-description="Continuation of study 5. Layering experimentation.">
+        </div>
       </div>
 
-      <h3>Blender rendering examples of the studies (W1-2)</h3>
-      <p class="section-note">Inside Blender, I set up shader and geometry nodes that can create visual analysis of each 3d objects. For example, I used distant maps rediating from a chosen vector point or curvature maps that emphasized edges and valleys. I baked these images as a flat image to be printed by plotter.</p>
-      <div class="gallery">
-      <div class="video-gallery">
-
-     <img class="expandable" src="images/Screenshot 2025-09-09 022712.png">
-      <img class="expandable" src="images/Screenshot 2025-09-12 110429.png">
-      <video class="expandable" autoplay loop muted playsinline preload="metadata">
-      <source src="videos/video.mp4" type="video/mp4" />
-      Your browser does not support the video tag.
-      </video>
-      <img class="expandable" src="images/gardenmesh.png">
-       
-        <!-- empty data-* means "no metadata"; panel will auto-hide for this one -->
-        <img class="expandable" src="images/pilgrimage.png" alt="Pilgrimage map">
-      <img class="expandable" src="images/pilgrimagemap2.3.png">
+      <div class="project-card">
+        <h4>In communication with an unknown Entity</h4>
+        <div class="project-meta">May 2025 / Multimedia Installation (plexi glass, mirror panel, arduino, processing) <p>This is a project that derived from an interactive software I made, in which the viewer could relect responses to carry out conversatioin with the forest. I then translated the software into physical installation with softwares by making an object that can receive signals from the classroom and responds to them. The objects were places in the distant forest, far from the classroom. The box in the classroom is a replica of the object placed in the classroom.</p></div>
+        <div class="gallery"> 
+          <video class="expandable" loop playsinline controls preload="metadata"
+                 data-title="forest">
+            <source src="videos/forest1.mp4" type="video/mp4" /> 
+            Your browser does not support the video tag.
+          </video>
+          <video class="expandable" loop playsinline controls preload="metadata"
+                 data-title="forest">
+          <source src="videos/forest2.mp4" type="video/mp4" /> 
+            Your browser does not support the video tag.
+          </video>
+          <img src="images/forestphoto.jpeg" alt="forest"
+          data-description="still image of the installation">
+          <img src="images/forestphoto2.jpeg" alt="forest"
+          data-description="still image of the installation">
+        </div>
       </div>
-      </div>
-
-      <h3>Notes</h3>
-      <div class="notes">
-        <p>2025-09-24—updated</p>
-      </div>
-    </section>
-
-    <section id="y2024" class="left-section" hidden>
-      <h2>Future Assignments</h2>
-      <h3>Final Works</h3>
-      <p class="section-note">Overview of completed works in this period.</p>
-      <div class="gallery">
-        <img src="images/2024-2025/final1.jpg" alt="Final 1"
-             data-title="Final 1" data-materials="Ink on paper"
-             data-description="Final composition derived from iterative studies.">
-      </div>
-
-      <h3>Studies</h3>
-      <p class="section-note">Short overview of studies for 2024–2025.</p>
-      <div class="gallery">
-        <img src="images/2024-2025/study1.jpg" alt="Study"
-             data-title="Study" data-materials="Paper, ink"
-             data-description="Parameter sweep documentation.">
-      </div>
-
-      <h3>Experiments</h3>
-      <p class="section-note">Overview of experiments for 2024–2025.</p>
-      <div class="gallery">
-        <img src="images/2024-2025/exp1.jpg" alt="Experiment"
-             data-title="Experiment" data-materials="Mixed media"
-             data-description="Noise injection and thresholding.">
-      </div>
-
-      <h3>Notes</h3>
-      <div class="notes">
-        <p><strong>Notes</strong> — ...</p>
-      </div>
-    </section>
-
-    <section id="portfolio" class="left-section" hidden>
-      <h2>Portfolio</h2>
-      <p class="section-note"></p>
 
       <div class="project-card">
         <h4>No more understanding of the world (Live recording and projection of the sky)</h4>
@@ -537,8 +449,8 @@ html, body{ overflow-x:hidden; }
       </div>
 
       <div class="project-card">
-        <h4>Coffin, design and installation (collaborative work : Drawing by Constance Wang on the right)</h4>
-        <div class="project-meta">April 2025</div>
+        <h4>Coffin, design and installation</h4>
+        <div class="project-meta">April 2025 / (collaborative work : Drawing by Constance Wang on the left)</div>
         <div class="gallery">
           <img src="images/grave0.jpeg" alt="coffin"
                 data-title="coffin" data-materials="Wood, pencil, aclyric painit, color pencil, soil"
@@ -552,6 +464,22 @@ html, body{ overflow-x:hidden; }
           <img src="images/grave3.jpeg" alt="coffin"
                 data-title="coffin" data-materials="Wood, pencil, aclyric painit, color pencil, soil"
                 data-description="coffin installation">
+        </div>
+      </div>
+
+      <div class="project-card">
+        <h4>Light in the colony</h4>
+        <div class="project-meta">May 2025</div>
+        <div class="gallery">
+          <img src="images/light1.jpg" alt="colony"
+                data-title="Light Sculpture" data-materials="Wire, rice paper, reed"
+                data-description="">
+          <img src="images/light2.jpg" alt="colony"
+                data-title="Light Sculpture" data-materials="Wire, rice paper, reed"
+                data-description="">
+          <img src="images/light3.jpg" alt="colony"
+                data-title="Light Sculpture" data-materials="Wire, rice paper, reed"
+                data-description="">
         </div>
       </div>
 
@@ -593,7 +521,7 @@ html, body{ overflow-x:hidden; }
         </div>
       </div>
 
-      <div class="project-card">
+      <!-- <div class="project-card">
         <h4>Observational Paintings</h4>
         <div class="project-meta">January 2025</div>
         <div class="gallery">
@@ -634,7 +562,8 @@ html, body{ overflow-x:hidden; }
           <img src="images/bike2.JPG" alt="Bike"
                 data-title="Tricyle from memory" data-materials="wire"
                 data-description="Tricyle from memory">
-        </div>
+        </div>  -->
+      </div>
       </div>
     </section>
   </main>
@@ -666,37 +595,6 @@ html, body{ overflow-x:hidden; }
 /* Footer year */
 const yEl = document.getElementById('y');
 if (yEl) yEl.textContent = new Date().getFullYear();
-
-/* Tabs */
-const tabs = document.querySelectorAll('.tablink');
-const sections = ['project1','y2024','portfolio'].map(id => document.getElementById(id));
-
-tabs.forEach(tab => {
-  tab.addEventListener('click', (e) => {
-    e.preventDefault();
-    const targetId = tab.dataset.target;
-    tabs.forEach(t => t.setAttribute('aria-selected', t === tab ? 'true' : 'false'));
-    sections.forEach(sec => { if (sec) sec.hidden = (sec.id !== targetId); });
-    if (history.replaceState) { history.replaceState(null, '', '#' + targetId); }
-    const h = document.querySelector('#' + targetId + ' h2');
-    if (h) h.setAttribute('tabindex','-1'), h.focus();
-  });
-});
-
-// Default: pick the first *visible* tab
-const firstTab = document.querySelector('.tablink:not([hidden])');
-if (firstTab) {
-  const targetId = firstTab.dataset.target;
-  firstTab.setAttribute('aria-selected', 'true');
-  sections.forEach(sec => { if (sec) sec.hidden = (sec.id !== targetId); });
-}
-
-// Respect URL hash if present
-const hash = location.hash.replace('#','');
-if (hash && document.getElementById(hash)) {
-  const tab = document.querySelector(`.tablink[data-target="${hash}"]`);
-  if (tab) tab.click();
-}
 
 /* Lightbox */
 const lightbox   = document.getElementById('lightbox');
@@ -797,7 +695,6 @@ function openMedia(el){
     lbPrev.style.display = 'none';
     lbNext.style.display = 'none';
 
-    // Show panel with video metadata only for portfolio section
     const inPortfolio = !!el.closest('#portfolio');
     const hasMeta = !!(el.dataset.title || el.dataset.materials || el.dataset.description);
     
