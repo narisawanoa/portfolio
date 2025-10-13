@@ -5,278 +5,138 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>portfolio</title>
   <meta name="description" content="Portfolio of artworks, studies, experiments, and notes." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
   <style>
-/* ---------- Gallery (left-aligned, single-row scroller) ---------- */
-.gallery {
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  overflow-y: hidden;
-  gap: 12px;
-  padding: 6px 0 14px;
-  scroll-snap-type: x proximity;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-gutter: stable;
-}
-.gallery::-webkit-scrollbar { height: 10px; }
-.gallery::-webkit-scrollbar-track { background: transparent; }
-.gallery::-webkit-scrollbar-thumb { background: rgba(200,200,200,0.5); border-radius: 5px; }
-.gallery::-webkit-scrollbar-thumb:hover { background: rgba(200,200,200,0.8); }
-
-/* Thumbs scale with window but stay one row, left-aligned */
-.gallery img,
-.gallery video {
-  height: clamp(140px, 20vw, 240px);
-  flex: 0 0 auto;
-  border-radius: 8px;
-  object-fit: cover;
-  scroll-snap-align: start;
-  cursor: pointer;
-  display: block;
-}
-
-.video-gallery {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-.video-gallery video,
-.video-gallery img {
-  height: 180px;
-  width: auto;
-  border-radius: 8px;
-  object-fit: cover;
-}
-
-/* ---------- Site chrome ---------- */
 :root {
   --bg:#ffffff;
   --fg:#000000;
   --muted:#545454;
-  --link:#fefefe;
-  --card:#ffffff;
   --border:#e6e6e6;
-  --maxw:1100px;
-  --lb-title: #a0a0a0;
-  --lb-altTitle: #ffffff;
-  --lb-mats: #ffffff;
-  --lb-desc: #ffffff;
 }
 
-.lb-panel h4#lb-title{ color: var(--lb-title); }
-.lb-panel h4#lb-title.is-alt{ color: var(--lb-altTitle); }
-
-.lb-meta dt{ color: var(--lb-mats-label); }
-.lb-meta dd#lb-mats{ color: var(--lb-mats); }
-
-#lb-desc{ color: var(--lb-desc); }
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin:0;
-  font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+  font-family: 'Lato', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
   color:var(--fg);
   background:var(--bg);
   display:flex;
   flex-direction:column;
   min-height:100vh;
 }
+
 main { flex:1; }
-a { color:var(--link); text-decoration:none }
-a:hover { text-decoration:underline }
-
-.wrap {
-  max-width:var(--maxw);
-  margin:0 auto;
-  padding:0 20px;
-}
-
-header .wrap, footer .wrap { margin: 0 auto; }
-main.wrap { 
-  margin-left: 0; 
-  margin-right: 0; 
-  max-width: 100%;
-  padding: 0;
-}
-
-.left-section { max-width: 100%; margin: 0; padding: 0 20px; }
 
 header {
-  position:sticky; top:0; z-index:50;
+  position:sticky; 
+  top:0; 
+  z-index:50;
   background:rgb(255, 255, 255);
   backdrop-filter:blur(8px);
   border-bottom:1px solid var(--border);
+  padding: 20px;
 }
 
-.h-inner { display:flex; align-items:center; justify-content:space-between; height:64px; }
-nav a { color:inherit; margin-left:16px; padding:8px 10px; border-radius:10px; }
-nav a:hover { background:var(--border); text-decoration:none; }
-section { padding:40px 0; scroll-margin-top:80px; }
-h2 { font-size:26px; margin:0 0 16px }
-h3 { margin:20px 0 8px; font-size:20px }
-img { max-width:100%; border-radius:8px; margin-bottom:12px }
-
-header .wrap {
-  margin: 0;           
-  max-width: none;     
-  padding-left: 20px;  
-  padding-right: 20px;
-}
-
-header .brand {
-  text-align: left;
-}
-
-footer .wrap {
+header h1 {
   margin: 0;
-  max-width: none;
-  padding-left: 20px;
-  padding-right: 20px;
+  font-size: 18px;
+  font-weight: 500;
 }
 
-footer p {
-  text-align: left;
-}
-.section-note {
-  color: var(--muted);
-  margin: 6px 0 14px;
-  max-width: 100%;
-  font-size: 14px;
-  word-wrap: break-word;
+.portfolio-container {
+  padding: 30px;
 }
 
-.notes { border-left:2px solid var(--border); padding-left:14px; color:var(--muted) }
-footer {
-  border-top:1px solid var(--border);
-  padding:20px 0 40px;
-  color:var(--fg);
-  font-size:14px;
-  margin-top:40px;
+h2 {
+  font-size: 26px;
+  margin: 0 0 30px;
+  font-weight: 500;
 }
-footer p { margin:0; text-align:left }
 
-html, body{ overflow-x:hidden; }
-
-/* Portfolio specific styles */
+/* Grid layout for portfolio items */
 .portfolio-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 60px 50px;
-  margin: 40px 0;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 60px;
 }
 
-.project-card {
-  background: transparent;
-  border: none;
-  padding: 0;
-  transition: none;
-  min-width: 0;
+.portfolio-item {
+  position: relative;
   overflow: hidden;
-}
-
-.project-card:hover {
-  transform: none;
-}
-
-.project-card h4 {
-  margin: 0 0 8px;
-  font-size: 28px;
-  font-weight: 500;
-  word-wrap: break-word;
-}
-
-.project-card .project-meta {
-  color: var(--muted);
-  font-size: 16px;
-  margin-bottom: 20px;
-  font-weight: 400;
-  word-wrap: break-word;
-}
-
-#portfolio .project-card .gallery{
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 8px;
-  margin-top: 20px;
-  width: 100%;
-  margin-left: 0;
-  margin-right: 0;
-  padding-left: 0;
-  padding-right: 0;
-  box-sizing: border-box;
-  overflow-x: visible;
-  overflow-y: visible;
-}
-
-#portfolio .project-card .gallery::before{
-  display: none;
-}
-
-#portfolio .project-card .gallery img {
-  height: auto;
-  max-height: 200px;
-  width: auto;
-  max-width: 200px;
-  object-fit: contain;
   border-radius: 8px;
-  flex: 0 0 auto;
+  aspect-ratio: 4/3;
+  cursor: pointer;
+  transition: transform 0.3s ease;
 }
 
-#portfolio .project-card .gallery video{
-  height: auto;
-  max-height: 240px;
-  width: auto;
-  max-width: 240px;
-  object-fit: contain;
-  border-radius: 8px;
-  flex: 0 0 auto;
-}
-
-
-#portfolio .project-card .gallery img:hover {
+.portfolio-item:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
 }
 
-@media (max-width: 720px) {
-  .portfolio-grid {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
+.portfolio-item img,
+.portfolio-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 
-  #portfolio .project-card .gallery {
-    width: 100%;
-    margin-left: 0;
-    margin-right: 0;
-    justify-content: flex-start;
-    gap: 1px;
-    margin: 0;
-    padding: 0;
-    overflow-x: visible;
-    flex-wrap: wrap;
-  }
+.portfolio-item video {
+  pointer-events: none;
+}
 
-  #portfolio .project-card .gallery img,
-  #portfolio .project-card .gallery video {
-    height: clamp(100px, 15vw, 140px);
-    min-width: clamp(60px, 12vw, 100px);
-    object-fit: contain;
-  }
+/* Hover overlay */
+.item-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow-y: auto;
+}
 
-  .project-card h4 {
-    font-size: 24px;
-  }
+.portfolio-item:hover .item-overlay {
+  opacity: 1;
+}
+
+.item-overlay h3 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.item-overlay .meta {
+  color: #ccc;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.item-overlay .description {
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 /* Lightbox styles */
 .lightbox {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.9);
+  background: rgba(0,0,0,0.95);
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -284,6 +144,7 @@ html, body{ overflow-x:hidden; }
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
+  padding: 40px;
 }
 
 .lightbox.open {
@@ -293,24 +154,29 @@ html, body{ overflow-x:hidden; }
 
 .lb-wrap {
   position: relative;
-  max-width: 90vw;
-  max-height: 90vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
 }
 
 .lb-close {
   position: absolute;
-  top: -40px;
+  top: 0;
   right: 0;
   background: none;
   border: none;
   color: white;
-  font-size: 30px;
+  font-size: 40px;
   cursor: pointer;
-  z-index: 1001;
+  z-index: 1002;
+  line-height: 1;
+  padding: 10px;
+}
+
+.lb-close:hover {
+  opacity: 0.7;
 }
 
 .lb-nav {
@@ -320,267 +186,204 @@ html, body{ overflow-x:hidden; }
   background: rgba(255,255,255,0.1);
   border: none;
   color: white;
-  font-size: 30px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+  font-size: 40px;
   cursor: pointer;
+  z-index: 1001;
+  padding: 20px;
+  line-height: 1;
+  transition: background 0.3s ease;
+}
+
+.lb-nav:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.lb-prev { left: 20px; }
+.lb-next { right: 20px; }
+
+.lb-content-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+#lb-content {
+  max-width: 80vw;
+  max-height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.lb-prev { left: -60px; }
-.lb-next { right: -60px; }
-
-#lb-img {
-  max-width: 60vw;
+#lb-content img,
+#lb-content video {
+  max-width: 100%;
   max-height: 80vh;
   border-radius: 8px;
+  object-fit: contain;
 }
 
-.lb-panel {
-  max-width: 300px;
+#lb-content video {
+  display: block;
+}
+
+.lb-counter {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   color: white;
-  padding: 20px;
+  font-size: 14px;
+  background: rgba(0,0,0,0.5);
+  padding: 8px 16px;
+  border-radius: 20px;
 }
 
-.lb-panel h4 {
-  margin: 0 0 10px;
-  font-size: 20px;
+footer {
+  border-top:1px solid var(--border);
+  padding:20px;
+  color:var(--fg);
+  font-size:14px;
 }
 
-.lb-meta {
-  margin: 0 0 15px;
+footer p { 
+  margin:0; 
 }
 
-.lb-meta dd {
-  margin: 0;
-  font-style: italic;
-}
+@media (max-width: 768px) {
+  .portfolio-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+  }
+  
+  .portfolio-container {
+    padding: 20px;
+  }
 
-#lb-desc {
-  line-height: 1.5;
-  margin: 0;
+  .lb-nav {
+    font-size: 30px;
+    padding: 15px;
+  }
 }
 </style>
 </head>
 <body>
   <header>
-    <div class="wrap h-inner">
-      <div class="brand">Noa Narisawa</div>
-    </div>
+    <h1>Noa Narisawa</h1>
   </header>
 
-  <main class="wrap">
-    <section id="portfolio" class="left-section">
+  <main>
+    <div class="portfolio-container">
       <h2>Works</h2>
-      <p class="section-note"></p>
-
+      
       <div class="portfolio-grid">
-      <div class="project-card">
-        <h4>Plot for the plotter</h4>
-                <div class="project-meta">September 2025 / Multimedia Installation (Bantam nextdraw Pen Plotter, processing) <p></p></div>
-        <p class="section-note"> I made a walking track for the plotter. I made the plotter walk, generating a walking path for the plotter in real time. From the initial script I wrote in Processing, I asked 
-        claude to translate from Java to Python. I added several variables to track the walk, such as distance in pixels, duration time in seconds, motor usage, the density of lines, etc. The walk will be executed in rounds while each rounds
-        will have diifferent tendencies in randomness that I have applied to the walk. Such variables are visualized in real time. I used white pencil on white paper, which makes us difficult to see the traces of walk by the plotter. I made this 
-        choice in order for the viewers to focus on the internal argorithms of the plotter for it to walk. I stayed away from humanizing the plotter to highlight the plotter's inner complexity without emotion or consciousness.
-        </p>
-        <div class="gallery">
-          <video class="expandable" loop playsinline controls preload="metadata">
-            <source src="https://github.com/narisawanoa/portfolio/releases/download/media-v1/plotter.mp4" type="video/mp4" />
+        <!-- Plot for the plotter -->
+        <div class="portfolio-item" data-project="plotter">
+          <video autoplay loop muted playsinline>
+            <source src="https://github.com/narisawanoa/portfolio/releases/download/media-v1/plotter.mp4" type="video/mp4">
           </video>
-          <video class="expandable" loop playsinline controls preload="metadata">
-            <source src="https://github.com/narisawanoa/portfolio/releases/download/media-v1/sr9_24_1.mp4" type="video/mp4" />
+          <div class="item-overlay">
+            <h3>Plot for the plotter</h3>
+            <div class="meta">September 2025 / Multimedia Installation</div>
+            <div class="description">I made a walking track for the plotter, generating a walking path in real time. I added several variables to track the walk, such as distance in pixels, duration time in seconds, motor usage, and the density of lines. I used white pencil on white paper to focus viewers on the internal algorithms of the plotter for it to walk.</div>
+          </div>
+        </div>
+
+        <!-- In communication with an unknown Entity -->
+        <div class="portfolio-item" data-project="forest">
+          <video autoplay loop muted playsinline>
+            <source src="https://github.com/narisawanoa/portfolio/releases/download/media-v1/forest1.mp4" type="video/mp4">
           </video>
-          <video class="expandable" loop playsinline controls preload="metadata">
-            <source src="https://github.com/narisawanoa/portfolio/releases/download/media-v1/plotter9_24com_1.mp4" type="video/mp4" />
+          <div class="item-overlay">
+            <h3>In communication with an unknown Entity</h3>
+            <div class="meta">May 2025 / Multimedia Installation</div>
+            <div class="description">An interactive software where the viewer could reflect responses to carry out conversation with the forest. I translated the software into physical installation by making an object that can receive signals from the classroom and responds to them.</div>
+          </div>
+        </div>
+
+        <!-- No more understanding of the world -->
+        <div class="portfolio-item" data-project="sky">
+          <video autoplay loop muted playsinline>
+            <source src="https://github.com/narisawanoa/portfolio/releases/download/media-v1/beach.mp4" type="video/mp4">
           </video>
+          <div class="item-overlay">
+            <h3>No more understanding of the world</h3>
+            <div class="meta">April 2025 / Multimedia Installation</div>
+            <div class="description">A live projection of the sky recording on site. The sky is divided by invisible borders that can easily be trespassed. Yet, I am bounded on the land unable to see the other skies but my own.</div>
+          </div>
+        </div>
+
+        <!-- Mission Statement -->
+        <div class="portfolio-item" data-project="mission">
+          <video autoplay loop muted playsinline>
+            <source src="https://github.com/narisawanoa/portfolio/releases/download/media-v1/missionstatement.mp4" type="video/mp4">
           </video>
+          <div class="item-overlay">
+            <h3>Mission Statement</h3>
+            <div class="meta">March 2025 / Multimedia Installation</div>
+            <div class="description">A site-specific installation for RISD beach. The mission statement of RISD administration is played on repeat from a speaker inside an enclosed cube, filtered by the cube and the traffic noise surrounding the institution.</div>
+          </div>
+        </div>
+
+        <!-- Coffin -->
+        <div class="portfolio-item" data-project="coffin">
+          <img src="images/grave0.jpg" alt="coffin">
+          <div class="item-overlay">
+            <h3>Coffin, design and installation</h3>
+            <div class="meta">April 2025 / Collaborative work</div>
+            <div class="description">Wood, pencil, acrylic paint, color pencil, soil</div>
+          </div>
+        </div>
+
+        <!-- Light in the colony -->
+        <div class="portfolio-item" data-project="light">
+          <img src="images/light1.jpg" alt="light sculpture">
+          <div class="item-overlay">
+            <h3>Light in the colony</h3>
+            <div class="meta">May 2025</div>
+            <div class="description">Wire, rice paper, reed</div>
+          </div>
+        </div>
+
+        <!-- Hole in the colony -->
+        <div class="portfolio-item" data-project="hole">
+          <img src="images/colony.jpg" alt="colony">
+          <div class="item-overlay">
+            <h3>Hole in the colony</h3>
+            <div class="meta">April 2025</div>
+            <div class="description">Wire, rice paper, reed, wood</div>
+          </div>
+        </div>
+
+        <!-- Tide -->
+        <div class="portfolio-item" data-project="tide">
+          <img src="images/paper.jpeg" alt="paper">
+          <div class="item-overlay">
+            <h3>Tide</h3>
+            <div class="meta">March 2025</div>
+            <div class="description">Bristol paper - Paper construction of water.</div>
+          </div>
         </div>
       </div>
-
-      <div class="project-card">
-        <h4>In communication with an unknown Entity</h4>
-        <div class="project-meta">May 2025 / Multimedia Installation (plexi glass, mirror panel, arduino, processing) <p>This is a project that derived from an interactive software I made, in which the viewer could relect responses to carry out conversatioin with the forest. I then translated the software into physical installation with softwares by making an object that can receive signals from the classroom and responds to them. The objects were places in the distant forest, far from the classroom. The box in the classroom is a replica of the object placed in the classroom.</p></div>
-        <div class="gallery"> 
-          <video class="expandable" loop playsinline controls preload="metadata" data-title="forest">
-            <source src="https://github.com/narisawanoa/portfolio/releases/download/media-v1/forest1.mp4" type="video/mp4" />
-          </video>
-          <video class="expandable" loop playsinline controls preload="metadata" data-title="forest">
-            <source src="https://github.com/narisawanoa/portfolio/releases/download/media-v1/forest2.mp4" type="video/mp4" />
-          </video>
-
-          <img src="images/forestphoto.jpeg" alt="forest"
-          data-description="still image of the installation">
-          <img src="images/forestphoto2.jpeg" alt="forest"
-          data-description="still image of the installation">
-        </div>
-      </div>
-
-      <div class="project-card">
-        <h4>No more understanding of the world (Live recording and projection of the sky)</h4>
-        <div class="project-meta">April 2025 / Multimedia Installation <p>This is a live projection of the sky that is recording live on site. The sky is something that is devided by invisible borders that can easily be trespassed. Yet, I am bounded on the land unable to see the other skys but my own as I have no means to escape my own sky, that is, political, economical, and personal situations that bound me to this place.</p></div>
-        <div class="gallery"> 
-          <video class="expandable" loop playsinline controls preload="metadata" data-title="no more understanding of the world">
-            <source src="https://github.com/narisawanoa/portfolio/releases/download/media-v1/beach.mp4" type="video/mp4" />
-          </video>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <h4>Mission Statement</h4>
-        <div class="project-meta">March 2025 / Multimedia Installation <p>This is a site specific installation I made for RISD beach. The mission statement of RISD administratioin is played on repeat from a speaker inside an enclosed cube. RISD beach was chosen as a site that symbolizes the institution where students gather. The mission statement played from the speaker is flitered by the cube that represents the institution and the traffic noise surrounding the institution.</p></div>
-        <div class="gallery">
-          <video class="expandable" loop playsinline controls preload="metadata"
-                data-title="Mission Statement"
-                data-materials="Video installation, 3 minutes"
-                data-description="This is a site specific installation I made for RISD beach. The mission statement of RISD administration is played on repeat from a speaker inside an enclosed cube.">
-            <source src="https://github.com/narisawanoa/portfolio/releases/download/media-v1/missionstatement.mp4" type="video/mp4" />
-          </video>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <h4>Coffin, design and installation</h4>
-        <div class="project-meta">April 2025 / (collaborative work : Drawing by Constance Wang on the left)</div>
-        <div class="gallery">
-          <img src="images/grave0.jpeg" alt="coffin"
-                data-title="coffin" data-materials="Wood, pencil, aclyric painit, color pencil, soil"
-                data-description="coffin installation">
-          <img src="images/grave.jpeg" alt="coffin"
-                data-title="coffin" data-materials="Wood, pencil, aclyric painit, color pencil, soil"
-                data-description="coffin installation">
-          <img src="images/grave2.jpeg" alt="coffin"
-                data-title="coffin" data-materials="Wood, pencil, aclyric painit, color pencil, soil"
-                data-description="coffin installation">
-          <img src="images/grave3.jpeg" alt="coffin"
-                data-title="coffin" data-materials="Wood, pencil, aclyric painit, color pencil, soil"
-                data-description="coffin installation">
-        </div>
-      </div>
-
-      <div class="project-card">
-        <h4>Light in the colony</h4>
-        <div class="project-meta">May 2025</div>
-        <div class="gallery">
-          <img src="images/light1.jpg" alt="colony"
-                data-title="Light Sculpture" data-materials="Wire, rice paper, reed"
-                data-description="">
-          <img src="images/light2.jpg" alt="colony"
-                data-title="Light Sculpture" data-materials="Wire, rice paper, reed"
-                data-description="">
-          <img src="images/light3.jpg" alt="colony"
-                data-title="Light Sculpture" data-materials="Wire, rice paper, reed"
-                data-description="">
-        </div>
-      </div>
-
-      <div class="project-card">
-        <h4>Hole in the colony</h4>
-        <div class="project-meta">April 2025</div>
-        <div class="gallery">
-          <img src="images/colony.jpg" alt="colony"
-                data-title="Hole in the colony" data-materials="Wire, rice paper, reed, wood"
-                data-description="">
-          <img src="images/colony2.jpg" alt="colony"
-                data-title="Self Portrait" data-materials="Wire, rice paper, reed, wood"
-                data-description="">
-          <img src="images/colony3.jpg" alt="colony"
-                data-title="Self Portrait" data-materials="Wire, rice paper, reed, wood"
-                data-description="">
-          <img src="images/colony4.jpg" alt="colony"
-                data-title="Self Portrait" data-materials="Wire, rice paper, reed, wood"
-                data-description="">
-        </div>
-      </div>
-
-      <div class="project-card">
-        <h4>Tide</h4>
-        <div class="project-meta">March 2025</div>
-        <div class="gallery">
-          <img src="images/paper1.jpeg" alt="Bristol paper"
-                data-title="Paper" data-materials="Bristol paper"
-                data-description="Paper construction of water.">
-          <img src="images/paper.jpeg" alt="Bristol paper"
-                data-title="Paper" data-materials="Bristol paper"
-                data-description="Paper construction of water.">
-          <img src="images/paper4.jpeg" alt="Bristol paper"
-                data-title="Paper" data-materials="Bristol paper"
-                data-description="Paper construction of water.">
-          <img src="images/paper3.jpeg" alt="Bristol paper"
-                data-title="Paper" data-materials="Bristol paper"
-                data-description="Paper construction of water.">
-        </div>
-      </div>
-
-      <div class="project-card">
-        <h4>Observational Paintings</h4>
-        <div class="project-meta">January 2025</div>
-        <div class="gallery">
-          <img src="images/painting1.jpg" alt="Observational Painting 1"
-                data-title="Observational Painting 1" data-materials="9 × 11 inches, oil on canvas"
-                data-description="Surface of water, light reflection, and shadow.">
-          <img src="images/painting2.jpg" alt="Observational Painting 2"
-                data-title="Observational Painting 2" data-materials="9 × 11 inches, oil on canvas"
-                data-description="Surface of water, light reflection, and shadow.">
-          <img src="images/painting3.jpg" alt="Observational Painting 3"
-                data-title="Observational Painting 3" data-materials="16 × 20 inches, oil on masonite"
-                data-description="Featuring a wood sculpture made by my friend.">
-          <img src="images/painting4.jpg" alt="Observational Painting 4"
-                data-title="Observational Painting 4" data-materials="14 × 20 inches, oil on canvas"
-                data-description="life model">
-          <img src="images/painting5.jpg" alt="Observational Painting 5"
-                data-title="Observational Painting 5" data-materials="16 × 20 inches, oil on masonite"
-                data-description="Pomelos from California.">
-        </div>
-      </div>
-
-      <div class="project-card">
-        <h4>Observational Sculptures</h4>
-        <div class="project-meta">May 2024 - September 2025</div>
-        <div class="gallery">
-          <img src="images/face3.HEIC" alt="Self Portrait"
-                data-title="Self Portrait" data-materials="clay"
-                data-description="Self Portrait">
-          <img src="images/face1.HEIC" alt="Self Portrait"
-                data-title="Self Portrait" data-materials="clay"
-                data-description="Self Portrait.">
-          <img src="images/face2.HEIC" alt="Self Portrait"
-                data-title="Self Portrait" data-materials="clay"
-                data-description="Self Portrait">
-          <img src="images/bike1.JPG" alt="Bike"
-                data-title="Tricyle from memory" data-materials="wire"
-                data-description="Tricyle from memory">
-          <img src="images/bike2.JPG" alt="Bike"
-                data-title="Tricyle from memory" data-materials="wire"
-                data-description="Tricyle from memory">
-        </div>  
-      </div>
-      </div>
-    </section>
+    </div>
   </main>
 
   <footer>
-    <div class="wrap">
-      <p>© <span id="y"></span> Noa Narisawa</p>
-    </div>
+    <p>© <span id="y"></span> Noa Narisawa</p>
   </footer>
 
   <!-- Lightbox -->
-  <div id="lightbox" class="lightbox" aria-hidden="true">
-    <div class="lb-wrap" role="dialog" aria-modal="true">
-      <button class="lb-close" aria-label="Close">×</button>
-      <button class="lb-nav lb-prev" aria-label="Previous">‹</button>
-      <img id="lb-img" src="" alt="">
-      <button class="lb-nav lb-next" aria-label="Next">›</button>
-      <aside id="lb-panel" class="lb-panel">
-        <h4 id="lb-title"></h4>
-        <dl class="lb-meta">
-          <dd id="lb-mats"></dd>
-        </dl>
-        <p id="lb-desc"></p>
-      </aside>
+  <div id="lightbox" class="lightbox">
+    <div class="lb-wrap">
+      <button class="lb-close">×</button>
+      <button class="lb-nav lb-prev">‹</button>
+      <div class="lb-content-wrap">
+        <div id="lb-content"></div>
+      </div>
+      <button class="lb-nav lb-next">›</button>
+      <div class="lb-counter"></div>
     </div>
   </div>
 
@@ -589,161 +392,132 @@ html, body{ overflow-x:hidden; }
 const yEl = document.getElementById('y');
 if (yEl) yEl.textContent = new Date().getFullYear();
 
+/* Project galleries data */
+const projects = {
+  plotter: [
+    { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/plotter.mp4' },
+    { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/sr9_24_1.mp4' },
+    { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/plotter9_24com_1.mp4' }
+  ],
+  forest: [
+    { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/forest1.mp4' },
+    { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/forest2.mp4' },
+    { type: 'image', src: 'images/forestphoto.jpeg' },
+    { type: 'image', src: 'images/forestphoto2.jpeg' }
+  ],
+  sky: [
+    { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/beach.mp4' }
+  ],
+  mission: [
+    { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/missionstatement.mp4' }
+  ],
+  coffin: [
+    { type: 'image', src: 'images/grave0.jpg' },
+    { type: 'image', src: 'images/grave.jpeg' },
+    { type: 'image', src: 'images/grave2.jpeg' },
+    { type: 'image', src: 'images/grave3.jpeg' }
+  ],
+  light: [
+    { type: 'image', src: 'images/light1.jpg' },
+    { type: 'image', src: 'images/light2.jpg' },
+    { type: 'image', src: 'images/light3.jpg' }
+  ],
+  hole: [
+    { type: 'image', src: 'images/colony.jpg' },
+    { type: 'image', src: 'images/colony2.jpg' },
+    { type: 'image', src: 'images/colony3.jpg' },
+    { type: 'image', src: 'images/colony4.jpg' }
+  ],
+  tide: [
+    { type: 'image', src: 'images/paper.jpeg' },
+    { type: 'image', src: 'images/paper1.jpeg' },
+    { type: 'image', src: 'images/paper4.jpeg' },
+    { type: 'image', src: 'images/paper3.jpeg' }
+  ]
+};
+
 /* Lightbox */
-const lightbox   = document.getElementById('lightbox');
-const lbImg      = document.getElementById('lb-img');
-const lbPanel    = document.getElementById('lb-panel');
-const lbTitle    = document.getElementById('lb-title');
-const lbMats     = document.getElementById('lb-mats');
-const lbDesc     = document.getElementById('lb-desc');
-const lbCloseBtn = document.querySelector('.lb-close');
-const lbPrev     = document.querySelector('.lb-prev');
-const lbNext     = document.querySelector('.lb-next');
-const lbWrap     = document.querySelector('.lb-wrap');
+const lightbox = document.getElementById('lightbox');
+const lbContent = document.getElementById('lb-content');
+const lbClose = document.querySelector('.lb-close');
+const lbPrev = document.querySelector('.lb-prev');
+const lbNext = document.querySelector('.lb-next');
+const lbCounter = document.querySelector('.lb-counter');
 
-let currentGallery = [];
-let currentIndex   = 0;
+let currentProject = null;
+let currentIndex = 0;
 
-function fillPanelFrom(imgEl){
-  lbTitle.textContent = imgEl.dataset.title || imgEl.alt || '';
-  lbMats.textContent  = imgEl.dataset.materials || '';
-  lbDesc.textContent  = imgEl.dataset.description || '';
-  lbPanel.classList.toggle('left', (imgEl.dataset.side || '').toLowerCase() === 'left');
-}
-
-function showAt(index){
-  if (!currentGallery.length) return;
-  currentIndex = (index + currentGallery.length) % currentGallery.length;
-  const imgEl = currentGallery[currentIndex];
-
-  lbImg.src = imgEl.src;
-  lbImg.alt = imgEl.alt || '';
-
-  const hasMeta = !!(imgEl.dataset.title || imgEl.dataset.materials || imgEl.dataset.description);
-  if (!hasMeta){
-    lbPanel.style.display = 'none';
-    lbTitle.textContent = lbMats.textContent = lbDesc.textContent = '';
-    lbWrap.style.justifyContent = 'center';
-    lbImg.style.maxWidth = '90vw';
-    lbImg.style.maxHeight = '80vh';
+function showMedia(index) {
+  if (!currentProject) return;
+  
+  const gallery = projects[currentProject];
+  currentIndex = (index + gallery.length) % gallery.length;
+  const item = gallery[currentIndex];
+  
+  lbContent.innerHTML = '';
+  
+  if (item.type === 'video') {
+    const video = document.createElement('video');
+    video.src = item.src;
+    video.controls = true;
+    video.autoplay = true;
+    video.playsInline = true;
+    lbContent.appendChild(video);
   } else {
-    lbPanel.style.display = '';
-    lbWrap.style.justifyContent = '';
-    lbImg.style.maxWidth = '';
-    lbImg.style.maxHeight = '';
-    fillPanelFrom(imgEl);
+    const img = document.createElement('img');
+    img.src = item.src;
+    lbContent.appendChild(img);
   }
-}
-
-function openMedia(el){
-  /* reset */
-  const oldVid = document.getElementById('lb-video');
-  if (oldVid) oldVid.remove();
-  lbImg.style.display = '';
-  lbPanel.style.display = '';
-  lbPrev.style.display = '';
-  lbNext.style.display = '';
-
-  lightbox.classList.add('open');
-  lightbox.setAttribute('aria-hidden','false');
-  document.body.style.overflow = 'hidden';
-
-  const isImg = el.tagName.toLowerCase() === 'img';
-  const inGallery = !!el.closest('.gallery');
-
-  if (isImg){
-    lbImg.src = el.src;
-    lbImg.alt = el.alt || '';
-
-    const hasMeta = !!(el.dataset.title || el.dataset.materials || el.dataset.description);
-    if (!hasMeta){
-      lbPanel.style.display = 'none';
-      lbTitle.textContent = lbMats.textContent = lbDesc.textContent = '';
-      lbWrap.style.justifyContent = 'center';
-      lbImg.style.maxWidth = '90vw';
-      lbImg.style.maxHeight = '80vh';
-      lbPrev.style.display = 'none';
-      lbNext.style.display = 'none';
-    } else {
-      lbPanel.style.display = '';
-      lbWrap.style.justifyContent = '';
-      lbImg.style.maxWidth = '';
-      lbImg.style.maxHeight = '';
-      fillPanelFrom(el);
-    }
-
-    if (!inGallery){ lbPrev.style.display = 'none'; lbNext.style.display = 'none'; }
-
-    if (inGallery){
-      currentGallery = Array.from(el.closest('.gallery').querySelectorAll('img'));
-      currentIndex = currentGallery.indexOf(el);
-    } else {
-      currentGallery = [el];
-      currentIndex = 0;
-    }
-  } else {
-    /* VIDEO enlarged */
-    lbImg.src = '';
-    lbImg.style.display = 'none';
+  
+  lbCounter.textContent = `${currentIndex + 1} / ${gallery.length}`;
+  
+  // Show/hide nav buttons for single item galleries
+  if (gallery.length === 1) {
     lbPrev.style.display = 'none';
     lbNext.style.display = 'none';
-
-    const inPortfolio = !!el.closest('#portfolio');
-    const hasMeta = !!(el.dataset.title || el.dataset.materials || el.dataset.description);
-    
-    if (inPortfolio && hasMeta) {
-      lbPanel.style.display = '';
-      fillPanelFrom(el);
-    } else {
-      lbPanel.style.display = 'none';
-    }
-
-    const vid = document.createElement('video');
-    vid.id = 'lb-video';
-    const source = el.querySelector && el.querySelector('source');
-    vid.src = source ? source.src : (el.currentSrc || el.src);
-    vid.controls = true;
-    vid.autoplay = true;
-    vid.playsInline = true;
-    vid.style.maxWidth = '92vw';
-    vid.style.maxHeight = '86vh';
-    vid.style.borderRadius = '8px';
-    lbWrap.appendChild(vid);
-
-    currentGallery = [];
-    currentIndex = 0;
+  } else {
+    lbPrev.style.display = 'block';
+    lbNext.style.display = 'block';
   }
 }
 
-document.addEventListener('click', (e) => {
-  const media = e.target.closest('.gallery img, img.expandable, video.expandable');
-  if (media) { openMedia(media); return; }
+document.querySelectorAll('.portfolio-item').forEach(item => {
+  item.addEventListener('click', () => {
+    currentProject = item.dataset.project;
+    currentIndex = 0;
+    showMedia(0);
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+  lbContent.innerHTML = '';
+  currentProject = null;
+}
+
+lbClose.addEventListener('click', closeLightbox);
+lbPrev.addEventListener('click', (e) => {
+  e.stopPropagation();
+  showMedia(currentIndex - 1);
+});
+lbNext.addEventListener('click', (e) => {
+  e.stopPropagation();
+  showMedia(currentIndex + 1);
+});
+
+lightbox.addEventListener('click', (e) => {
   if (e.target === lightbox) closeLightbox();
 });
 
-lbCloseBtn.addEventListener('click', closeLightbox);
-lbPrev.addEventListener('click', (e)=>{ e.stopPropagation(); showAt(currentIndex - 1); });
-lbNext.addEventListener('click', (e)=>{ e.stopPropagation(); showAt(currentIndex + 1); });
-
-function closeLightbox(){
-  lightbox.classList.remove('open');
-  lightbox.setAttribute('aria-hidden','true');
-  lbImg.src = '';
-  lbImg.style.display = '';
-  lbTitle.textContent = lbMats.textContent = lbDesc.textContent = '';
-  lbWrap.style.justifyContent = '';
-  lbImg.style.maxWidth = '';
-  lbImg.style.maxHeight = '';
-  document.body.style.overflow = '';
-  currentGallery = [];
-  currentIndex   = 0;
-}
-
 window.addEventListener('keydown', (e) => {
   if (!lightbox.classList.contains('open')) return;
+  
   if (e.key === 'Escape') closeLightbox();
-  if (e.key === 'ArrowLeft')  showAt(currentIndex - 1);
-  if (e.key === 'ArrowRight') showAt(currentIndex + 1);
+  if (e.key === 'ArrowLeft') showMedia(currentIndex - 1);
+  if (e.key === 'ArrowRight') showMedia(currentIndex + 1);
 });
   </script>
 </body>
