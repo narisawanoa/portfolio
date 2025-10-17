@@ -50,6 +50,25 @@ header h1 {
   font-weight: 500;
 }
 
+header nav {
+  margin-top: 15px;
+  display: flex;
+  gap: 20px;
+}
+
+header nav a {
+  color: var(--fg);
+  text-decoration: none;
+  padding-bottom: 5px;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+header nav a:hover,
+header nav a.active {
+  border-bottom-color: var(--fg);
+}
+
 .portfolio-container {
   padding: 30px;
 }
@@ -58,6 +77,15 @@ h2 {
   font-size: 26px;
   margin: 0 0 30px;
   font-weight: 500;
+}
+
+/* Tab content */
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
 }
 
 /* Grid layout for portfolio items */
@@ -130,6 +158,40 @@ h2 {
 .item-overlay .description {
   font-size: 14px;
   line-height: 1.5;
+}
+
+/* Profile styles */
+.profile-section {
+  margin-bottom: 50px;
+}
+
+.profile-section h3 {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0 0 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.profile-item {
+  margin-bottom: 30px;
+}
+
+.profile-title {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.profile-meta {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.profile-description {
+  line-height: 1.6;
+  color: var(--fg);
 }
 
 /* Lightbox styles */
@@ -272,98 +334,159 @@ footer p {
 <body>
   <header>
     <h1>Noa Narisawa</h1>
+    <nav>
+      <a href="#works" class="tab-link active" data-tab="works">Works</a>
+      <a href="#profile" class="tab-link" data-tab="profile">Profile</a>
+    </nav>
   </header>
 
   <main>
-    <div class="portfolio-container">
-      <h2>Works</h2>
-      
-      <div class="portfolio-grid">
-        <!-- Plot for the plotter -->
-        <div class="portfolio-item" data-project="plotter">
-          <video autoplay loop muted playsinline>
-            <source src="https://github.com/narisawanoa/portfolio/releases/download/media-v1/plotter.mp4" type="video/mp4">
-          </video>
-          <div class="item-overlay">
-            <h3>Plot for the plotter</h3>
-            <div class="meta">September 2025 / Multimedia Installation</div>
-            <div class="description">I made a walking track for the plotter, generating a walking path in real time. I added several variables to track the walk, such as distance in pixels, duration time in seconds, motor usage, and the density of lines. I used white pencil on white paper to focus viewers on the internal algorithms of the plotter for it to walk.</div>
+    <div id="works" class="tab-content active">
+      <div class="portfolio-container">
+        <h2>Works</h2>
+        
+        <div class="portfolio-grid">
+          <!-- Plot for the plotter -->
+          <div class="portfolio-item" data-project="plotter">
+            <video autoplay loop muted playsinline>
+              <source src="https://github.com/narisawanoa/portfolio/releases/download/media-v1/plotter.mp4" type="video/mp4">
+            </video>
+            <div class="item-overlay">
+              <h3>Plot for the plotter</h3>
+              <div class="meta">September 2025 / Multimedia Installation</div>
+              <div class="description">I made a walking track for the plotter, generating a walking path in real time. I added several variables to track the walk, such as distance in pixels, duration time in seconds, motor usage, and the density of lines. I used white pencil on white paper to focus viewers on the internal algorithms of the plotter for it to walk.</div>
+            </div>
+          </div>
+
+          <!-- In communication with an unknown Entity -->
+          <div class="portfolio-item" data-project="forest">
+            <video autoplay loop muted playsinline>
+              <source src="https://github.com/narisawanoa/portfolio/releases/download/media-v1/forest1.mp4" type="video/mp4">
+            </video>
+            <div class="item-overlay">
+              <h3>In communication with an unknown Entity</h3>
+              <div class="meta">May 2025 / Multimedia Installation</div>
+              <div class="description">An interactive software where the viewer could reflect responses to carry out conversation with the forest. I translated the software into physical installation by making an object that can receive signals from the classroom and responds to them.</div>
+            </div>
+          </div>
+
+          <!-- No more understanding of the world -->
+          <div class="portfolio-item" data-project="sky">
+            <video autoplay loop muted playsinline>
+              <source src="https://github.com/narisawanoa/portfolio/releases/download/media-v1/beach.mp4" type="video/mp4">
+            </video>
+            <div class="item-overlay">
+              <h3>No more understanding of the world (Live recording and projection of the sky)</h3>
+              <div class="meta">April 2025 / Multimedia Installation</div>
+              <div class="description">A live projection of the sky recording on site. The sky is divided by invisible borders that can easily be trespassed. Yet, I am bounded on the land unable to see the other skies but my own.</div>
+            </div>
+          </div>
+
+          <!-- Mission Statement -->
+          <div class="portfolio-item" data-project="mission">
+            <video autoplay loop muted playsinline>
+              <source src="https://github.com/narisawanoa/portfolio/releases/download/media-v1/missionstatement.mp4" type="video/mp4">
+            </video>
+            <div class="item-overlay">
+              <h3>Mission Statement</h3>
+              <div class="meta">March 2025 / Multimedia Installation</div>
+              <div class="description">A site-specific installation for RISD beach. The mission statement of RISD administration is played on repeat from a speaker inside an enclosed cube, filtered by the cube and the traffic noise surrounding the institution.</div>
+            </div>
+          </div>
+
+          <!-- Coffin -->
+          <div class="portfolio-item" data-project="coffin">
+            <img src="images/grave0.jpg" alt="coffin">
+            <div class="item-overlay">
+              <h3>Coffin, design and installation: Us As A Witness</h3>
+              <div class="meta">April 2025 / Collaborative work</div>
+              <div class="description">Wood, pencil, acrylic paint, color pencil, soil. In the drawing studio in my foundation year at college, I observed the act of drawing as an ephemeral way of recording my time and existence. In collaboration with a classmate, we have designed a coffin for each other, incorporating the found objects around the campus such as soil and seashells. The drawings were then burned after the installation.</div>
+            </div>
+          </div>
+
+          <!-- Light in the colony -->
+          <div class="portfolio-item" data-project="light">
+            <img src="images/light1.jpg" alt="light sculpture">
+            <div class="item-overlay">
+              <h3>Light in the colony</h3>
+              <div class="meta">May 2025 / Wire, rice paper, reed</div>
+              <div class="description">In continuation from the hole in the colony sculpture, I put a light source inside the colonial structure/architecture to cast light and shadow through the transparency of the rice paper. Similar to the previous sculpture, the rice paper was used to stretch over and connect the reed structures and create holes that could allow the light to pass through.</div>
+            </div>
+          </div>
+
+          <!-- Hole in the colony -->
+          <div class="portfolio-item" data-project="hole">
+            <img src="images/colony.jpg" alt="colony">
+            <div class="item-overlay">
+              <h3>Hole in the colony</h3>
+              <div class="meta">April 2025 / Wire, rice paper, reed, wood</div>
+              <div class="description">From the architectural structures that I observed in NYC, I analyzed their form and scaffolding to create a sculpture that represents a living colony gathering in the architecture. The rice paper used to stretch and connect the linear reed structures dries out and begins to crack after some time, creating a nervousness and tension around it.
+</div>
+            </div>
+          </div>
+
+          <!-- Tide -->
+          <div class="portfolio-item" data-project="tide">
+            <img src="images/paper.jpeg" alt="paper">
+            <div class="item-overlay">
+              <h3>Tide</h3>
+              <div class="meta">March 2025 / Bristol paper</div>
+              <div class="description">Paper construction of water from 2D to 3D.</div>
+            </div>
+          </div>
+
+          <!-- Head -->
+          <div class="portfolio-item" data-project="head">
+            <img src="images/face1.jpg" alt="head sculpture">
+            <div class="item-overlay">
+              <h3>Head</h3>
+              <div class="meta">June 2024 / Clay</div>
+              <div class="description">Self Portrait. I carved through the surface of clay to remember my own face. My interest in sculpture began with the sense of touch and creation of space that allowed me to see myself and my own experience inside it. This is a self-portrait in three-dimensional space, capturing my experience of carving out my own head.  </div>
+            </div>
+          </div>
+
+          <!-- Hand -->
+          <div class="portfolio-item" data-project="hand">  
+            <img src="images/hand1.JPG" alt="hand sculpture">
+            <div class="item-overlay">
+              <h3>Hand (and sketch of a hand)</h3>
+              <div class="meta">June 2024 / Clay, charcoal on paper</div>
+              <div class="description"></div>
+            </div>
+          </div>  
+        </div>
+      </div>
+    </div>
+
+    <div id="profile" class="tab-content">
+      <div class="portfolio-container">
+        <h2>Profile</h2>
+
+        <div class="profile-section">
+          <h3>Resume</h3>
+          <div class="profile-item">
+            <div class="profile-meta"><a href="images/Resume10_16.pdf" download>My Resume</a></div>
+            <div class="profile-description">
+            </div>
           </div>
         </div>
 
-        <!-- In communication with an unknown Entity -->
-        <div class="portfolio-item" data-project="forest">
-          <video autoplay loop muted playsinline>
-            <source src="https://github.com/narisawanoa/portfolio/releases/download/media-v1/forest1.mp4" type="video/mp4">
-          </video>
-          <div class="item-overlay">
-            <h3>In communication with an unknown Entity</h3>
-            <div class="meta">May 2025 / Multimedia Installation</div>
-            <div class="description">An interactive software where the viewer could reflect responses to carry out conversation with the forest. I translated the software into physical installation by making an object that can receive signals from the classroom and responds to them.</div>
+        <div class="profile-section">
+          <h3>Education</h3>
+          <div class="profile-item">
+            <div class="profile-meta">Rhode Island School of Design (RISD), Providence, RI</div>
+            <div class="profile-meta">Bachelor of Fine Arts, Sculpture 2028 </div>
+            <div class="profile-description">
+            </div>
           </div>
         </div>
 
-        <!-- No more understanding of the world -->
-        <div class="portfolio-item" data-project="sky">
-          <video autoplay loop muted playsinline>
-            <source src="https://github.com/narisawanoa/portfolio/releases/download/media-v1/beach.mp4" type="video/mp4">
-          </video>
-          <div class="item-overlay">
-            <h3>No more understanding of the world</h3>
-            <div class="meta">April 2025 / Multimedia Installation</div>
-            <div class="description">A live projection of the sky recording on site. The sky is divided by invisible borders that can easily be trespassed. Yet, I am bounded on the land unable to see the other skies but my own.</div>
-          </div>
-        </div>
-
-        <!-- Mission Statement -->
-        <div class="portfolio-item" data-project="mission">
-          <video autoplay loop muted playsinline>
-            <source src="https://github.com/narisawanoa/portfolio/releases/download/media-v1/missionstatement.mp4" type="video/mp4">
-          </video>
-          <div class="item-overlay">
-            <h3>Mission Statement</h3>
-            <div class="meta">March 2025 / Multimedia Installation</div>
-            <div class="description">A site-specific installation for RISD beach. The mission statement of RISD administration is played on repeat from a speaker inside an enclosed cube, filtered by the cube and the traffic noise surrounding the institution.</div>
-          </div>
-        </div>
-
-        <!-- Coffin -->
-        <div class="portfolio-item" data-project="coffin">
-          <img src="images/grave0.jpg" alt="coffin">
-          <div class="item-overlay">
-            <h3>Coffin, design and installation</h3>
-            <div class="meta">April 2025 / Collaborative work</div>
-            <div class="description">Wood, pencil, acrylic paint, color pencil, soil</div>
-          </div>
-        </div>
-
-        <!-- Light in the colony -->
-        <div class="portfolio-item" data-project="light">
-          <img src="images/light1.jpg" alt="light sculpture">
-          <div class="item-overlay">
-            <h3>Light in the colony</h3>
-            <div class="meta">May 2025</div>
-            <div class="description">Wire, rice paper, reed</div>
-          </div>
-        </div>
-
-        <!-- Hole in the colony -->
-        <div class="portfolio-item" data-project="hole">
-          <img src="images/colony.jpg" alt="colony">
-          <div class="item-overlay">
-            <h3>Hole in the colony</h3>
-            <div class="meta">April 2025</div>
-            <div class="description">Wire, rice paper, reed, wood</div>
-          </div>
-        </div>
-
-        <!-- Tide -->
-        <div class="portfolio-item" data-project="tide">
-          <img src="images/paper.jpeg" alt="paper">
-          <div class="item-overlay">
-            <h3>Tide</h3>
-            <div class="meta">March 2025</div>
-            <div class="description">Bristol paper - Paper construction of water.</div>
+        <div class="profile-section">
+          <h3>Contact</h3>
+          <div class="profile-item">
+            <div class="profile-description">
+              Email: nnarisaw@risd.edu<br>
+            </div>
           </div>
         </div>
       </div>
@@ -392,6 +515,41 @@ footer p {
 const yEl = document.getElementById('y');
 if (yEl) yEl.textContent = new Date().getFullYear();
 
+/* Tab switching */
+const tabLinks = document.querySelectorAll('.tab-link');
+const tabContents = document.querySelectorAll('.tab-content');
+
+tabLinks.forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const targetTab = link.dataset.tab;
+    
+    // Remove active class from all tabs and contents
+    tabLinks.forEach(l => l.classList.remove('active'));
+    tabContents.forEach(c => c.classList.remove('active'));
+    
+    // Add active class to clicked tab and corresponding content
+    link.classList.add('active');
+    document.getElementById(targetTab).classList.add('active');
+    
+    // Update URL hash
+    history.pushState(null, '', `#${targetTab}`);
+  });
+});
+
+// Handle initial hash on page load
+const hash = window.location.hash.replace('#', '');
+if (hash && document.getElementById(hash)) {
+  tabLinks.forEach(l => l.classList.remove('active'));
+  tabContents.forEach(c => c.classList.remove('active'));
+  
+  const activeLink = document.querySelector(`[data-tab="${hash}"]`);
+  if (activeLink) {
+    activeLink.classList.add('active');
+    document.getElementById(hash).classList.add('active');
+  }
+}
+
 /* Project galleries data */
 const projects = {
   plotter: [
@@ -406,7 +564,9 @@ const projects = {
     { type: 'image', src: 'images/forestphoto2.jpeg' }
   ],
   sky: [
-    { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/beach.mp4' }
+    { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/beach.mp4' },
+    { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/sky.mp4' },
+    { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/sky2.mp4' }
   ],
   mission: [
     { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/missionstatement.mp4' }
@@ -433,6 +593,19 @@ const projects = {
     { type: 'image', src: 'images/paper1.jpeg' },
     { type: 'image', src: 'images/paper4.jpeg' },
     { type: 'image', src: 'images/paper3.jpeg' }
+  ],
+  head: [
+    { type: 'image', src: 'images/face1.jpg' },
+    { type: 'image', src: 'images/face2.jpg' },
+    { type: 'image', src: 'images/face3.HEIC' }
+  ],
+
+  hand: [
+    { type: 'image', src: 'images/hand1.JPG' },
+    { type: 'image', src: 'images/hand2.jpg' },
+    { type: 'image', src: 'images/hand3.jpg' },
+    { type: 'image', src: 'images/hand4.HEIC' },
+    { type: 'image', src: 'images/hand.HEIC' }
   ]
 };
 
