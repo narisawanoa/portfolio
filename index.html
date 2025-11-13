@@ -346,6 +346,17 @@ footer p {
         <h2>Works</h2>
 
         <div class="portfolio-grid">
+         <!-- Wood -->
+          <div class="portfolio-item" data-project="wood">
+            <video autoplay loop muted playsinline>
+              <source src="https://github.com/narisawanoa/portfolio/releases/download/media-v1/wood.mov" type="video/mp4">
+            </video>
+            <div class="item-overlay">
+              <h3>How to shoot down a bird</h3>
+              <div class="meta">November 2025 / Wood, multimedia installation</div>
+              <div class="description">  </div>
+            </div>
+          </div>
 
          <!-- Metal -->
          <div class="portfolio-item" data-project="metal">
@@ -498,7 +509,7 @@ footer p {
   </main>
 
   <footer>
-    <p>© <span id="y"></span> Noa Narisawa</p>
+    <p>© <span id="y"></span> Noa Narisawa</p>.,
   </footer>
 
   <!-- Lightbox -->
@@ -556,6 +567,15 @@ if (hash && document.getElementById(hash)) {
 
 /* Project galleries data */
 const projects = {
+
+  wood: [
+    { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/wood.mov' },
+    { type: 'image', src: 'images/wood1.JPG' },
+    { type: 'image', src: 'images/wood2.jpg' },
+    { type: 'image', src: 'images/wood3.jpg' },
+    { type: 'image', src: 'images/wood4.jpg' }
+  ],
+
   metal: [
     { type: 'image', src: 'images/metal1.jpg' },
     { type: 'image', src: 'images/metal2.JPG' },
@@ -567,6 +587,7 @@ const projects = {
     { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/sr9_24_1.mp4' },
     { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/plotter9_24com_1.mp4' }
   ],
+
   forest: [
     { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/forest1.mp4' },
     { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/forest2.mp4' },
