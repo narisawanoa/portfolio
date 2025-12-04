@@ -134,7 +134,7 @@ const projects = {
   youtube: {
     title: "Why did you do that, idiot, murderer, jump",
     meta: "2025 / Video / 4:13",
-    description: "Why did you do that, idiot, murderer, jump is a caricature of the mundane through the lens of the two metaphorical dads from two different countries, one from South Korea and another from Japan. The set of composed actions shows an ambiguous mix of joy and sorrow, and the catharsis of moments in conversations, meals, and strange occurrences.",
+    description: "Why did you do that, idiot, murderer, jump is a caricature of the mundane through the lens of the two metaphorical dads. The set of composed actions shows an ambiguous mix of joy and sorrow, and the catharsis of moments in conversations, meals, and strange occurrences.",
     thumb: { type: 'youtube', src: 'b_-3fnUcD2E' },
     media: [{ type: 'youtube', src: 'b_-3fnUcD2E' }]
   },
@@ -301,7 +301,7 @@ function showProject(key) {
     if (m.type === 'youtube') {
       return `<iframe width="100%" height="400" src="https://www.youtube.com/embed/${m.src}?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
     } else if (m.type === 'video') {
-      return `<video controls><source src="${m.src}" type="video/mp4"></video>`;
+      return `<video controls preload="metadata"><source src="${m.src}" type="video/mp4"><source src="${m.src}" type="video/quicktime">Your browser does not support the video tag.</video>`;
     } else {
       return `<img src="${m.src}" alt="">`;
     }
