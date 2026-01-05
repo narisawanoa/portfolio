@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Noa Narisawa - Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
   <style>
 :root {
   --bg:#ffffff;
@@ -16,7 +17,7 @@
 * { box-sizing: border-box; }
 body {
   margin:0;
-  font-family: 'Lato', system-ui, sans-serif;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 16px;
   line-height: 1.6;
   color:var(--fg);
@@ -53,8 +54,8 @@ h2 { font-size: 26px; margin: 0 0 30px; font-weight: 500; }
 .tab-content.active { display: block; }
 .portfolio-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
   margin-bottom: 60px;
 }
 .portfolio-item {
@@ -105,12 +106,34 @@ h2 { font-size: 26px; margin: 0 0 30px; font-weight: 500; }
   border-bottom: 1px solid var(--border);
 }
 .profile-meta { color: var(--muted); font-size: 14px; margin-bottom: 10px; }
+.cursor-coords {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: monospace;
+  z-index: 100;
+  pointer-events: none;
+}
+.particle {
+  position: fixed;
+  width: 3px;
+  height: 3px;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  background: #000;
+  border-radius: 50%;
+}
 footer { border-top:1px solid var(--border); padding:20px; font-size:14px; text-align: center; }
 footer p { margin:0; }
 @media (max-width: 768px) {
   .portfolio-grid {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
   }
   .portfolio-container { padding: 20px; }
   .project-header h1 { font-size: 24px; }
@@ -127,9 +150,13 @@ footer p { margin:0; }
     </nav>
   </header>
   <main id="main-content"></main>
+  <div class="cursor-coords" id="coords">X: 0, Y: 0</div>
   <footer><p>© <span id="y"></span> Noa Narisawa</p></footer>
 
   <script>
+const installationProjects = ['youtube', 'wood', 'plotter', 'forest', 'sky', 'mission'];
+const sculptureProjects = ['woodbox', 'metal', 'light', 'hole', 'tide'];
+
 const projects = {
   youtube: {
     title: "Why did you do that, idiot, murderer, jump",
@@ -137,17 +164,6 @@ const projects = {
     description: "Why did you do that, idiot, murderer, jump is a caricature of the mundane through the lens of the two metaphorical dads —hypothetical and imaginary father figures from South Korea and Japan. The set of composed actions shows an ambiguous mix of joy and sorrow, and the catharsis of moments in conversations, meals, and strange occurrences. <br> <br> Made in collaboration with Cleo Kim.",
     thumb: { type: 'youtube', src: 'b_-3fnUcD2E' },
     media: [{ type: 'youtube', src: 'b_-3fnUcD2E' }]
-  },
-  woodbox: {
-    title: "Blue line",
-    meta: "November 2025 / Wood, steel, color pencil, graphite / 4 × 0.5 × 0.3 ft",
-    description: "Container of a headless sheep and blue",
-    thumb: { type: 'image', src: 'images/box1.jpg' },
-    media: [
-      { type: 'image', src: 'images/box1.jpg' },
-      { type: 'image', src: 'images/box3.jpg' },
-      { type: 'image', src: 'images/box4.jpg' }
-    ]
   },
   wood: {
     title: "How to shoot down a bird",
@@ -160,18 +176,6 @@ const projects = {
       { type: 'image', src: 'images/wood2.jpg' },
       { type: 'image', src: 'images/wood3.jpg' },
       { type: 'image', src: 'images/wood4.jpg' }
-    ]
-  },
-  metal: {
-    title: "The Structure",
-    meta: "October 2025 / Steel",
-    description: "I explored my physical presence in this world through creating this structure. This sculpture is an extention of my physicality and its system.<br><br>3.5 × 4 × 3 ft",
-    thumb: { type: 'image', src: 'images/metal1.jpg' },
-    media: [
-      { type: 'image', src: 'images/metal1.jpg' },
-      { type: 'image', src: 'images/metal2.JPG' },
-      { type: 'image', src: 'images/metal3.JPG' },
-      { type: 'image', src: 'images/metal5.jpg' }
     ]
   },
   plotter: {
@@ -198,7 +202,7 @@ const projects = {
     ]
   },
   sky: {
-    title: "No more understanding of the world",
+    title: "Live Recording and Projection of the Sky",
     meta: "April 2025 / Multimedia Installation",
     description: "A live projection of the sky recording on site. The sky is divided by invisible borders that can easily be trespassed. Yet, I am bounded on the land unable to see the other skies but my own.",
     thumb: { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/beach.mp4' },
@@ -215,6 +219,31 @@ const projects = {
     thumb: { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/missionstatement.mp4' },
     media: [{ type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/missionstatement.mp4' }]
   },
+  
+  woodbox: {
+    title: "Blue box",
+    meta: "November 2025 / Wood, steel, color pencil, graphite / 4 × 0.5 × 0.3 ft",
+    description: "Container of a headless sheep and blue",
+    thumb: { type: 'image', src: 'images/box2.jpg' },
+    media: [
+      { type: 'image', src: 'images/box1.jpg' },
+      { type: 'image', src: 'images/box3.jpg' },
+      { type: 'image', src: 'images/box4.jpg' }
+    ]
+  },
+  metal: {
+    title: "The Structure",
+    meta: "October 2025 / Steel",
+    description: "I explored my physical presence in this world through creating this structure. This sculpture is an extention of my physicality and its system.<br><br>3.5 × 4 × 3 ft",
+    thumb: { type: 'image', src: 'images/metal1.jpg' },
+    media: [
+      { type: 'image', src: 'images/metal1.jpg' },
+      { type: 'image', src: 'images/metal2.JPG' },
+      { type: 'image', src: 'images/metal3.JPG' },
+      { type: 'image', src: 'images/metal5.jpg' }
+    ]
+  },
+
   light: {
     title: "Light in the colony",
     meta: "May 2025 / Wire, rice paper, reed",
@@ -262,8 +291,19 @@ function renderMedia(item) {
   }
 }
 
-function showWorks() {
-  const grid = Object.keys(projects).map(key => {
+function showInstallation() {
+  const installationGrid = installationProjects.map(key => {
+    const p = projects[key];
+    return `
+      <div class="portfolio-item" onclick="showProject('${key}')">
+        <div class="portfolio-media">
+          ${renderMedia(p.thumb)}
+        </div>
+        <div class="portfolio-title"><h3>${p.title}</h3></div>
+      </div>`;
+  }).join('');
+  
+  const sculptureGrid = sculptureProjects.map(key => {
     const p = projects[key];
     return `
       <div class="portfolio-item" onclick="showProject('${key}')">
@@ -277,10 +317,22 @@ function showWorks() {
   document.getElementById('main-content').innerHTML = `
     <div class="tab-content active">
       <div class="portfolio-container">
-        <h2>Works</h2>
-        <div class="portfolio-grid">${grid}</div>
+        <h2>Installation</h2>
+        <div class="portfolio-grid">${installationGrid}</div>
+      </div>
+      <div class="portfolio-container">
+        <h2>Sculpture</h2>
+        <div class="portfolio-grid">${sculptureGrid}</div>
       </div>
     </div>`;
+}
+
+function showSculpture() {
+  showInstallation();
+}
+
+function showWorks() {
+  showInstallation();
 }
 
 function showProject(key) {
@@ -355,6 +407,133 @@ document.querySelectorAll('.nav-link').forEach(link => {
 
 document.getElementById('y').textContent = new Date().getFullYear();
 showWorks();
+
+// Particle trail animation - Bird flock behavior
+const particles = [];
+const maxParticles = 120;
+
+for (let i = 0; i < maxParticles; i++) {
+  const particle = document.createElement('div');
+  particle.className = 'particle';
+  document.body.appendChild(particle);
+  particles.push({
+    el: particle,
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    vx: (Math.random() - 0.5) * 2,
+    vy: (Math.random() - 0.5) * 2,
+    speed: 0.5 + Math.random() * 1
+  });
+}
+
+let mouseX = window.innerWidth / 2;
+let mouseY = window.innerHeight / 2;
+
+document.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  const coordsEl = document.getElementById('coords');
+  coordsEl.textContent = `X: ${e.clientX}, Y: ${e.clientY}`;
+
+  const w = window.innerWidth || 1;
+  const h = window.innerHeight || 1;
+
+  // Map X/Y to RGB (0-255)
+  const r = Math.round((e.clientX / w) * 255);
+  const g = Math.round((e.clientY / h) * 255);
+  const b = Math.round(255 - ((r + g) / 2));
+
+  coordsEl.style.color = `rgb(${r}, ${g}, ${b})`;
+});
+
+function animateParticles() {
+  particles.forEach((p, i) => {
+    // Cohesion - move towards center of nearby birds
+    let centerX = 0, centerY = 0, neighborCount = 0;
+    
+    // Alignment - match velocity of nearby birds
+    let avgVx = 0, avgVy = 0;
+    
+    // Separation - avoid crowding
+    let separateX = 0, separateY = 0;
+    
+    particles.forEach((other, j) => {
+      if (i !== j) {
+        const dx = other.x - p.x;
+        const dy = other.y - p.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        if (dist < 80) {
+          centerX += other.x;
+          centerY += other.y;
+          avgVx += other.vx;
+          avgVy += other.vy;
+          neighborCount++;
+          
+          if (dist < 30) {
+            separateX -= dx;
+            separateY -= dy;
+          }
+        }
+      }
+    });
+    
+    if (neighborCount > 0) {
+      centerX /= neighborCount;
+      centerY /= neighborCount;
+      avgVx /= neighborCount;
+      avgVy /= neighborCount;
+      
+      // Steer towards center
+      p.vx += (centerX - p.x) * 0.001;
+      p.vy += (centerY - p.y) * 0.001;
+      
+      // Match velocity
+      p.vx += (avgVx - p.vx) * 0.05;
+      p.vy += (avgVy - p.vy) * 0.05;
+      
+      // Separation
+      p.vx += separateX * 0.01;
+      p.vy += separateY * 0.01;
+    }
+    
+    // Attraction to mouse (reduced influence)
+    const dx = mouseX - p.x;
+    const dy = mouseY - p.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    
+    if (dist > 0) {
+      p.vx += (dx / dist) * 0.1;
+      p.vy += (dy / dist) * 0.1;
+    }
+    
+    // Limit speed
+    const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+    if (speed > p.speed * 2) {
+      p.vx = (p.vx / speed) * p.speed * 2;
+      p.vy = (p.vy / speed) * p.speed * 2;
+    }
+    
+    // Update position
+    p.x += p.vx;
+    p.y += p.vy;
+    
+    // Wrap around screen edges
+    if (p.x < 0) p.x = window.innerWidth;
+    if (p.x > window.innerWidth) p.x = 0;
+    if (p.y < 0) p.y = window.innerHeight;
+    if (p.y > window.innerHeight) p.y = 0;
+    
+    // Update DOM
+    p.el.style.left = p.x + 'px';
+    p.el.style.top = p.y + 'px';
+    p.el.style.opacity = 0.6;
+  });
+  
+  requestAnimationFrame(animateParticles);
+}
+
+animateParticles();
   </script>
 </body>
 </html>
