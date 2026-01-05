@@ -26,7 +26,7 @@ body {
   flex-direction:column;
   min-height:100vh;
 }
-main { flex:1; }
+main { flex:1; position: relative; }
 header {
   position:sticky; 
   top:0; 
@@ -49,7 +49,7 @@ header nav a {
 }
 header nav a:hover, header nav a.active { border-bottom-color: var(--fg); }
 .portfolio-container { padding: 30px; text-align: center; }
-h2 { font-size: 26px; margin: 0 0 30px; font-weight: 500; }
+h2 { font-size: 26px; margin: 0 0 30px; font-weight: 500; color: red; }
 .tab-content { display: none; }
 .tab-content.active { display: block; }
 .portfolio-grid {
@@ -96,7 +96,24 @@ h2 { font-size: 26px; margin: 0 0 30px; font-weight: 500; }
   border-radius: 8px;
 }
 .project-gallery iframe { aspect-ratio: 16/9; height: auto; }
-.back-link { display: none; }
+.back-link {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  font-size: 16px;
+  color: var(--fg);
+  text-decoration: none;
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  background: var(--bg);
+  cursor: pointer;
+  z-index: 10;
+}
+.back-link:hover {
+  background-color: var(--border);
+}
 .profile-section { margin-bottom: 50px; }
 .profile-section h3 {
   font-size: 20px;
@@ -138,6 +155,12 @@ footer p { margin:0; }
   .portfolio-container { padding: 20px; }
   .project-header h1 { font-size: 24px; }
   .project-description { font-size: 16px; }
+  .back-link {
+    top: 10px;
+    left: 20px;
+    font-size: 14px;
+    padding: 6px 12px;
+  }
 }
 </style>
 </head>
@@ -154,8 +177,9 @@ footer p { margin:0; }
   <footer><p>© <span id="y"></span> Noa Narisawa</p></footer>
 
   <script>
-const installationProjects = ['youtube', 'wood', 'plotter', 'forest', 'sky', 'mission'];
+const installationProjects = ['youtube', 'wood', 'plotter', 'sky', 'mission'];
 const sculptureProjects = ['woodbox', 'metal', 'light', 'hole', 'tide'];
+const interactiveProjects = ['forest'];
 
 const projects = {
   youtube: {
@@ -179,10 +203,10 @@ const projects = {
     ]
   },
   plotter: {
-    title: "Plot for the plotter",
+    title: "Walking the plotter",
     meta: "September 2025 / Multimedia Installation",
     description: "I made a walking track for the plotter, generating a walking path in real time. I added several variables to track the walk, such as distance in pixels, duration time in seconds, motor usage, and the density of lines. I used white pencil on white paper to focus viewers on the internal algorithms of the plotter for it to walk.",
-    thumb: { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/plotter.mp4' },
+    thumb: { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/plotter9_24com_1.mp4' },
     media: [
       { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/plotter.mp4' },
       { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/sr9_24_1.mp4' },
@@ -228,11 +252,12 @@ const projects = {
     media: [
       { type: 'image', src: 'images/box1.jpg' },
       { type: 'image', src: 'images/box3.jpg' },
+      { type: 'image', src: 'images/box2.jpg' },
       { type: 'image', src: 'images/box4.jpg' }
     ]
   },
   metal: {
-    title: "The Structure",
+    title: "Flowly bent ladder",
     meta: "October 2025 / Steel",
     description: "I explored my physical presence in this world through creating this structure. This sculpture is an extention of my physicality and its system.<br><br>3.5 × 4 × 3 ft",
     thumb: { type: 'image', src: 'images/metal1.jpg' },
@@ -314,8 +339,23 @@ function showInstallation() {
       </div>`;
   }).join('');
   
+  const interactiveGrid = interactiveProjects.map(key => {
+    const p = projects[key];
+    return `
+      <div class="portfolio-item" onclick="showProject('${key}')">
+        <div class="portfolio-media">
+          ${renderMedia(p.thumb)}
+        </div>
+        <div class="portfolio-title"><h3>${p.title}</h3></div>
+      </div>`;
+  }).join('');
+  
   document.getElementById('main-content').innerHTML = `
     <div class="tab-content active">
+      <div class="portfolio-container">
+        <h2>Interactive</h2>
+        <div class="portfolio-grid">${interactiveGrid}</div>
+      </div>
       <div class="portfolio-container">
         <h2>Installation</h2>
         <div class="portfolio-grid">${installationGrid}</div>
@@ -360,6 +400,7 @@ function showProject(key) {
   
   document.getElementById('main-content').innerHTML = `
     <div class="project-page active">
+      <a href="#works" class="back-link" onclick="showWorks(); return false;">← Works</a>
       <div class="project-header">
         <h1>${p.title}</h1>
         <div class="project-meta">${p.meta}</div>
@@ -420,18 +461,24 @@ for (let i = 0; i < maxParticles; i++) {
     el: particle,
     x: Math.random() * window.innerWidth,
     y: Math.random() * window.innerHeight,
-    vx: (Math.random() - 0.5) * 2,
-    vy: (Math.random() - 0.5) * 2,
-    speed: 0.5 + Math.random() * 1
+    vx: (Math.random() - 0.5) * 1.5,
+    vy: (Math.random() - 0.5) * 1.5,
+    speed: 0.3 + Math.random() * 0.8,
+    targetX: Math.random() * window.innerWidth,
+    targetY: Math.random() * window.innerHeight,
+    wanderAngle: Math.random() * Math.PI * 2,
+    autonomy: Math.random() * 0.5 // reduced autonomy range
   });
 }
 
 let mouseX = window.innerWidth / 2;
 let mouseY = window.innerHeight / 2;
+let lastMouseMoveTime = Date.now();
 
 document.addEventListener('mousemove', (e) => {
   mouseX = e.clientX;
   mouseY = e.clientY;
+  lastMouseMoveTime = Date.now();
   const coordsEl = document.getElementById('coords');
   coordsEl.textContent = `X: ${e.clientX}, Y: ${e.clientY}`;
 
@@ -447,14 +494,22 @@ document.addEventListener('mousemove', (e) => {
 });
 
 function animateParticles() {
+  const timeSinceMouseMove = Date.now() - lastMouseMoveTime;
+  const mouseIsStatic = timeSinceMouseMove > 1000;
+  
   particles.forEach((p, i) => {
-    // Cohesion - move towards center of nearby birds
+    // Update wander angle for organic movement (reduced)
+    p.wanderAngle += (Math.random() - 0.5) * 0.15;
+    
+    // Occasionally set new random targets (less frequent)
+    if (Math.random() < 0.005) {
+      p.targetX = Math.random() * window.innerWidth;
+      p.targetY = Math.random() * window.innerHeight;
+    }
+    
+    // Cohesion and alignment with variable influence
     let centerX = 0, centerY = 0, neighborCount = 0;
-    
-    // Alignment - match velocity of nearby birds
     let avgVx = 0, avgVy = 0;
-    
-    // Separation - avoid crowding
     let separateX = 0, separateY = 0;
     
     particles.forEach((other, j) => {
@@ -463,56 +518,89 @@ function animateParticles() {
         const dy = other.y - p.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         
-        if (dist < 80) {
+        // Variable cohesion range
+        const cohesionRange = 100 + Math.sin(Date.now() * 0.0008 + i) * 40;
+        if (dist < cohesionRange) {
           centerX += other.x;
           centerY += other.y;
           avgVx += other.vx;
           avgVy += other.vy;
           neighborCount++;
-          
-          if (dist < 30) {
-            separateX -= dx;
-            separateY -= dy;
-          }
+        }
+        
+        // Separation with variable threshold
+        const separationDist = 12 + Math.sin(Date.now() * 0.001 + i) * 8;
+        if (dist < separationDist && dist > 0) {
+          const force = (separationDist - dist) / dist;
+          separateX -= (dx / dist) * force;
+          separateY -= (dy / dist) * force;
         }
       }
     });
     
+    // Flocking behavior (slightly reduced when mouse is static)
     if (neighborCount > 0) {
       centerX /= neighborCount;
       centerY /= neighborCount;
       avgVx /= neighborCount;
       avgVy /= neighborCount;
       
-      // Steer towards center
-      p.vx += (centerX - p.x) * 0.001;
-      p.vy += (centerY - p.y) * 0.001;
+      const cohesionStrength = mouseIsStatic ? 0.002 : 0.004;
+      p.vx += (centerX - p.x) * cohesionStrength;
+      p.vy += (centerY - p.y) * cohesionStrength;
       
-      // Match velocity
-      p.vx += (avgVx - p.vx) * 0.05;
-      p.vy += (avgVy - p.vy) * 0.05;
-      
-      // Separation
-      p.vx += separateX * 0.01;
-      p.vy += separateY * 0.01;
+      const alignmentStrength = 0.04 + Math.sin(Date.now() * 0.0008 + i) * 0.02;
+      p.vx += (avgVx - p.vx) * alignmentStrength;
+      p.vy += (avgVy - p.vy) * alignmentStrength;
     }
     
-    // Attraction to mouse (reduced influence)
+    // Separation
+    p.vx += separateX * 0.08;
+    p.vy += separateY * 0.08;
+    
+    // Mouse interaction (stronger to keep particles grouped)
     const dx = mouseX - p.x;
     const dy = mouseY - p.y;
     const dist = Math.sqrt(dx * dx + dy * dy);
     
     if (dist > 0) {
-      p.vx += (dx / dist) * 0.1;
-      p.vy += (dy / dist) * 0.1;
+      const mouseInfluence = mouseIsStatic ? 0.08 : 0.25;
+      const particleResponse = (1 - p.autonomy * 0.5) * mouseInfluence;
+      p.vx += (dx / dist) * particleResponse;
+      p.vy += (dy / dist) * particleResponse;
     }
     
-    // Limit speed
-    const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-    if (speed > p.speed * 2) {
-      p.vx = (p.vx / speed) * p.speed * 2;
-      p.vy = (p.vy / speed) * p.speed * 2;
+    // Wander behavior (reduced autonomous movement)
+    const wanderStrength = 0.1 + p.autonomy * 0.15;
+    p.vx += Math.cos(p.wanderAngle) * wanderStrength;
+    p.vy += Math.sin(p.wanderAngle) * wanderStrength;
+    
+    // Move towards random target (reduced)
+    const tdx = p.targetX - p.x;
+    const tdy = p.targetY - p.y;
+    const tdist = Math.sqrt(tdx * tdx + tdy * tdy);
+    if (tdist > 50) {
+      p.vx += (tdx / tdist) * 0.02 * p.autonomy;
+      p.vy += (tdy / tdist) * 0.02 * p.autonomy;
     }
+    
+    // Random impulses for chaos (reduced)
+    if (Math.random() < 0.01) {
+      p.vx += (Math.random() - 0.5) * 0.8;
+      p.vy += (Math.random() - 0.5) * 0.8;
+    }
+    
+    // Limit speed with variable max (slower speeds)
+    const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+    const maxSpeed = p.speed * (1.5 + Math.sin(Date.now() * 0.0008 + i) * 0.5);
+    if (speed > maxSpeed) {
+      p.vx = (p.vx / speed) * maxSpeed;
+      p.vy = (p.vy / speed) * maxSpeed;
+    }
+    
+    // Apply drag (more drag for slower movement)
+    p.vx *= 0.96;
+    p.vy *= 0.96;
     
     // Update position
     p.x += p.vx;
