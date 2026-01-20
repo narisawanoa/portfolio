@@ -373,6 +373,25 @@ h2 { font-size: 20px; margin: 0 0 30px; font-weight: 400; color: red; }
   z-index: 100;
   pointer-events: none;
 }
+
+.contact-link {
+  position: fixed;
+  top: 35px;
+  right: 10px;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: monospace;
+  z-index: 10000;
+  pointer-events: auto;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.contact-link:hover {
+  opacity: 0.7;
+}
 .image-modal {
   display: none;
   position: fixed;
@@ -442,6 +461,7 @@ footer p { margin:0; }
   </header>
   <main id="main-content"></main>
   <div class="cursor-coords" id="coords">X: 0, Y: 0</div>
+  <a href="mailto:narisawa.noa@gmail.com" class="contact-link" id="contact-link">contact →</a>
   <div class="image-modal" id="image-modal">
     <img src="" alt="">
   </div>
@@ -977,7 +997,14 @@ document.addEventListener('mousemove', (e) => {
   const g = Math.round((e.clientY / h) * 255);
   const b = Math.round(255 - ((r + g) / 2));
 
-  coordsEl.style.color = `rgb(${r}, ${g}, ${b})`;
+  const colorValue = `rgb(${r}, ${g}, ${b})`;
+  coordsEl.style.color = colorValue;
+  
+  // Apply same color to contact link
+  const contactEl = document.getElementById('contact-link');
+  if (contactEl) {
+    contactEl.style.color = colorValue;
+  }
   
   // Draw line
   if (!isDrawing) {
