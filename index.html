@@ -121,6 +121,8 @@ header nav a:hover, header nav a.active { border-bottom-color: transparent; }
 .thumbnails-column {
   position: relative;
   padding-top: 80px;
+  padding-bottom: 400px;
+  min-height: calc(100vh + 400px);
 }
 
 .title-thumbnail {
@@ -730,7 +732,7 @@ function adjustThumbnailPositions() {
       }
     });
   } else {
-    // Year mode: slight right shift, randomized positions
+    // Year mode: original spacing
     const yearPositions = [
       { left: -270, top: 8 },
       { left: 60, top: 18 },
