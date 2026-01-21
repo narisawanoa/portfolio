@@ -394,10 +394,10 @@ h2 { font-size: 20px; margin: 0 0 30px; font-weight: 400; color: red; }
 
 .project-page { display: none; }
 .project-page.active { display: block; }
-.project-header { max-width: 1200px; margin: 0 auto; padding: 40px 30px; text-align: center; }
-.project-header h1 { font-size: 32px; font-weight: 400; margin: 0 0 20px; }
-.project-meta { color: var(--muted); font-size: 16px; margin-bottom: 30px; }
-.project-description { font-size: 18px; line-height: 1.8; margin-bottom: 50px; max-width: 800px; margin-left: auto; margin-right: auto; }
+.project-header { max-width: 1200px; margin: 0 auto; padding: 40px 30px 20px; text-align: center; }
+.project-header h1 { font-size: 24px; font-weight: 400; margin: 0 0 20px; }
+.project-meta { color: #000000; font-size: 16px; margin-bottom: 30px; }
+.project-description { font-size: 18px; line-height: 1.8; margin-bottom: 30px; max-width: 800px; margin-left: auto; margin-right: auto; }
 .project-gallery { max-width: 350px; margin: 0 auto; padding: 0 30px 60px; }
 .project-gallery img, .project-gallery video, .project-gallery iframe {
   width: 100%;
@@ -504,33 +504,242 @@ h2 { font-size: 20px; margin: 0 0 30px; font-weight: 400; color: red; }
 }
 footer { padding:20px; font-size:14px; text-align: center; }
 footer p { margin:0; }
+
+/* ========================================
+   MOBILE RESPONSIVE STYLES
+   ======================================== */
 @media (max-width: 768px) {
-  .portfolio-container { padding: 20px; }
-  .project-header h1 { font-size: 24px; }
-  .project-description { font-size: 16px; }
-  .back-link {
-    top: 10px;
-    left: 20px;
-    font-size: 14px;
-    padding: 6px 12px;
+  body {
+    font-size: 12px;
+    padding: 25px;
   }
-  .title-item {
+  
+  header {
+    padding: 15px 15px;
+    margin: -25px -25px 25px -25px;
+  }
+  
+  .header-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .header-left {
+    width: 100%;
+  }
+  
+  header h1 {
     font-size: 16px;
   }
+  
+  .header-left-description {
+    font-size: 10px;
+    max-width: 100%;
+  }
+  
+  .dolphin-image {
+    height: 16px;
+  }
+  
+  header nav {
+    margin-top: 10px;
+    gap: 20px;
+  }
+  
+  header nav a {
+    font-size: 11px;
+  }
+  
+  .header-center {
+    position: static;
+    padding: 0;
+    font-size: 10px;
+    margin-top: 10px;
+  }
+  
+  .cursor-coords {
+    top: 10px;
+    right: 10px;
+    font-size: 10px;
+    padding: 6px 10px;
+  }
+  
+  .contact-link {
+    top: auto;
+    bottom: 10px;
+    right: 10px;
+    font-size: 11px;
+    padding: 8px 12px;
+  }
+  
+  .portfolio-container {
+    padding: 15px 0;
+  }
+  
+  .main-works-wrapper-full {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 15px 0;
+  }
+  
+  .sort-tabs {
+    gap: 15px;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .sort-tab {
+    font-size: 12px;
+  }
+  
+  .titles-list {
+    max-width: 100%;
+  }
+  
+  .section-titles {
+    margin-bottom: 25px;
+    margin-top: 15px;
+  }
+  
+  .section-titles h2 {
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+  
+  .title-item {
+    font-size: 11px;
+    padding: 8px 0;
+  }
+  
   .title-item-wrapper {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+    margin-bottom: 6px;
+  }
+  
+  .thumbnails-column {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 0;
+    min-height: auto;
+    margin-top: 20px;
+  }
+  
+  .title-thumbnail {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: 100%;
+    height: 90px;
     margin-bottom: 0;
   }
-  .title-thumbnail {
-    width: 100%;
-    height: 200px;
-    position: relative !important;
-    right: 0 !important;
+  
+  .upcoming-section {
+    margin-top: 30px;
+    padding-left: 0;
   }
-  .project-gallery img, .project-gallery video, .project-gallery iframe {
-    max-height: 400px;
+  
+  .upcoming-title {
+    font-size: 10px;
+  }
+  
+  .scrolling-banner {
+    font-size: 10px;
+    max-width: 100%;
+  }
+  
+  .project-page {
+    padding-top: 50px;
+  }
+  
+  .back-link {
+    top: 15px;
+    left: 15px;
+    font-size: 10px;
+    padding: 6px 12px;
+  }
+  
+  .project-header {
+    padding: 30px 0 15px;
+  }
+  
+  .project-header h1 {
+    font-size: 13px;
+    margin-bottom: 15px;
+  }
+  
+  .project-meta {
+    font-size: 10px;
+    margin-bottom: 20px;
+    color: #000000;
+  }
+  
+  .project-description {
+    font-size: 11px;
+    line-height: 1.7;
+    margin-bottom: 30px;
+  }
+  
+  .project-gallery {
+    max-width: 100%;
+    padding: 0 0 40px 0;
+  }
+  
+  .project-gallery img,
+  .project-gallery video,
+  .project-gallery iframe {
+    max-height: 150px;
+    margin-bottom: 20px;
+  }
+  
+  .main-works-wrapper {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .left-titles-column h2 {
+    font-size: 14px;
+  }
+  
+  .thumbnail-display {
+    max-height: 150px;
+  }
+  
+  .thumbnail-display img,
+  .thumbnail-display video {
+    max-height: 150px;
+  }
+  
+  .image-modal img {
+    max-width: 95%;
+    max-height: 95%;
+  }
+  
+  footer {
+    padding: 15px;
+    font-size: 10px;
+  }
+  
+  /* Disable cursor drawing on mobile */
+  canvas {
+    display: none !important;
+  }
+}
+
+/* Tablet and smaller desktop adjustments */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .main-works-wrapper-full {
+    grid-template-columns: 500px 1fr;
+    gap: 60px;
+  }
+  
+  .thumbnails-column {
+    padding-top: 60px;
+  }
+  
+  .title-thumbnail {
+    width: 220px;
+    height: 160px;
   }
 }
 </style>
@@ -1039,7 +1248,7 @@ function showProject(key) {
   
   const allProjectsTitles = Object.keys(projects).map(k => {
     const proj = projects[k];
-    return `<div class="title-item" data-project="${k}">${proj.title}</div>`;
+    return `<div class="title-item" data-project="${k}" onclick="showProject('${k}')" style="cursor: pointer;">${proj.title}</div>`;
   }).join('');
   
   document.getElementById('main-content').innerHTML = `
@@ -1048,9 +1257,9 @@ function showProject(key) {
       <div class="project-header">
         <h1>${p.title}</h1>
         <div class="project-meta">${p.meta}</div>
-        <div class="project-description">${p.description}</div>
       </div>
       <div class="project-gallery">${mediaHTML}</div>
+      <div class="project-description" style="max-width: 800px; margin: 0 auto 50px; text-align: center; padding: 0 30px;">${p.description}</div>
       <div class="portfolio-container">
         <div class="main-works-wrapper">
           <div class="left-titles-column">
