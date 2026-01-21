@@ -28,13 +28,16 @@ body {
 }
 main { flex:1; position: relative; }
 header {
-  position:sticky; 
-  top:0; 
-  z-index:50;
-  background:rgb(255, 255, 255);
-  backdrop-filter:blur(8px);
+  position: relative;
+  top: 0;
+  z-index: 50;
+  background: rgb(255, 255, 255);
+  backdrop-filter: blur(8px);
   padding: 20px 30px;
   text-align: left;
+}
+
+.header-container {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -42,22 +45,25 @@ header {
 .header-left {
   flex: 1;
 }
-.header-center {
-  position: absolute;
-  left: 60%;
-  transform: translateX(-50%);
-  font-size: 12px;
-  line-height: 1.8;
-  max-width: 600px;
+.upcoming-section-header {
+  margin-top: 30px;
+  padding-left: 15px;
 }
-.header-center h3 {
+
+.upcoming-section-header .upcoming-title {
   font-size: 12px;
   font-weight: 400;
-  margin: 0 0 8px 0;
+  margin-bottom: 10px;
   color: #000;
 }
-.header-center > div {
-  padding-left: 15px;
+
+.upcoming-section-header .scrolling-banner {
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 12px;
+  color: #000;
+  max-width: 400px;
+  text-align: left;
 }
 header h1 { margin: 0; font-size: 18px; font-weight: 300; }
 .header-left-description {
@@ -81,7 +87,7 @@ header nav a {
   padding-bottom: 5px;
   border-bottom: 2px solid transparent;
   transition: border-color 0.3s ease;
-  font-size: 18px;
+  font-size: 14px;
 }
 header nav a:hover, header nav a.active { border-bottom-color: transparent; }
 .portfolio-container { padding: 30px; }
@@ -90,7 +96,7 @@ header nav a:hover, header nav a.active { border-bottom-color: transparent; }
 .main-works-wrapper-full {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 20px 30px;
+  padding: 20px 30px 0px 30px;
   display: grid;
   grid-template-columns: 600px 1fr;
   gap: 80px;
@@ -121,8 +127,45 @@ header nav a:hover, header nav a.active { border-bottom-color: transparent; }
 .thumbnails-column {
   position: relative;
   padding-top: 80px;
-  padding-bottom: 400px;
+  padding-bottom: 100px;
   min-height: calc(100vh + 400px);
+}
+
+.upcoming-section {
+  margin-top: 10px;
+  padding-left: 30px;
+}
+
+.upcoming-title {
+  font-size: 12px;
+  font-weight: 400;
+  margin-bottom: 10px;
+  color: #000;
+  padding-left: 0px;
+}
+
+.scrolling-banner {
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 12px;
+  color: #000;
+  max-width: 400px;
+  text-align: left;
+  position: relative;
+}
+
+.banner-content {
+  display: inline-block;
+  animation: scroll-left 30s linear infinite;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .title-thumbnail {
@@ -398,7 +441,7 @@ h2 { font-size: 20px; margin: 0 0 30px; font-weight: 400; color: red; }
 .profile-meta { color: var(--muted); font-size: 14px; margin-bottom: 10px; }
 .cursor-coords {
   position: fixed;
-  top: 10px;
+  top: 35px;
   right: 10px;
   color: white;
   padding: 8px 12px;
@@ -411,7 +454,7 @@ h2 { font-size: 20px; margin: 0 0 30px; font-weight: 400; color: red; }
 
 .contact-link {
   position: fixed;
-  top: 35px;
+  top: 10px;
   right: 10px;
   color: white;
   padding: 8px 12px;
@@ -426,6 +469,17 @@ h2 { font-size: 20px; margin: 0 0 30px; font-weight: 400; color: red; }
 
 .contact-link:hover {
   opacity: 0.7;
+}
+
+.header-center {
+  position: fixed;
+  top: 60px;
+  right: 10px;
+  font-size: 12px;
+  line-height: 1.8;
+  color: #000;
+  z-index: 100;
+  padding: 8px 12px;
 }
 .image-modal {
   display: none;
@@ -483,18 +537,19 @@ footer p { margin:0; }
 </head>
 <body>
   <header>
-    <div class="header-left">
-      <h1>Noa Narisawa</h1>
-      <div class="header-left-description">
-        There is a secret dolphin in this html file <img src="images/dolphin.jpg" alt="dolphin" class="dolphin-image">
+    <div class="header-container">
+      <div class="header-left">
+        <h1>Noa Narisawa</h1>
+        <div class="header-left-description">
+          There is a secret dolphin in this html file <img src="images/dolphin.jpg" alt="dolphin" class="dolphin-image">
+        </div>
+        <nav>
+          <a href="#works" class="nav-link active">recent works:</a>
+        </nav>
       </div>
-      <nav>
-        <a href="#works" class="nav-link active">Works</a>
-      </nav>
-    </div>
-    <div class="header-center">
-      <h3>Recent activities: update</h3>
-      <div>trying to work out circuits.</div>
+      <div class="header-center">
+        <div>Recent activities: trying to work out circuits</div>
+      </div>
     </div>
   </header>
   <main id="main-content"></main>
@@ -888,6 +943,12 @@ function showTitleList() {
         </div>
         <div class="thumbnails-column">
           ${thumbsHTML}
+        </div>
+      </div>
+      <div class="upcoming-section">
+        <div class="upcoming-title">upcoming...</div>
+        <div class="scrolling-banner">
+          <div class="banner-content">exposed handmade hardwares, following a command, simulated personal experience, bringing distance closer, something embrasive, ... &nbsp;&nbsp;&nbsp;&nbsp; exposed handmade hardwares, following a command, simulated personal experience, bringing distance closer, something embrasive, ... &nbsp;&nbsp;&nbsp;&nbsp; </div>
         </div>
       </div>
     </div>`;
