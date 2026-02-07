@@ -399,11 +399,24 @@ h2 { font-size: 20px; margin: 0 0 30px; font-weight: 400; color: red; }
 .project-meta { color: #000000; font-size: 16px; margin-bottom: 30px; }
 .project-description { font-size: 18px; line-height: 1.8; margin-bottom: 30px; max-width: 800px; margin-left: auto; margin-right: auto; }
 .project-gallery { max-width: 350px; margin: 0 auto; padding: 0 30px 60px; }
-.project-gallery img, .project-gallery video, .project-gallery iframe {
+.project-gallery img {
   width: 100%;
   max-height: 500px;
   object-fit: contain;
   margin-bottom: 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+.project-gallery video, .project-gallery iframe {
+  width: 100%;
+  max-width: 700px;
+  max-height: 900px;
+  object-fit: contain;
+  margin-bottom: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
   border-radius: 8px;
   cursor: pointer;
   transition: opacity 0.3s ease;
@@ -763,13 +776,13 @@ footer p { margin:0; }
   </header>
   <main id="main-content"></main>
   <div class="cursor-coords" id="coords">X: 0, Y: 0</div>
-  <div class="contact-link" id="contact-link">contact → narisawa.noa@gmail.com</div>
+  <div class="contact-link" id="contact-link">contact → <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e987889b809a889e88c7878688a98e84888085c78a8684">[email&#160;protected]</a></div>
   <div class="image-modal" id="image-modal">
     <img src="" alt="">
   </div>
   <footer><p></p></footer>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const videoProjects = ['youtube'];
 const installationProjects = ['plotter', 'sky', 'mission'];
 const sculptureProjects = ['wood', 'plottedimages', 'light', 'hole', 'tide', 'woodbox', 'metal'];
@@ -780,7 +793,7 @@ const projects = {
     title: "hallucinations",
     meta: "February 2026 / electronics, 3D printing, Bacardi rum, multimedia installation",
     year: 2026,
-    description: "A simulation that visualizes a conversation shaped by breathing, alcohol, and atmosphere—its structure inspired by an exchange between an aging man experiencing cognitive disorientation and a mind in a state of alcohol intoxication. Using real-time sensor data (breath, alcohol, and atmosphere) as variables, the system translates invisible conditions into motion. These inputs control a mechanism that draws a circle that constantly stabilizes, shifts, and distorts over time, while a laptop displays the changing values.",
+    description: "A simulation that visualizes a conversation shaped by breathing, alcohol, and atmosphere—an exchange between disoriented and intoxicated minds. Using real-time sensor data (breath, alcohol, and atmosphere) as variables, the system translates invisible conditions into motion. These inputs control a mechanism that draws a circle which constantly stabilizes, shifts, and distorts over time, while a laptop displays the changing values.",
     thumb: { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/circle_bright_small.mp4' },
     media: [
       { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/circle_bright_small.mp4' },
@@ -793,7 +806,7 @@ const projects = {
     meta: "December 2025 / Video (17:04)",
     year: 2025,
     description: "This video depics caricatures of the mundane through the lens of the two metaphorical dads —hypothetical and imaginary father figures. The set of composed actions shows an ambiguous mix of joy and sorrow, and the catharsis of moments in conversations, meals, and strange occurrences. <br> <br> Made in collaboration with Cleo Kim.",
-    thumb: { type: 'youtube', src: 'b_-3fnUcD2E' },
+    thumb: { type: 'image', src: 'images/M2D.jpg' },
     media: [
       { type: 'youtube', src: 'b_-3fnUcD2E' },
       { type: 'image', src:'images/M2D.jpg'}
