@@ -336,9 +336,15 @@ header nav a:hover, header nav a.active { border-bottom-color: transparent; }
 
 .sort-tabs {
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  gap: 15px;
   margin-bottom: 40px;
   padding-bottom: 15px;
+}
+
+.sort-tabs-main {
+  display: flex;
+  gap: 20px;
 }
 
 .sort-tab {
@@ -354,6 +360,20 @@ header nav a:hover, header nav a.active { border-bottom-color: transparent; }
 }
 
 .sort-tab.active {
+  color: var(--fg);
+  font-weight: 500;
+}
+
+.sort-tab.small {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.sort-tab.small:hover {
+  color: var(--fg);
+}
+
+.sort-tab.small.active {
   color: var(--fg);
   font-weight: 500;
 }
@@ -776,7 +796,7 @@ footer p { margin:0; }
   </header>
   <main id="main-content"></main>
   <div class="cursor-coords" id="coords">X: 0, Y: 0</div>
-  <div class="contact-link" id="contact-link">contact → <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e987889b809a889e88c7878688a98e84888085c78a8684">[email&#160;protected]</a></div>
+  <div class="contact-link" id="contact-link">contact → <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e989889b809a889e88c7878688a98e84888085c78a8684">[email&#160;protected]</a></div>
   <div class="image-modal" id="image-modal">
     <img src="" alt="">
   </div>
@@ -789,6 +809,29 @@ const sculptureProjects = ['wood', 'plottedimages', 'light', 'hole', 'tide', 'me
 const interactiveProjects = ['hallucinations', 'forest'];
 
 const projects = {
+
+  dogs: {
+    title: "(upcoming...)dogs!",
+    meta: "February 2026 / electronics, bioplastics, print papers, speakers, microphones, audio interface",
+    year: 2026,
+    description: "work under construction.....",
+    thumb: { type: 'image', src: 'images/dog1.jpg' },
+    media: [
+      { type: 'image', src: 'images/dog1.jpg' },
+      { type: 'image', src: 'images/dog2.jpg' },
+      { type: 'image', src: 'images/dog3.jpg' }
+    ]
+  },
+  marriage: {
+    title: "marriage",
+    meta: "2026 / work in progress",
+    year: 2026,
+    description: "work under construction.....",
+    thumb: { type: 'image', src: 'images/placeholder.jpg' },
+    media: [
+      { type: 'image', src: 'images/placeholder.jpg' }
+    ]
+  },
   hallucinations: {
     title: "hallucinations",
     meta: "February 2026 / electronics, 3D printing, Bacardi rum, multimedia installation",
@@ -1037,12 +1080,56 @@ function adjustThumbnailPositions() {
   }
 }
 
+function showUnderConstruction() {
+  document.getElementById('main-content').innerHTML = `
+    <div class="tab-content active">
+      <div class="main-works-wrapper-full">
+        <div class="left-titles-column">
+          <div class="sort-tabs">
+            <div class="sort-tabs-main">
+              <span class="sort-tab" onclick="changeSortMode('year')">Year created</span>
+              <span class="sort-tab" onclick="changeSortMode('grouping')">Grouping</span>
+            </div>
+            <span class="sort-tab small active" onclick="showUnderConstruction()">under construction</span>
+          </div>
+          <div class="titles-container titles-list">
+            <div class="section-titles">
+              <h2>Work in Progress</h2>
+              <div class="title-item-wrapper" data-project="dogs" onclick="showProject('dogs')">
+                <div class="title-item" data-project="dogs">${projects.dogs.title}</div>
+              </div>
+              <div class="title-item-wrapper" data-project="marriage" onclick="showProject('marriage')">
+                <div class="title-item" data-project="marriage">${projects.marriage.title}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="thumbnails-column">
+          <div class="title-thumbnail" onclick="showProject('dogs')" style="cursor: pointer; position: relative; left: 50px; top: 20px;">
+            ${renderThumbnailMedia(projects.dogs.thumb)}
+          </div>
+          <div class="title-thumbnail" onclick="showProject('marriage')" style="cursor: pointer; position: relative; left: 350px; top: 30px;">
+            ${renderThumbnailMedia(projects.marriage.thumb)}
+          </div>
+        </div>
+      </div>
+      <div class="upcoming-section">
+        <div class="upcoming-title">upcoming...</div>
+        <div class="scrolling-banner">
+          <div class="banner-content">exposed handmade hardwares, following a command, simulated personal experience, bringing distance closer, something embrasive, ... &nbsp;&nbsp;&nbsp;&nbsp; exposed handmade hardwares, following a command, simulated personal experience, bringing distance closer, something embrasive, ... &nbsp;&nbsp;&nbsp;&nbsp; </div>
+        </div>
+      </div>
+    </div>`;
+  
+  setupAllTitleListeners();
+}
+
 function showTitleList() {
   let titlesHTML = '';
   let thumbsHTML = '';
   
   if (currentSortMode === 'grouping') {
-    // Original grouping by type
+    // Original grouping by type (excluding dogs)
     const videoTitles = videoProjects.map(key => {
       const p = projects[key];
       return `<div class="title-item-wrapper" data-project="${key}" onclick="showProject('${key}')">
@@ -1111,11 +1198,13 @@ function showTitleList() {
       
     thumbsHTML = videoThumbs + interactiveThumbs + installationThumbs + sculptureThumbs;
   } else {
-    // Sort by year and month
+    // Sort by year and month (excluding dogs from year view)
     const projectsByYear = {};
     const allThumbs = [];
     
     Object.keys(projects).forEach(key => {
+      if (key === 'dogs' || key === 'marriage') return; // Exclude dogs and marriage from year view
+      
       const p = projects[key];
       const year = p.year || 2025;
       if (!projectsByYear[year]) {
@@ -1156,8 +1245,11 @@ function showTitleList() {
       <div class="main-works-wrapper-full">
         <div class="left-titles-column">
           <div class="sort-tabs">
-            <span class="sort-tab ${currentSortMode === 'year' ? 'active' : ''}" onclick="changeSortMode('year')">Year created</span>
-            <span class="sort-tab ${currentSortMode === 'grouping' ? 'active' : ''}" onclick="changeSortMode('grouping')">Grouping</span>
+            <div class="sort-tabs-main">
+              <span class="sort-tab ${currentSortMode === 'year' ? 'active' : ''}" onclick="changeSortMode('year')">Year created</span>
+              <span class="sort-tab ${currentSortMode === 'grouping' ? 'active' : ''}" onclick="changeSortMode('grouping')">Grouping</span>
+            </div>
+            <span class="sort-tab small" onclick="showUnderConstruction()">under construction</span>
           </div>
           <div class="titles-container titles-list">
             ${titlesHTML}
