@@ -188,88 +188,81 @@ header nav a:hover, header nav a.active { border-bottom-color: transparent; }
   opacity: 0.8;
 }
 
-/* 4 layers - SYSTEMATICALLY SPACED to ensure NO overlaps
-   Each layer separated by 190px in Y (>180px minimum)
-   Within each layer, images are 300px+ apart in X
-*/
-
 .title-thumbnail:nth-child(1) {
   left: -300px;
   top: 0px;
 }
 
 .title-thumbnail:nth-child(2) {
-  left: 50px;    /* 350px from #1 - safe */
+  left: 50px;
   top: 10px;
 }
 
 .title-thumbnail:nth-child(3) {
-  left: 400px;  /* 350px from #2 - safe */
+  left: 400px;
   top: 20px;
 }
 
 .title-thumbnail:nth-child(4) {
-  left: -350px;  /* Layer 2 */
+  left: -350px;
   top: 190px;
 }
 
 .title-thumbnail:nth-child(5) {
-  left: 0px;   /* 350px from #4 - safe */
+  left: 0px;
   top: 200px;
 }
 
 .title-thumbnail:nth-child(6) {
-  left: 350px;  /* 350px from #5 - safe */
+  left: 350px;
   top: 210px;
 }
 
 .title-thumbnail:nth-child(7) {
-  left: -300px;  /* Layer 3 */
+  left: -300px;
   top: 380px;
 }
 
 .title-thumbnail:nth-child(8) {
-  left: 50px;  /* 350px from #7 - safe */
+  left: 50px;
   top: 390px;
 }
 
 .title-thumbnail:nth-child(9) {
-  left: 400px;  /* 350px from #8 - safe */
+  left: 400px;
   top: 400px;
 }
 
 .title-thumbnail:nth-child(10) {
-  left: -350px;  /* Layer 4 */
+  left: -350px;
   top: 570px;
 }
 
 .title-thumbnail:nth-child(11) {
-  left: 0px;  /* 350px from #10 - safe */
+  left: 0px;
   top: 580px;
 }
 
 .title-thumbnail:nth-child(12) {
-  left: 350px;  /* 350px from #11 - safe */
+  left: 350px;
   top: 590px;
 }
 
-/* Additional images beyond the original 12 - add 5th and 6th layers for grouping mode */
 .title-thumbnail:nth-child(13) {
-  left: -300px;  /* Layer 5 */
+  left: -300px;
   top: 760px;
 }
 
 .title-thumbnail:nth-child(14) {
-  left: 50px;  /* 350px from #13 - safe */
+  left: 50px;
   top: 770px;
 }
 
 .title-thumbnail:nth-child(15) {
-  left: 400px;  /* 350px from #14 - safe */
+  left: 400px;
   top: 780px;
 }
 
-/* Layer 6 for any extra items in grouping mode */
 .title-thumbnail:nth-child(16) {
   left: -350px;
   top: 950px;
@@ -796,30 +789,30 @@ footer p { margin:0; }
   </header>
   <main id="main-content"></main>
   <div class="cursor-coords" id="coords">X: 0, Y: 0</div>
-  <div class="contact-link" id="contact-link">contact → <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e989889b809a889e88c7878688a98e84888085c78a8684">[email&#160;protected]</a></div>
+  <div class="contact-link" id="contact-link">contact → narisawa.noa@gmail.com</div>
   <div class="image-modal" id="image-modal">
     <img src="" alt="">
   </div>
   <footer><p></p></footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script>
 const videoProjects = ['youtube'];
-const installationProjects = ['plotter', 'sky', 'mission'];
+// CHANGED: added 'dogs' to installationProjects
+const installationProjects = ['dogs', 'plotter', 'sky', 'mission'];
 const sculptureProjects = ['wood', 'plottedimages', 'light', 'hole', 'tide', 'metal'];
 const interactiveProjects = ['hallucinations', 'forest'];
 
 const projects = {
 
   dogs: {
-    title: "(upcoming...)Boy dog dreams of bone",
-    meta: "February 2026 / electronics, bioplastics, print papers, speakers, microphones, audio interface",
+    title: "boy dog dreams of bone",
+    meta: "February 2026 / speakers, microphones, bioplastics, print papers, audio interface, monitor, processing",
     year: 2026,
-    description: "work under construction.....",
-    thumb: { type: 'image', src: 'images/dog1.jpg' },
+    description: "This project is a real-time audio feedback loop where spoken words continuously transform into new words. The system listens to its own synthesized speech, and each detected word becomes the next starting point. Small mishearings gradually shift the language, creating an evolving chain of words driven by feedback and error. The work uses a speech recognition language pack, allowing the system to interpret and reinterpret its own output",
+    thumb: { type: 'image', src: 'images/dog.JPG' },
     media: [
-      { type: 'image', src: 'images/dog1.jpg' },
-      { type: 'image', src: 'images/bio.jpg' },
-      { type: 'image', src: 'images/bio2.jpg' }
+      { type: 'youtube', src: 'jk1E8Fi9cfE' },
+      { type: 'image', src: 'images/dog.JPG' }
     ]
   },
   marriage: {
@@ -988,7 +981,6 @@ const projects = {
       { type: 'image', src: 'images/001.jpg' },
       { type: 'image', src: 'images/004.jpg' },
       { type: 'image', src: 'images/005.jpg' }
-
     ]
   }
 };
@@ -1026,7 +1018,6 @@ function adjustThumbnailPositions() {
   const thumbnails = document.querySelectorAll('.title-thumbnail');
   
   if (currentSortMode === 'grouping') {
-    // Grouping mode: very slightly gathered toward center, ensuring no overlaps
     const groupingPositions = [
       { left: -250, top: 15 },
       { left: 80, top: 5 },
@@ -1052,7 +1043,6 @@ function adjustThumbnailPositions() {
       }
     });
   } else {
-    // Year mode: original spacing
     const yearPositions = [
       { left: -270, top: 8 },
       { left: 60, top: 18 },
@@ -1095,9 +1085,6 @@ function showUnderConstruction() {
           <div class="titles-container titles-list">
             <div class="section-titles">
               <h2>Work in Progress</h2>
-              <div class="title-item-wrapper" data-project="dogs" onclick="showProject('dogs')">
-                <div class="title-item" data-project="dogs">${projects.dogs.title}</div>
-              </div>
               <div class="title-item-wrapper" data-project="marriage" onclick="showProject('marriage')">
                 <div class="title-item" data-project="marriage">${projects.marriage.title}</div>
               </div>
@@ -1105,10 +1092,7 @@ function showUnderConstruction() {
           </div>
         </div>
         <div class="thumbnails-column">
-          <div class="title-thumbnail" onclick="showProject('dogs')" style="cursor: pointer; position: relative; left: 50px; top: 20px;">
-            ${renderThumbnailMedia(projects.dogs.thumb)}
-          </div>
-          <div class="title-thumbnail" onclick="showProject('marriage')" style="cursor: pointer; position: relative; left: 350px; top: 30px;">
+          <div class="title-thumbnail" onclick="showProject('marriage')" style="cursor: pointer; position: relative; left: 50px; top: 20px;">
             ${renderThumbnailMedia(projects.marriage.thumb)}
           </div>
         </div>
@@ -1129,7 +1113,6 @@ function showTitleList() {
   let thumbsHTML = '';
   
   if (currentSortMode === 'grouping') {
-    // Original grouping by type (excluding dogs)
     const videoTitles = videoProjects.map(key => {
       const p = projects[key];
       return `<div class="title-item-wrapper" data-project="${key}" onclick="showProject('${key}')">
@@ -1198,12 +1181,12 @@ function showTitleList() {
       
     thumbsHTML = videoThumbs + interactiveThumbs + installationThumbs + sculptureThumbs;
   } else {
-    // Sort by year and month (excluding dogs from year view)
+    // Sort by year and month (excluding marriage from year view)
     const projectsByYear = {};
     const allThumbs = [];
     
     Object.keys(projects).forEach(key => {
-      if (key === 'dogs' || key === 'marriage') return; // Exclude dogs and marriage from year view
+      if (key === 'marriage') return; // Exclude marriage from year view
       
       const p = projects[key];
       const year = p.year || 2025;
@@ -1269,7 +1252,6 @@ function showTitleList() {
   
   setupAllTitleListeners();
   
-  // Adjust thumbnail positions based on sort mode
   requestAnimationFrame(() => {
     adjustThumbnailPositions();
   });
@@ -1285,7 +1267,6 @@ function changeSortMode(mode) {
     return;
   }
   
-  // FLIP: First - Record initial positions
   const items = Array.from(titlesContainer.querySelectorAll('.title-item, .section-titles h2'));
   const firstPositions = new Map();
   
@@ -1299,11 +1280,9 @@ function changeSortMode(mode) {
     });
   });
   
-  // FLIP: Last - Change the content and record final positions
   currentSortMode = mode;
   showTitleList();
   
-  // Wait for DOM to update
   requestAnimationFrame(() => {
     const newTitlesContainer = document.querySelector('.titles-container');
     const newItems = Array.from(newTitlesContainer.querySelectorAll('.title-item, .section-titles h2'));
@@ -1313,12 +1292,10 @@ function changeSortMode(mode) {
       const first = firstPositions.get(key);
       
       if (first) {
-        // FLIP: Invert - Calculate the difference
         const last = newItem.getBoundingClientRect();
         const deltaX = first.left - last.left;
         const deltaY = first.top - last.top;
         
-        // FLIP: Play - Apply transform and animate to 0
         newItem.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
         newItem.style.transition = 'none';
         
@@ -1378,10 +1355,8 @@ function showProject(key) {
       </div>
     </div>`;
   
-  // Add event listeners to the "All Works" title items
   setupAllTitleListeners();
   
-  // Add click listeners to images
   document.querySelectorAll('.clickable-image').forEach(img => {
     img.addEventListener('click', function() {
       const modal = document.getElementById('image-modal');
@@ -1434,7 +1409,6 @@ document.getElementById('image-modal').addEventListener('click', function() {
 document.getElementById('contact-link').addEventListener('click', function() {
   const email = 'narisawa.noa@gmail.com';
   navigator.clipboard.writeText(email).then(() => {
-    // Temporarily change text to show it was copied
     const originalText = this.textContent;
     this.textContent = 'contact → copied!';
     setTimeout(() => {
@@ -1490,13 +1464,11 @@ document.addEventListener('mousemove', (e) => {
   const colorValue = `rgb(${r}, ${g}, ${b})`;
   coordsEl.style.color = colorValue;
   
-  // Apply same color to contact link
   const contactEl = document.getElementById('contact-link');
   if (contactEl) {
     contactEl.style.color = colorValue;
   }
   
-  // Draw line
   if (!isDrawing) {
     lastX = e.clientX;
     lastY = e.clientY;
@@ -1505,15 +1477,11 @@ document.addEventListener('mousemove', (e) => {
     return;
   }
   
-  // Calculate velocity (distance / time)
   const currentTime = Date.now();
-  const timeDelta = Math.max(currentTime - lastTime, 1); // Avoid division by zero
+  const timeDelta = Math.max(currentTime - lastTime, 1);
   const distance = Math.sqrt(Math.pow(e.clientX - lastX, 2) + Math.pow(e.clientY - lastY, 2));
   const velocity = distance / timeDelta;
   
-  // Map velocity to opacity: slower = more opaque, faster = less opaque
-  // velocity ranges roughly from 0 (stationary) to 5+ (fast movement)
-  // We'll map it so: slow motion (0-0.5) = 0.9 opacity, fast motion (2+) = 0.2 opacity
   let opacity = Math.max(0.2, Math.min(0.9, 0.9 - (velocity * 0.3)));
   
   ctx.beginPath();
@@ -1528,7 +1496,6 @@ document.addEventListener('mousemove', (e) => {
   lastTime = currentTime;
 });
 
-// Optional: clear canvas periodically or on click
 document.addEventListener('click', () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   isDrawing = false;
