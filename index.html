@@ -36,7 +36,6 @@ header {
   padding: 20px 30px;
   text-align: left;
 }
-
 .header-container {
   display: flex;
   justify-content: space-between;
@@ -92,7 +91,6 @@ header nav a {
 header nav a:hover, header nav a.active { border-bottom-color: transparent; }
 .portfolio-container { padding: 30px; }
 
-/* Main works layout wrapper */
 .main-works-wrapper-full {
   max-width: 1400px;
   margin: 0 auto;
@@ -102,11 +100,7 @@ header nav a:hover, header nav a.active { border-bottom-color: transparent; }
   gap: 80px;
   position: relative;
 }
-
-.titles-list {
-  max-width: 600px;
-}
-
+.titles-list { max-width: 600px; }
 .title-item-wrapper {
   margin-bottom: 8px;
   cursor: pointer;
@@ -114,17 +108,9 @@ header nav a:hover, header nav a.active { border-bottom-color: transparent; }
   position: relative;
   display: block;
 }
+.title-item-wrapper:hover { opacity: 0.7; z-index: 100; }
+.title-item-wrapper .title-item { padding: 8px 0; }
 
-.title-item-wrapper:hover {
-  opacity: 0.7;
-  z-index: 100;
-}
-
-.title-item-wrapper .title-item {
-  padding: 8px 0;
-}
-
-/* ── GRID THUMBNAIL COLUMN ── */
 .thumbnails-column {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -134,19 +120,8 @@ header nav a:hover, header nav a.active { border-bottom-color: transparent; }
   padding-bottom: 40px;
 }
 
-.upcoming-section {
-  margin-top: 10px;
-  padding-left: 30px;
-}
-
-.upcoming-title {
-  font-size: 12px;
-  font-weight: 400;
-  margin-bottom: 10px;
-  color: #000;
-  padding-left: 0px;
-}
-
+.upcoming-section { margin-top: 10px; padding-left: 30px; }
+.upcoming-title { font-size: 12px; font-weight: 400; margin-bottom: 10px; color: #000; }
 .scrolling-banner {
   overflow: hidden;
   white-space: nowrap;
@@ -156,22 +131,15 @@ header nav a:hover, header nav a.active { border-bottom-color: transparent; }
   text-align: left;
   position: relative;
 }
-
 .banner-content {
   display: inline-block;
   animation: scroll-left 30s linear infinite;
 }
-
 @keyframes scroll-left {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
-/* ── THUMBNAIL CARDS ── */
 .title-thumbnail {
   width: 100%;
   height: 160px;
@@ -181,47 +149,26 @@ header nav a:hover, header nav a.active { border-bottom-color: transparent; }
   align-items: center;
   justify-content: center;
   background: #f5f5f5;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   cursor: pointer;
   transition: opacity 0.3s ease;
-  /* Remove any absolute positioning from nth-child rules */
   position: relative !important;
   left: auto !important;
   top: auto !important;
 }
-
-.title-thumbnail:hover {
-  opacity: 0.8;
-}
-
-.title-thumbnail img,
-.title-thumbnail video {
+.title-thumbnail:hover { opacity: 0.8; }
+.title-thumbnail img, .title-thumbnail video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
+.title-thumbnail video { pointer-events: none; }
 
-.title-thumbnail video {
-  pointer-events: none;
-}
-
-.section-titles {
-  margin-bottom: 30px;
-  margin-top: 20px;
-}
-
-.section-titles:first-child {
-  margin-top: 0;
-}
-
-.left-titles-column {
-  position: relative;
-}
-
-.titles-container {
-  position: relative;
-}
+.section-titles { margin-bottom: 30px; margin-top: 20px; }
+.section-titles:first-child { margin-top: 0; }
+.left-titles-column { position: relative; }
+.titles-container { position: relative; }
 
 .title-item {
   transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1), opacity 0.3s ease;
@@ -230,452 +177,181 @@ header nav a:hover, header nav a.active { border-bottom-color: transparent; }
   font-size: 18px;
   font-weight: 300;
 }
+.title-item:hover { color: red; }
+.section-titles h2 { transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1), opacity 0.3s ease; }
 
-.title-item:hover {
-  color: red;
-}
-
-.title-item.animating {
-  position: relative;
-  z-index: 10;
-}
-
-.section-titles h2 {
-  transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1), opacity 0.3s ease;
-}
-
-.sort-tabs {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-bottom: 40px;
-  padding-bottom: 15px;
-}
-
-.sort-tabs-main {
-  display: flex;
-  gap: 20px;
-}
-
-.sort-tab {
-  font-size: 16px;
-  cursor: pointer;
-  padding: 5px 0;
-  transition: color 0.3s ease;
-  color: var(--muted);
-}
-
-.sort-tab:hover {
-  color: var(--fg);
-}
-
-.sort-tab.active {
-  color: var(--fg);
-  font-weight: 500;
-}
-
-.sort-tab.small {
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.sort-tab.small:hover {
-  color: var(--fg);
-}
-
-.sort-tab.small.active {
-  color: var(--fg);
-  font-weight: 500;
-}
+.sort-tabs { display: flex; flex-direction: column; gap: 15px; margin-bottom: 40px; padding-bottom: 15px; }
+.sort-tabs-main { display: flex; gap: 20px; }
+.sort-tab { font-size: 16px; cursor: pointer; padding: 5px 0; transition: color 0.3s ease; color: var(--muted); }
+.sort-tab:hover { color: var(--fg); }
+.sort-tab.active { color: var(--fg); font-weight: 500; }
+.sort-tab.small { font-size: 12px; color: var(--muted); }
+.sort-tab.small:hover { color: var(--fg); }
+.sort-tab.small.active { color: var(--fg); font-weight: 500; }
 
 h2 { font-size: 13px; margin: 0 0 30px; font-weight: 300; color: #000000; }
 .tab-content { display: none; }
 .tab-content.active { display: block; }
 
-/* Fixed thumbnail display */
 .thumbnail-display {
-  width: 100%;
-  max-width: 100%;
-  max-height: 500px;
-  border-radius: 8px;
-  overflow: hidden;
-  display: none;
-  align-items: center;
-  justify-content: center;
+  width: 100%; max-width: 100%; max-height: 500px;
+  border-radius: 8px; overflow: hidden;
+  display: none; align-items: center; justify-content: center;
   background: transparent;
 }
-
-.thumbnail-display.active {
-  display: flex;
+.thumbnail-display.active { display: flex; }
+.thumbnail-display img, .thumbnail-display video {
+  max-width: 100%; max-height: 500px;
+  width: auto; height: auto; object-fit: contain; display: block;
 }
+.thumbnail-display video { pointer-events: none; }
 
-.thumbnail-display img,
-.thumbnail-display video {
-  max-width: 100%;
-  max-height: 500px;
-  width: auto;
-  height: auto;
-  object-fit: contain;
-  display: block;
-}
-.thumbnail-display video {
-  pointer-events: none;
-}
-
+/* ── Project page ── */
 .project-page { display: none; }
 .project-page.active { display: block; }
-.project-header { max-width: 1200px; margin: 0 auto; padding: 40px 30px 20px; text-align: center; }
+
+.project-header {
+  max-width: 100%;
+  padding: 40px 30px 20px;
+  text-align: center;
+}
 .project-header h1 { font-size: 24px; font-weight: 400; margin: 0 0 20px; }
 .project-meta { color: #000000; font-size: 16px; margin-bottom: 30px; }
-.project-description { font-size: 18px; line-height: 1.8; margin-bottom: 30px; max-width: 800px; margin-left: auto; margin-right: auto; }
-.project-gallery { max-width: 350px; margin: 0 auto; padding: 0 30px 60px; }
+.project-description {
+  font-size: 18px; line-height: 1.8; margin-bottom: 30px;
+  max-width: 800px; margin-left: auto; margin-right: auto;
+}
+
+/* Full-width gallery — no gaps, no rounding, stacks flush */
+.project-gallery {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
 .project-gallery img {
   width: 100%;
-  max-height: 500px;
-  object-fit: contain;
-  margin-bottom: 30px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: opacity 0.3s ease;
-}
-.project-gallery video, .project-gallery iframe {
-  width: 100%;
-  max-width: 700px;
-  max-height: 900px;
-  object-fit: contain;
-  margin-bottom: 30px;
-  margin-left: auto;
-  margin-right: auto;
+  max-height: none;
+  height: auto;
+  object-fit: cover;
   display: block;
-  border-radius: 8px;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
   cursor: pointer;
   transition: opacity 0.3s ease;
 }
-.project-gallery img:hover {
-  opacity: 0.8;
-}
-.project-gallery iframe { aspect-ratio: 16/9; height: auto; }
-.back-link {
-  position: absolute;
-  top: 20px;
-  left: 30px;
-  font-size: 16px;
-  color: var(--fg);
-  text-decoration: none;
-  padding: 8px 16px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
-  background: var(--bg);
-  cursor: pointer;
-  z-index: 10;
-}
-.back-link:hover {
-  background-color: var(--border);
-}
-.profile-section { margin-bottom: 50px; }
-.profile-section h3 {
-  font-size: 20px;
-  font-weight: 500;
-  margin: 0 0 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--border);
-}
-.profile-meta { color: var(--muted); font-size: 14px; margin-bottom: 10px; }
-.cursor-coords {
-  position: fixed;
-  top: 35px;
-  right: 10px;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-family: monospace;
-  z-index: 100;
-  pointer-events: none;
-}
-
-.contact-link {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-family: monospace;
-  z-index: 10000;
-  pointer-events: auto;
-  text-decoration: none;
-  transition: opacity 0.3s ease;
-}
-
-.contact-link:hover {
-  opacity: 0.7;
-}
-
-.header-center {
-  position: fixed;
-  top: 60px;
-  right: 10px;
-  font-size: 12px;
-  line-height: 1.8;
-  color: #000;
-  z-index: 100;
-  padding: 8px 12px;
-}
-.image-modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
+.project-gallery video {
   width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.9);
-  z-index: 10000;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
+  max-width: 100%;
+  max-height: none;
+  height: auto;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  cursor: default;
+  transition: opacity 0.3s ease;
 }
-.image-modal.active {
-  display: flex;
+.project-gallery iframe {
+  width: 100%;
+  max-width: 100%;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  border: none;
+  aspect-ratio: 16/9;
+  height: auto;
 }
-.image-modal img {
-  max-width: 90%;
-  max-height: 90%;
-  object-fit: contain;
+
+.back-link {
+  position: absolute; top: 20px; left: 30px;
+  font-size: 16px; color: var(--fg); text-decoration: none;
+  padding: 8px 16px; border: 1px solid var(--border); border-radius: 4px;
+  transition: background-color 0.3s ease; background: var(--bg); cursor: pointer; z-index: 10;
 }
+.back-link:hover { background-color: var(--border); }
+
+.profile-section { margin-bottom: 50px; }
+.profile-section h3 { font-size: 20px; font-weight: 500; margin: 0 0 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.profile-meta { color: var(--muted); font-size: 14px; margin-bottom: 10px; }
+
+.cursor-coords {
+  position: fixed; top: 35px; right: 10px; color: white;
+  padding: 8px 12px; border-radius: 4px; font-size: 12px;
+  font-family: monospace; z-index: 100; pointer-events: none;
+}
+.contact-link {
+  position: fixed; top: 10px; right: 10px; color: white;
+  padding: 8px 12px; border-radius: 4px; font-size: 12px;
+  font-family: monospace; z-index: 10000; pointer-events: auto;
+  text-decoration: none; transition: opacity 0.3s ease;
+}
+.contact-link:hover { opacity: 0.7; }
+.header-center {
+  position: fixed; top: 60px; right: 10px;
+  font-size: 12px; line-height: 1.8; color: #000; z-index: 100; padding: 8px 12px;
+}
+
+.image-modal {
+  display: none; position: fixed; top: 0; left: 0;
+  width: 100%; height: 100%; background: rgba(0,0,0,0.9);
+  z-index: 10000; justify-content: center; align-items: center; cursor: pointer;
+}
+.image-modal.active { display: flex; }
+.image-modal img { max-width: 90%; max-height: 90%; object-fit: contain; }
+
 footer { padding:20px; font-size:14px; text-align: center; }
 footer p { margin:0; }
 
-/* ========================================
-   MOBILE RESPONSIVE STYLES
-   ======================================== */
 @media (max-width: 768px) {
-  body {
-    font-size: 12px;
-    padding: 25px;
-  }
-  
-  header {
-    padding: 15px 15px;
-    margin: -25px -25px 25px -25px;
-  }
-  
-  .header-container {
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .header-left {
-    width: 100%;
-  }
-  
-  header h1 {
-    font-size: 16px;
-  }
-  
-  .header-left-description {
-    font-size: 10px;
-    max-width: 100%;
-  }
-  
-  .dolphin-image {
-    height: 16px;
-  }
-  
-  header nav {
-    margin-top: 10px;
-    gap: 20px;
-  }
-  
-  header nav a {
-    font-size: 11px;
-  }
-  
-  .header-center {
-    position: static;
-    padding: 0;
-    font-size: 10px;
-    margin-top: 10px;
-  }
-  
-  .cursor-coords {
-    top: 10px;
-    right: 10px;
-    font-size: 10px;
-    padding: 6px 10px;
-  }
-  
-  .contact-link {
-    top: auto;
-    bottom: 10px;
-    right: 10px;
-    font-size: 11px;
-    padding: 8px 12px;
-  }
-  
-  .portfolio-container {
-    padding: 15px 0;
-  }
-  
-  .main-works-wrapper-full {
-    grid-template-columns: 1fr;
-    gap: 30px;
-    padding: 15px 0;
-  }
-  
-  .sort-tabs {
-    gap: 15px;
-    margin-bottom: 25px;
-    padding-bottom: 10px;
-    flex-wrap: wrap;
-  }
-  
-  .sort-tab {
-    font-size: 12px;
-  }
-  
-  .titles-list {
-    max-width: 100%;
-  }
-  
-  .section-titles {
-    margin-bottom: 25px;
-    margin-top: 15px;
-  }
-  
-  .section-titles h2 {
-    font-size: 11px;
-    margin-bottom: 15px;
-  }
-  
-  .title-item {
-    font-size: 11px;
-    padding: 8px 0;
-  }
-  
-  .title-item-wrapper {
-    margin-bottom: 6px;
-  }
-  
-  .thumbnails-column {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    padding-top: 0;
-    margin-top: 20px;
-  }
-  
-  .title-thumbnail {
-    height: 90px;
-  }
-  
-  .upcoming-section {
-    margin-top: 30px;
-    padding-left: 0;
-  }
-  
-  .upcoming-title {
-    font-size: 10px;
-  }
-  
-  .scrolling-banner {
-    font-size: 10px;
-    max-width: 100%;
-  }
-  
-  .project-page {
-    padding-top: 50px;
-  }
-  
-  .back-link {
-    top: 15px;
-    left: 15px;
-    font-size: 10px;
-    padding: 6px 12px;
-  }
-  
-  .project-header {
-    padding: 30px 0 15px;
-  }
-  
-  .project-header h1 {
-    font-size: 13px;
-    margin-bottom: 15px;
-  }
-  
-  .project-meta {
-    font-size: 10px;
-    margin-bottom: 20px;
-    color: #000000;
-  }
-  
-  .project-description {
-    font-size: 11px;
-    line-height: 1.7;
-    margin-bottom: 30px;
-  }
-  
-  .project-gallery {
-    max-width: 100%;
-    padding: 0 0 40px 0;
-  }
-  
-  .project-gallery img,
-  .project-gallery video,
-  .project-gallery iframe {
-    max-height: 150px;
-    margin-bottom: 20px;
-  }
-  
-  .main-works-wrapper {
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .left-titles-column h2 {
-    font-size: 11px;
-  }
-  
-  .thumbnail-display {
-    max-height: 150px;
-  }
-  
-  .thumbnail-display img,
-  .thumbnail-display video {
-    max-height: 150px;
-  }
-  
-  .image-modal img {
-    max-width: 95%;
-    max-height: 95%;
-  }
-  
-  footer {
-    padding: 15px;
-    font-size: 10px;
-  }
-  
-  /* Disable cursor drawing on mobile */
-  canvas {
-    display: none !important;
-  }
+  body { font-size: 12px; padding: 25px; }
+  header { padding: 15px 15px; margin: -25px -25px 25px -25px; }
+  .header-container { flex-direction: column; gap: 15px; }
+  .header-left { width: 100%; }
+  header h1 { font-size: 16px; }
+  .header-left-description { font-size: 10px; max-width: 100%; }
+  .dolphin-image { height: 16px; }
+  header nav { margin-top: 10px; gap: 20px; }
+  header nav a { font-size: 11px; }
+  .header-center { position: static; padding: 0; font-size: 10px; margin-top: 10px; }
+  .cursor-coords { top: 10px; right: 10px; font-size: 10px; padding: 6px 10px; }
+  .contact-link { top: auto; bottom: 10px; right: 10px; font-size: 11px; padding: 8px 12px; }
+  .portfolio-container { padding: 15px 0; }
+  .main-works-wrapper-full { grid-template-columns: 1fr; gap: 30px; padding: 15px 0; }
+  .sort-tabs { gap: 15px; margin-bottom: 25px; padding-bottom: 10px; flex-wrap: wrap; }
+  .sort-tab { font-size: 12px; }
+  .titles-list { max-width: 100%; }
+  .section-titles { margin-bottom: 25px; margin-top: 15px; }
+  .section-titles h2 { font-size: 11px; margin-bottom: 15px; }
+  .title-item { font-size: 11px; padding: 8px 0; }
+  .title-item-wrapper { margin-bottom: 6px; }
+  .thumbnails-column { grid-template-columns: repeat(2, 1fr); gap: 15px; padding-top: 0; margin-top: 20px; }
+  .title-thumbnail { height: 90px; }
+  .upcoming-section { margin-top: 30px; padding-left: 0; }
+  .upcoming-title { font-size: 10px; }
+  .scrolling-banner { font-size: 10px; max-width: 100%; }
+  .project-page { padding-top: 50px; }
+  .back-link { top: 15px; left: 15px; font-size: 10px; padding: 6px 12px; }
+  .project-header { padding: 30px 15px 15px; }
+  .project-header h1 { font-size: 13px; margin-bottom: 15px; }
+  .project-meta { font-size: 10px; margin-bottom: 20px; color: #000000; }
+  .project-description { font-size: 11px; line-height: 1.7; margin-bottom: 30px; }
+  /* gallery stays full-width on mobile too — no overrides needed */
+  .main-works-wrapper { flex-direction: column; gap: 20px; }
+  .left-titles-column h2 { font-size: 11px; }
+  .thumbnail-display { max-height: 150px; }
+  .thumbnail-display img, .thumbnail-display video { max-height: 150px; }
+  .image-modal img { max-width: 95%; max-height: 95%; }
+  footer { padding: 15px; font-size: 10px; }
+  canvas { display: none !important; }
 }
 
-/* Tablet and smaller desktop adjustments */
 @media (max-width: 1024px) and (min-width: 769px) {
-  .main-works-wrapper-full {
-    grid-template-columns: 500px 1fr;
-    gap: 60px;
-  }
-  
-  .thumbnails-column {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .title-thumbnail {
-    height: 130px;
-  }
+  .main-works-wrapper-full { grid-template-columns: 500px 1fr; gap: 60px; }
+  .thumbnails-column { grid-template-columns: repeat(2, 1fr); }
+  .title-thumbnail { height: 130px; }
 }
 </style>
 </head>
@@ -706,18 +382,35 @@ footer p { margin:0; }
 
   <script>
 const videoProjects = ['youtube'];
-const installationProjects = ['dogs', 'plotter', 'sky'];
-const sculptureProjects = ['wood', 'plottedimages', 'light', 'hole', 'tide', 'metal'];
-const interactiveProjects = ['hallucinations', 'forest', 'bounds'];
+const sculptureProjects = ['wedding', 'dogs', 'plotter', 'sky', 'wood', 'plottedimages', 'light', 'hole', 'tide', 'metal'];
+const interactiveProjects = ['bounds', 'hallucinations', 'forest'];
 
 const projects = {
+
+  wedding: {
+    title: "The Wedding",
+    meta: "March 2026 / plaster, PETG, tubes, pumps, arduino, plywood, multimedia installation",
+    year: 2026,
+    monthOrder: 2,
+    thumb: { type: 'youtube', src: 'Q5XgxCGeDkw' },
+    media: [
+      { type: 'youtube', src: 'Q5XgxCGeDkw' },
+      { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/weddingcloseup.mp4' },
+      { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/weddingtext.mp4' },
+      { type: 'image', src: 'images/overview.JPG' }
+    ]
+  },
 
   bounds: {
     title: "Spinnig bounds",
     meta: "March 2026 / steel, motors, MPU 6050, arduino, multimedia installation",
     year: 2026,
-    thumb: { type: 'image', src: 'images/spin.JPG' },
+    monthOrder: 1,
+    thumb: {type: 'youtube', src: 'yBeKLQdEfHM'},
     media: [
+      { type: 'youtube', src: 'yBeKLQdEfHM' },
+      { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/metalpov.mp4' },
+      { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/closeupmetal.mp4' },
       { type: 'image', src: 'images/spin.JPG' },
       { type: 'image', src: 'images/spin2.JPG'},
       { type: 'image', src: 'images/spin3.JPG' }
@@ -732,9 +425,11 @@ const projects = {
     media: [
       { type: 'youtube', src: 'jk1E8Fi9cfE' },
       { type: 'image', src: 'images/dog.JPG' },
+      { type: 'image', src: 'images/dog4.jpg' },
       { type: 'image', src: 'images/dog2.jpg' }
     ]
   },
+
   marriage: {
     title: "marriage",
     meta: "March 2026 / work in progress",
@@ -744,11 +439,12 @@ const projects = {
       { type: 'image', src: 'images/placeholder.jpg' }
     ]
   },
+
   hallucinations: {
     title: "About the circle drawing",
     meta: "February 2026 / electronics, 3D printing, Bacardi rum, multimedia installation",
     year: 2026,
-    thumb: { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/circle_bright_small.mp4' }, 
+    thumb: { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/circle_bright_small.mp4' },
     media: [
       { type: 'image', src: 'images/circle3.jpg' },
       { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/circle_bright_small.mp4' },
@@ -756,6 +452,7 @@ const projects = {
       { type: 'image', src: 'images/circle1.JPG' }
     ]
   },
+
   youtube: {
     title: "Why did you do that, idiot, murderer, jump",
     meta: "December 2025 / Video (17:04)",
@@ -763,9 +460,10 @@ const projects = {
     thumb: { type: 'image', src: 'images/M2D.jpg' },
     media: [
       { type: 'youtube', src: 'b_-3fnUcD2E' },
-      { type: 'image', src:'images/M2D.jpg'}
+      { type: 'image', src: 'images/M2D.jpg' }
     ]
   },
+
   wood: {
     title: "How to shoot down a bird",
     meta: "November 2025 / Wood, multimedia installation",
@@ -779,6 +477,7 @@ const projects = {
       { type: 'image', src: 'images/wood4.jpg' }
     ]
   },
+
   plotter: {
     title: "Walking the plotter",
     meta: "September 2025 / Multimedia Installation",
@@ -790,6 +489,7 @@ const projects = {
       { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/plotter9_24com_1.mp4' }
     ]
   },
+
   forest: {
     title: "An unknown Entity",
     meta: "May 2025 / Multimedia Installation",
@@ -802,6 +502,7 @@ const projects = {
       { type: 'image', src: 'images/forestphoto2.jpeg' }
     ]
   },
+
   sky: {
     title: "Live Recording and Projection of the Sky",
     meta: "April 2025 / Multimedia Installation",
@@ -813,7 +514,7 @@ const projects = {
       { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/sky2.mp4' }
     ]
   },
-  
+
   metal: {
     title: "Flowly bent ladder",
     meta: "October 2025 / Steel",
@@ -838,6 +539,7 @@ const projects = {
       { type: 'image', src: 'images/light3.jpg' }
     ]
   },
+
   hole: {
     title: "Rice Paper 1 ; Hole in the colony",
     meta: "April 2025 / Wire, rice paper, reed, wood",
@@ -850,6 +552,7 @@ const projects = {
       { type: 'image', src: 'images/colony4.jpg' }
     ]
   },
+
   tide: {
     title: "Spacial Tide",
     meta: "March 2025 / Bristol paper (sketches: oil paint, procreate)",
@@ -865,6 +568,7 @@ const projects = {
       { type: 'image', src: 'images/painting2.jpg' }
     ]
   },
+
   plottedimages: {
     title: "Plotted images",
     meta: "September 2025 / Pen plotter, blender",
@@ -884,9 +588,6 @@ const projects = {
     ]
   }
 };
-
-const cursorThumbnail = document.getElementById('cursor-thumbnail');
-let currentHoveredProject = null;
 
 function renderThumbnailMedia(item) {
   if (item.type === 'youtube') {
@@ -918,18 +619,9 @@ function showUnderConstruction() {
             <span class="sort-tab small active" onclick="showUnderConstruction()">under construction</span>
           </div>
           <div class="titles-container titles-list">
-            <div class="section-titles">
-              <h2>Work in Progress</h2>
-              <div class="title-item-wrapper" data-project="marriage" onclick="showProject('marriage')">
-                <div class="title-item" data-project="marriage">${projects.marriage.title}</div>
-              </div>
-            </div>
           </div>
         </div>
         <div class="thumbnails-column">
-          <div class="title-thumbnail" onclick="showProject('marriage')" style="cursor: pointer;">
-            ${renderThumbnailMedia(projects.marriage.thumb)}
-          </div>
         </div>
       </div>
       <div class="upcoming-section">
@@ -939,124 +631,62 @@ function showUnderConstruction() {
         </div>
       </div>
     </div>`;
-  
-  setupAllTitleListeners();
 }
 
 function showTitleList() {
   let titlesHTML = '';
   let thumbsHTML = '';
-  
+
   if (currentSortMode === 'grouping') {
-    const videoTitles = videoProjects.map(key => {
-      const p = projects[key];
-      return `<div class="title-item-wrapper" data-project="${key}" onclick="showProject('${key}')">
+    const groups = [
+      { label: 'Interactive', keys: interactiveProjects },
+      { label: 'Sculpture', keys: sculptureProjects },
+      { label: 'Video', keys: videoProjects }
+    ];
+
+    groups.forEach(({ label, keys }) => {
+      titlesHTML += `<div class="section-titles"><h2>${label}</h2>`;
+      keys.forEach(key => {
+        const p = projects[key];
+        titlesHTML += `<div class="title-item-wrapper" data-project="${key}" onclick="showProject('${key}')">
           <div class="title-item" data-project="${key}">${p.title}</div>
         </div>`;
-    }).join('');
-    
-    const videoThumbs = videoProjects.map(key => {
-      const p = projects[key];
-      return `<div class="title-thumbnail" onclick="showProject('${key}')" style="cursor: pointer;">${renderThumbnailMedia(p.thumb)}</div>`;
-    }).join('');
-    
-    const interactiveTitles = interactiveProjects.map(key => {
-      const p = projects[key];
-      return `<div class="title-item-wrapper" data-project="${key}" onclick="showProject('${key}')">
-          <div class="title-item" data-project="${key}">${p.title}</div>
-        </div>`;
-    }).join('');
-    
-    const interactiveThumbs = interactiveProjects.map(key => {
-      const p = projects[key];
-      return `<div class="title-thumbnail" onclick="showProject('${key}')" style="cursor: pointer;">${renderThumbnailMedia(p.thumb)}</div>`;
-    }).join('');
-    
-    const installationTitles = installationProjects.map(key => {
-      const p = projects[key];
-      return `<div class="title-item-wrapper" data-project="${key}" onclick="showProject('${key}')">
-          <div class="title-item" data-project="${key}">${p.title}</div>
-        </div>`;
-    }).join('');
-    
-    const installationThumbs = installationProjects.map(key => {
-      const p = projects[key];
-      return `<div class="title-thumbnail" onclick="showProject('${key}')" style="cursor: pointer;">${renderThumbnailMedia(p.thumb)}</div>`;
-    }).join('');
-    
-    const sculptureTitles = sculptureProjects.map(key => {
-      const p = projects[key];
-      return `<div class="title-item-wrapper" data-project="${key}" onclick="showProject('${key}')">
-          <div class="title-item" data-project="${key}">${p.title}</div>
-        </div>`;
-    }).join('');
-    
-    const sculptureThumbs = sculptureProjects.map(key => {
-      const p = projects[key];
-      return `<div class="title-thumbnail" onclick="showProject('${key}')" style="cursor: pointer;">${renderThumbnailMedia(p.thumb)}</div>`;
-    }).join('');
-    
-    titlesHTML = `
-      <div class="section-titles">
-        <h2>Interactive</h2>
-        ${interactiveTitles}
-      </div>
-      <div class="section-titles">
-        <h2>Installation</h2>
-        ${installationTitles}
-      </div>
-      <div class="section-titles">
-        <h2>Video</h2>
-        ${videoTitles}
-      </div>
-      <div class="section-titles">
-        <h2>Sculpture</h2>
-        ${sculptureTitles}
-      </div>`;
-      
-    thumbsHTML = interactiveThumbs + installationThumbs + videoThumbs + sculptureThumbs;
+        thumbsHTML += `<div class="title-thumbnail" onclick="showProject('${key}')" style="cursor:pointer;">${renderThumbnailMedia(p.thumb)}</div>`;
+      });
+      titlesHTML += `</div>`;
+    });
+
   } else {
     const projectsByYear = {};
     const allThumbs = [];
-    
+
     Object.keys(projects).forEach(key => {
       if (key === 'marriage') return;
-      
       const p = projects[key];
       const year = p.year || 2025;
-      if (!projectsByYear[year]) {
-        projectsByYear[year] = [];
-      }
-      
+      if (!projectsByYear[year]) projectsByYear[year] = [];
       const monthMatch = p.meta.match(/^(January|February|March|April|May|June|July|August|September|October|November|December)/);
-      const monthNum = monthMatch ? monthMap[monthMatch[1]] : 0;
-      
+      const monthNum = p.monthOrder !== undefined ? p.monthOrder + monthMap[monthMatch[1]] * 10 : (monthMatch ? monthMap[monthMatch[1]] * 10 : 0);
       projectsByYear[year].push({ key, monthNum });
     });
-    
+
     const years = Object.keys(projectsByYear).sort((a, b) => b - a);
-    
+
     titlesHTML = years.map(year => {
       const sortedProjects = projectsByYear[year].sort((a, b) => b.monthNum - a.monthNum);
-      
       const titles = sortedProjects.map(({ key }) => {
         const p = projects[key];
-        allThumbs.push(`<div class="title-thumbnail" onclick="showProject('${key}')" style="cursor: pointer;">${renderThumbnailMedia(p.thumb)}</div>`);
+        allThumbs.push(`<div class="title-thumbnail" onclick="showProject('${key}')" style="cursor:pointer;">${renderThumbnailMedia(p.thumb)}</div>`);
         return `<div class="title-item-wrapper" data-project="${key}" onclick="showProject('${key}')">
-            <div class="title-item" data-project="${key}">${p.title}</div>
-          </div>`;
-      }).join('');
-      
-      return `
-        <div class="section-titles">
-          <h2>${year}</h2>
-          ${titles}
+          <div class="title-item" data-project="${key}">${p.title}</div>
         </div>`;
+      }).join('');
+      return `<div class="section-titles"><h2>${year}</h2>${titles}</div>`;
     }).join('');
-    
+
     thumbsHTML = allThumbs.join('');
   }
-  
+
   document.getElementById('main-content').innerHTML = `
     <div class="tab-content active">
       <div class="main-works-wrapper-full">
@@ -1068,13 +698,9 @@ function showTitleList() {
             </div>
             <span class="sort-tab small" onclick="showUnderConstruction()">under construction</span>
           </div>
-          <div class="titles-container titles-list">
-            ${titlesHTML}
-          </div>
+          <div class="titles-container titles-list">${titlesHTML}</div>
         </div>
-        <div class="thumbnails-column">
-          ${thumbsHTML}
-        </div>
+        <div class="thumbnails-column">${thumbsHTML}</div>
       </div>
       <div class="upcoming-section">
         <div class="upcoming-title">upcoming...</div>
@@ -1083,52 +709,40 @@ function showTitleList() {
         </div>
       </div>
     </div>`;
-  
-  setupAllTitleListeners();
 }
 
 function changeSortMode(mode) {
   if (currentSortMode === mode) return;
-  
+
   const titlesContainer = document.querySelector('.titles-container');
   if (!titlesContainer) {
     currentSortMode = mode;
     showTitleList();
     return;
   }
-  
+
   const items = Array.from(titlesContainer.querySelectorAll('.title-item, .section-titles h2'));
   const firstPositions = new Map();
-  
   items.forEach(item => {
     const rect = item.getBoundingClientRect();
     const key = item.dataset.project || item.textContent.trim();
-    firstPositions.set(key, {
-      element: item,
-      top: rect.top,
-      left: rect.left
-    });
+    firstPositions.set(key, { top: rect.top, left: rect.left });
   });
-  
+
   currentSortMode = mode;
   showTitleList();
-  
+
   requestAnimationFrame(() => {
-    const newTitlesContainer = document.querySelector('.titles-container');
-    const newItems = Array.from(newTitlesContainer.querySelectorAll('.title-item, .section-titles h2'));
-    
+    const newItems = Array.from(document.querySelectorAll('.titles-container .title-item, .titles-container .section-titles h2'));
     newItems.forEach(newItem => {
       const key = newItem.dataset.project || newItem.textContent.trim();
       const first = firstPositions.get(key);
-      
       if (first) {
         const last = newItem.getBoundingClientRect();
         const deltaX = first.left - last.left;
         const deltaY = first.top - last.top;
-        
         newItem.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
         newItem.style.transition = 'none';
-        
         requestAnimationFrame(() => {
           newItem.style.transition = 'transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1)';
           newItem.style.transform = 'translate(0, 0)';
@@ -1138,65 +752,7 @@ function changeSortMode(mode) {
   });
 }
 
-function setupAllTitleListeners() {
-  // Listeners handled by onclick in HTML
-}
-
-function showWorks() {
-  showTitleList();
-}
-
-function showProject(key) {
-  const p = projects[key];
-  const mediaHTML = p.media.map(m => {
-    if (m.type === 'youtube') {
-      return `<iframe width="100%" height="400" src="https://www.youtube.com/embed/${m.src}?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
-    } else if (m.type === 'video') {
-      return `<video controls preload="metadata"><source src="${m.src}" type="video/mp4"><source src="${m.src}" type="video/quicktime">Your browser does not support the video tag.</video>`;
-    } else {
-      return `<img src="${m.src}" alt="" class="clickable-image">`;
-    }
-  }).join('');
-  
-  const allProjectsTitles = Object.keys(projects).map(k => {
-    const proj = projects[k];
-    return `<div class="title-item" data-project="${k}" onclick="showProject('${k}')" style="cursor: pointer;">${proj.title}</div>`;
-  }).join('');
-  
-  document.getElementById('main-content').innerHTML = `
-    <div class="project-page active">
-      <a href="#works" class="back-link" onclick="showWorks(); return false;">← Works</a>
-      <div class="project-header">
-        <h1>${p.title}</h1>
-        <div class="project-meta">${p.meta}</div>
-      </div>
-      <div class="project-gallery">${mediaHTML}</div>
-      <div class="portfolio-container">
-        <div class="main-works-wrapper">
-          <div class="left-titles-column">
-            <h2>All Works</h2>
-            ${allProjectsTitles}
-          </div>
-          <div class="right-thumbnail-column">
-            <div class="thumbnail-display" id="all-works-thumbnail"></div>
-          </div>
-        </div>
-      </div>
-    </div>`;
-  
-  setupAllTitleListeners();
-  
-  document.querySelectorAll('.clickable-image').forEach(img => {
-    img.addEventListener('click', function() {
-      const modal = document.getElementById('image-modal');
-      const modalImg = modal.querySelector('img');
-      modalImg.src = this.src;
-      modal.classList.add('active');
-    });
-  });
-  
-  window.scrollTo(0, 0);
-}
+function showWorks() { showTitleList(); }
 
 function showProfile() {
   document.getElementById('main-content').innerHTML = `
@@ -1218,6 +774,55 @@ function showProfile() {
     </div>`;
 }
 
+function showProject(key) {
+  const p = projects[key];
+  const mediaHTML = p.media.map(m => {
+    if (m.type === 'youtube') {
+      return `<iframe src="https://www.youtube.com/embed/${m.src}?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+    } else if (m.type === 'video') {
+      return `<video controls preload="metadata"><source src="${m.src}" type="video/mp4"><source src="${m.src}" type="video/quicktime">Your browser does not support the video tag.</video>`;
+    } else {
+      return `<img src="${m.src}" alt="" class="clickable-image">`;
+    }
+  }).join('');
+
+  const allProjectsTitles = Object.keys(projects).map(k => {
+    const proj = projects[k];
+    return `<div class="title-item" data-project="${k}" onclick="showProject('${k}')" style="cursor:pointer;">${proj.title}</div>`;
+  }).join('');
+
+  document.getElementById('main-content').innerHTML = `
+    <div class="project-page active">
+      <a href="#works" class="back-link" onclick="showWorks(); return false;">← Works</a>
+      <div class="project-header">
+        <h1>${p.title}</h1>
+        <div class="project-meta">${p.meta}</div>
+      </div>
+      <div class="project-gallery">${mediaHTML}</div>
+      <div class="portfolio-container">
+        <div class="main-works-wrapper">
+          <div class="left-titles-column">
+            <h2>All Works</h2>
+            ${allProjectsTitles}
+          </div>
+          <div class="right-thumbnail-column">
+            <div class="thumbnail-display" id="all-works-thumbnail"></div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  document.querySelectorAll('.clickable-image').forEach(img => {
+    img.addEventListener('click', function() {
+      const modal = document.getElementById('image-modal');
+      modal.querySelector('img').src = this.src;
+      modal.classList.add('active');
+    });
+  });
+
+  window.scrollTo(0, 0);
+}
+
 document.querySelectorAll('.nav-link').forEach(link => {
   link.addEventListener('click', (e) => {
     e.preventDefault();
@@ -1229,97 +834,66 @@ document.querySelectorAll('.nav-link').forEach(link => {
 
 showWorks();
 
-// Image modal close functionality
 document.getElementById('image-modal').addEventListener('click', function() {
   this.classList.remove('active');
 });
 
-// Contact email copy to clipboard functionality
 document.getElementById('contact-link').addEventListener('click', function() {
   const email = 'narisawa.noa@gmail.com';
   navigator.clipboard.writeText(email).then(() => {
     const originalText = this.textContent;
     this.textContent = 'contact → copied!';
-    setTimeout(() => {
-      this.textContent = originalText;
-    }, 1500);
-  }).catch(err => {
-    console.error('Failed to copy email:', err);
-  });
+    setTimeout(() => { this.textContent = originalText; }, 1500);
+  }).catch(err => console.error('Failed to copy email:', err));
 });
 
 // Cursor drawing effect
 const canvas = document.createElement('canvas');
-canvas.style.position = 'fixed';
-canvas.style.top = '0';
-canvas.style.left = '0';
-canvas.style.width = '100%';
-canvas.style.height = '100%';
-canvas.style.pointerEvents = 'none';
-canvas.style.zIndex = '9999';
+canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;';
 document.body.appendChild(canvas);
 
 const ctx = canvas.getContext('2d');
 let isDrawing = false;
-let lastX = 0;
-let lastY = 0;
-let lastTime = Date.now();
+let lastX = 0, lastY = 0, lastTime = Date.now();
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 }
-
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
 
-let mouseX = window.innerWidth / 2;
-let mouseY = window.innerHeight / 2;
-
 document.addEventListener('mousemove', (e) => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  
   const coordsEl = document.getElementById('coords');
   coordsEl.textContent = `X: ${e.clientX}, Y: ${e.clientY}`;
 
-  const w = window.innerWidth || 1;
-  const h = window.innerHeight || 1;
-
-  const r = Math.round((e.clientX / w) * 255);
-  const g = Math.round((e.clientY / h) * 255);
+  const r = Math.round((e.clientX / window.innerWidth) * 255);
+  const g = Math.round((e.clientY / window.innerHeight) * 255);
   const b = Math.round(255 - ((r + g) / 2));
-
   const colorValue = `rgb(${r}, ${g}, ${b})`;
+
   coordsEl.style.color = colorValue;
-  
   const contactEl = document.getElementById('contact-link');
-  if (contactEl) {
-    contactEl.style.color = colorValue;
-  }
-  
+  if (contactEl) contactEl.style.color = colorValue;
+
   if (!isDrawing) {
-    lastX = e.clientX;
-    lastY = e.clientY;
-    lastTime = Date.now();
-    isDrawing = true;
-    return;
+    lastX = e.clientX; lastY = e.clientY;
+    lastTime = Date.now(); isDrawing = true; return;
   }
-  
+
   const currentTime = Date.now();
   const timeDelta = Math.max(currentTime - lastTime, 1);
-  const distance = Math.sqrt(Math.pow(e.clientX - lastX, 2) + Math.pow(e.clientY - lastY, 2));
+  const distance = Math.hypot(e.clientX - lastX, e.clientY - lastY);
   const velocity = distance / timeDelta;
-  
-  let opacity = Math.max(0.2, Math.min(0.9, 0.9 - (velocity * 0.3)));
-  
+  const opacity = Math.max(0.2, Math.min(0.9, 0.9 - velocity * 0.3));
+
   ctx.beginPath();
   ctx.moveTo(lastX, lastY);
   ctx.lineTo(e.clientX, e.clientY);
   ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${opacity})`;
   ctx.lineWidth = 2;
   ctx.stroke();
-  
+
   lastX = e.clientX;
   lastY = e.clientY;
   lastTime = currentTime;
