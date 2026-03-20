@@ -41,29 +41,7 @@ header {
   justify-content: space-between;
   align-items: flex-start;
 }
-.header-left {
-  flex: 1;
-}
-.upcoming-section-header {
-  margin-top: 30px;
-  padding-left: 15px;
-}
-
-.upcoming-section-header .upcoming-title {
-  font-size: 12px;
-  font-weight: 400;
-  margin-bottom: 10px;
-  color: #000;
-}
-
-.upcoming-section-header .scrolling-banner {
-  overflow: hidden;
-  white-space: nowrap;
-  font-size: 12px;
-  color: #000;
-  max-width: 400px;
-  text-align: left;
-}
+.header-left { flex: 1; }
 header h1 { margin: 0; font-size: 18px; font-weight: 300; }
 .header-left-description {
   font-size: 12px;
@@ -165,8 +143,6 @@ header nav a:hover, header nav a.active { border-bottom-color: transparent; }
 }
 .title-thumbnail video { pointer-events: none; }
 
-.section-titles { margin-bottom: 30px; margin-top: 20px; }
-.section-titles:first-child { margin-top: 0; }
 .left-titles-column { position: relative; }
 .titles-container { position: relative; }
 
@@ -178,18 +154,12 @@ header nav a:hover, header nav a.active { border-bottom-color: transparent; }
   font-weight: 300;
 }
 .title-item:hover { color: red; }
-.section-titles h2 { transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1), opacity 0.3s ease; }
 
 .sort-tabs { display: flex; flex-direction: column; gap: 15px; margin-bottom: 40px; padding-bottom: 15px; }
-.sort-tabs-main { display: flex; gap: 20px; }
-.sort-tab { font-size: 16px; cursor: pointer; padding: 5px 0; transition: color 0.3s ease; color: var(--muted); }
+.sort-tab { font-size: 12px; color: var(--muted); cursor: pointer; padding: 5px 0; transition: color 0.3s ease; }
 .sort-tab:hover { color: var(--fg); }
 .sort-tab.active { color: var(--fg); font-weight: 500; }
-.sort-tab.small { font-size: 12px; color: var(--muted); }
-.sort-tab.small:hover { color: var(--fg); }
-.sort-tab.small.active { color: var(--fg); font-weight: 500; }
 
-h2 { font-size: 13px; margin: 0 0 30px; font-weight: 300; color: #000000; }
 .tab-content { display: none; }
 .tab-content.active { display: block; }
 
@@ -206,7 +176,6 @@ h2 { font-size: 13px; margin: 0 0 30px; font-weight: 300; color: #000000; }
 }
 .thumbnail-display video { pointer-events: none; }
 
-/* ── Project page ── */
 .project-page { display: none; }
 .project-page.active { display: block; }
 
@@ -222,7 +191,6 @@ h2 { font-size: 13px; margin: 0 0 30px; font-weight: 300; color: #000000; }
   max-width: 800px; margin-left: auto; margin-right: auto;
 }
 
-/* Full-width gallery — no gaps, no rounding, stacks flush */
 .project-gallery {
   width: 100%;
   max-width: 100%;
@@ -320,11 +288,7 @@ footer p { margin:0; }
   .contact-link { top: auto; bottom: 10px; right: 10px; font-size: 11px; padding: 8px 12px; }
   .portfolio-container { padding: 15px 0; }
   .main-works-wrapper-full { grid-template-columns: 1fr; gap: 30px; padding: 15px 0; }
-  .sort-tabs { gap: 15px; margin-bottom: 25px; padding-bottom: 10px; flex-wrap: wrap; }
-  .sort-tab { font-size: 12px; }
   .titles-list { max-width: 100%; }
-  .section-titles { margin-bottom: 25px; margin-top: 15px; }
-  .section-titles h2 { font-size: 11px; margin-bottom: 15px; }
   .title-item { font-size: 11px; padding: 8px 0; }
   .title-item-wrapper { margin-bottom: 6px; }
   .thumbnails-column { grid-template-columns: repeat(2, 1fr); gap: 15px; padding-top: 0; margin-top: 20px; }
@@ -338,9 +302,7 @@ footer p { margin:0; }
   .project-header h1 { font-size: 13px; margin-bottom: 15px; }
   .project-meta { font-size: 10px; margin-bottom: 20px; color: #000000; }
   .project-description { font-size: 11px; line-height: 1.7; margin-bottom: 30px; }
-  /* gallery stays full-width on mobile too — no overrides needed */
   .main-works-wrapper { flex-direction: column; gap: 20px; }
-  .left-titles-column h2 { font-size: 11px; }
   .thumbnail-display { max-height: 150px; }
   .thumbnail-display img, .thumbnail-display video { max-height: 150px; }
   .image-modal img { max-width: 95%; max-height: 95%; }
@@ -353,7 +315,7 @@ footer p { margin:0; }
   .thumbnails-column { grid-template-columns: repeat(2, 1fr); }
   .title-thumbnail { height: 130px; }
 }
-</style>
+  </style>
 </head>
 <body>
   <header>
@@ -386,7 +348,6 @@ const sculptureProjects = ['wedding', 'dogs', 'plotter', 'sky', 'wood', 'plotted
 const interactiveProjects = ['bounds', 'hallucinations', 'forest'];
 
 const projects = {
-
   wedding: {
     title: "The Wedding",
     meta: "March 2026 / plaster, PETG, tubes, pumps, arduino, plywood, multimedia installation",
@@ -400,7 +361,6 @@ const projects = {
       { type: 'image', src: 'images/overview.JPG' }
     ]
   },
-
   bounds: {
     title: "Spinnig bounds",
     meta: "March 2026 / steel, motors, MPU 6050, arduino, multimedia installation",
@@ -416,7 +376,6 @@ const projects = {
       { type: 'image', src: 'images/spin3.JPG' }
     ]
   },
-
   dogs: {
     title: "Dog and Bone",
     meta: "February 2026 / speakers, microphones, starch gelatin, print papers, audio interface, monitor, processing",
@@ -429,17 +388,6 @@ const projects = {
       { type: 'image', src: 'images/dog2.jpg' }
     ]
   },
-
-  marriage: {
-    title: "marriage",
-    meta: "March 2026 / work in progress",
-    year: 2026,
-    thumb: { type: 'image', src: 'images/placeholder.jpg' },
-    media: [
-      { type: 'image', src: 'images/placeholder.jpg' }
-    ]
-  },
-
   hallucinations: {
     title: "About the circle drawing",
     meta: "February 2026 / electronics, 3D printing, Bacardi rum, multimedia installation",
@@ -452,7 +400,6 @@ const projects = {
       { type: 'image', src: 'images/circle1.JPG' }
     ]
   },
-
   youtube: {
     title: "Why did you do that, idiot, murderer, jump",
     meta: "December 2025 / Video (17:04)",
@@ -463,7 +410,6 @@ const projects = {
       { type: 'image', src: 'images/M2D.jpg' }
     ]
   },
-
   wood: {
     title: "How to shoot down a bird",
     meta: "November 2025 / Wood, multimedia installation",
@@ -477,7 +423,6 @@ const projects = {
       { type: 'image', src: 'images/wood4.jpg' }
     ]
   },
-
   plotter: {
     title: "Walking the plotter",
     meta: "September 2025 / Multimedia Installation",
@@ -489,7 +434,6 @@ const projects = {
       { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/plotter9_24com_1.mp4' }
     ]
   },
-
   forest: {
     title: "An unknown Entity",
     meta: "May 2025 / Multimedia Installation",
@@ -502,7 +446,6 @@ const projects = {
       { type: 'image', src: 'images/forestphoto2.jpeg' }
     ]
   },
-
   sky: {
     title: "Live Recording and Projection of the Sky",
     meta: "April 2025 / Multimedia Installation",
@@ -514,7 +457,6 @@ const projects = {
       { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/sky2.mp4' }
     ]
   },
-
   metal: {
     title: "Flowly bent ladder",
     meta: "October 2025 / Steel",
@@ -527,7 +469,6 @@ const projects = {
       { type: 'image', src: 'images/metal5.jpg' }
     ]
   },
-
   light: {
     title: "Rice Paper 2 ; Light in the colony",
     meta: "May 2025 / Wire, rice paper, reed",
@@ -539,7 +480,6 @@ const projects = {
       { type: 'image', src: 'images/light3.jpg' }
     ]
   },
-
   hole: {
     title: "Rice Paper 1 ; Hole in the colony",
     meta: "April 2025 / Wire, rice paper, reed, wood",
@@ -552,7 +492,6 @@ const projects = {
       { type: 'image', src: 'images/colony4.jpg' }
     ]
   },
-
   tide: {
     title: "Spacial Tide",
     meta: "March 2025 / Bristol paper (sketches: oil paint, procreate)",
@@ -568,7 +507,6 @@ const projects = {
       { type: 'image', src: 'images/painting2.jpg' }
     ]
   },
-
   plottedimages: {
     title: "Plotted images",
     meta: "September 2025 / Pen plotter, blender",
@@ -589,6 +527,11 @@ const projects = {
   }
 };
 
+const monthMap = {
+  'January': 1, 'February': 2, 'March': 3, 'April': 4, 'May': 5, 'June': 6,
+  'July': 7, 'August': 8, 'September': 9, 'October': 10, 'November': 11, 'December': 12
+};
+
 function renderThumbnailMedia(item) {
   if (item.type === 'youtube') {
     return `<img src="https://img.youtube.com/vi/${item.src}/maxresdefault.jpg" alt="YouTube thumbnail">`;
@@ -599,30 +542,17 @@ function renderThumbnailMedia(item) {
   }
 }
 
-let currentSortMode = 'grouping';
-
-const monthMap = {
-  'January': 1, 'February': 2, 'March': 3, 'April': 4, 'May': 5, 'June': 6,
-  'July': 7, 'August': 8, 'September': 9, 'October': 10, 'November': 11, 'December': 12
-};
-
 function showUnderConstruction() {
   document.getElementById('main-content').innerHTML = `
     <div class="tab-content active">
       <div class="main-works-wrapper-full">
         <div class="left-titles-column">
           <div class="sort-tabs">
-            <div class="sort-tabs-main">
-              <span class="sort-tab" onclick="changeSortMode('year')">Year created</span>
-              <span class="sort-tab" onclick="changeSortMode('grouping')">Grouping</span>
-            </div>
-            <span class="sort-tab small active" onclick="showUnderConstruction()">under construction</span>
+            <span class="sort-tab active">under construction</span>
           </div>
-          <div class="titles-container titles-list">
-          </div>
+          <div class="titles-container titles-list"></div>
         </div>
-        <div class="thumbnails-column">
-        </div>
+        <div class="thumbnails-column"></div>
       </div>
       <div class="upcoming-section">
         <div class="upcoming-title">upcoming...</div>
@@ -637,66 +567,33 @@ function showTitleList() {
   let titlesHTML = '';
   let thumbsHTML = '';
 
-  if (currentSortMode === 'grouping') {
-    const groups = [
-      { label: 'Interactive', keys: interactiveProjects },
-      { label: 'Sculpture', keys: sculptureProjects },
-      { label: 'Video', keys: videoProjects }
-    ];
+  // collect all projects and sort by year desc, then month desc
+  const allKeys = Object.keys(projects);
+  const sorted = allKeys.sort((a, b) => {
+    const pa = projects[a];
+    const pb = projects[b];
+    if (pb.year !== pa.year) return pb.year - pa.year;
+    const matchA = pa.meta.match(/^(January|February|March|April|May|June|July|August|September|October|November|December)/);
+    const matchB = pb.meta.match(/^(January|February|March|April|May|June|July|August|September|October|November|December)/);
+    const monthA = pa.monthOrder !== undefined ? pa.monthOrder + (matchA ? monthMap[matchA[1]] * 10 : 0) : (matchA ? monthMap[matchA[1]] * 10 : 0);
+    const monthB = pb.monthOrder !== undefined ? pb.monthOrder + (matchB ? monthMap[matchB[1]] * 10 : 0) : (matchB ? monthMap[matchB[1]] * 10 : 0);
+    return monthB - monthA;
+  });
 
-    groups.forEach(({ label, keys }) => {
-      titlesHTML += `<div class="section-titles"><h2>${label}</h2>`;
-      keys.forEach(key => {
-        const p = projects[key];
-        titlesHTML += `<div class="title-item-wrapper" data-project="${key}" onclick="showProject('${key}')">
-          <div class="title-item" data-project="${key}">${p.title}</div>
-        </div>`;
-        thumbsHTML += `<div class="title-thumbnail" onclick="showProject('${key}')" style="cursor:pointer;">${renderThumbnailMedia(p.thumb)}</div>`;
-      });
-      titlesHTML += `</div>`;
-    });
-
-  } else {
-    const projectsByYear = {};
-    const allThumbs = [];
-
-    Object.keys(projects).forEach(key => {
-      if (key === 'marriage') return;
-      const p = projects[key];
-      const year = p.year || 2025;
-      if (!projectsByYear[year]) projectsByYear[year] = [];
-      const monthMatch = p.meta.match(/^(January|February|March|April|May|June|July|August|September|October|November|December)/);
-      const monthNum = p.monthOrder !== undefined ? p.monthOrder + monthMap[monthMatch[1]] * 10 : (monthMatch ? monthMap[monthMatch[1]] * 10 : 0);
-      projectsByYear[year].push({ key, monthNum });
-    });
-
-    const years = Object.keys(projectsByYear).sort((a, b) => b - a);
-
-    titlesHTML = years.map(year => {
-      const sortedProjects = projectsByYear[year].sort((a, b) => b.monthNum - a.monthNum);
-      const titles = sortedProjects.map(({ key }) => {
-        const p = projects[key];
-        allThumbs.push(`<div class="title-thumbnail" onclick="showProject('${key}')" style="cursor:pointer;">${renderThumbnailMedia(p.thumb)}</div>`);
-        return `<div class="title-item-wrapper" data-project="${key}" onclick="showProject('${key}')">
-          <div class="title-item" data-project="${key}">${p.title}</div>
-        </div>`;
-      }).join('');
-      return `<div class="section-titles"><h2>${year}</h2>${titles}</div>`;
-    }).join('');
-
-    thumbsHTML = allThumbs.join('');
-  }
+  sorted.forEach(key => {
+    const p = projects[key];
+    titlesHTML += `<div class="title-item-wrapper" data-project="${key}" onclick="showProject('${key}')">
+      <div class="title-item" data-project="${key}">${p.title}</div>
+    </div>`;
+    thumbsHTML += `<div class="title-thumbnail" onclick="showProject('${key}')" style="cursor:pointer;">${renderThumbnailMedia(p.thumb)}</div>`;
+  });
 
   document.getElementById('main-content').innerHTML = `
     <div class="tab-content active">
       <div class="main-works-wrapper-full">
         <div class="left-titles-column">
           <div class="sort-tabs">
-            <div class="sort-tabs-main">
-              <span class="sort-tab ${currentSortMode === 'year' ? 'active' : ''}" onclick="changeSortMode('year')">Year created</span>
-              <span class="sort-tab ${currentSortMode === 'grouping' ? 'active' : ''}" onclick="changeSortMode('grouping')">Grouping</span>
-            </div>
-            <span class="sort-tab small" onclick="showUnderConstruction()">under construction</span>
+            <span class="sort-tab" onclick="showUnderConstruction()">under construction</span>
           </div>
           <div class="titles-container titles-list">${titlesHTML}</div>
         </div>
@@ -711,68 +608,7 @@ function showTitleList() {
     </div>`;
 }
 
-function changeSortMode(mode) {
-  if (currentSortMode === mode) return;
-
-  const titlesContainer = document.querySelector('.titles-container');
-  if (!titlesContainer) {
-    currentSortMode = mode;
-    showTitleList();
-    return;
-  }
-
-  const items = Array.from(titlesContainer.querySelectorAll('.title-item, .section-titles h2'));
-  const firstPositions = new Map();
-  items.forEach(item => {
-    const rect = item.getBoundingClientRect();
-    const key = item.dataset.project || item.textContent.trim();
-    firstPositions.set(key, { top: rect.top, left: rect.left });
-  });
-
-  currentSortMode = mode;
-  showTitleList();
-
-  requestAnimationFrame(() => {
-    const newItems = Array.from(document.querySelectorAll('.titles-container .title-item, .titles-container .section-titles h2'));
-    newItems.forEach(newItem => {
-      const key = newItem.dataset.project || newItem.textContent.trim();
-      const first = firstPositions.get(key);
-      if (first) {
-        const last = newItem.getBoundingClientRect();
-        const deltaX = first.left - last.left;
-        const deltaY = first.top - last.top;
-        newItem.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-        newItem.style.transition = 'none';
-        requestAnimationFrame(() => {
-          newItem.style.transition = 'transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1)';
-          newItem.style.transform = 'translate(0, 0)';
-        });
-      }
-    });
-  });
-}
-
 function showWorks() { showTitleList(); }
-
-function showProfile() {
-  document.getElementById('main-content').innerHTML = `
-    <div class="tab-content active">
-      <div class="portfolio-container">
-        <h2>Profile</h2>
-        <div class="title-list">
-          <div class="profile-section">
-            <h3>Education</h3>
-            <div class="profile-meta">Rhode Island School of Design (RISD), Providence, RI</div>
-            <div class="profile-meta">Bachelor of Fine Arts, Sculpture 2028</div>
-          </div>
-          <div class="profile-section">
-            <h3>Contact</h3>
-            <div class="profile-meta">Email: narisawa.noa@gmail.com</div>
-          </div>
-        </div>
-      </div>
-    </div>`;
-}
 
 function showProject(key) {
   const p = projects[key];
@@ -847,7 +683,6 @@ document.getElementById('contact-link').addEventListener('click', function() {
   }).catch(err => console.error('Failed to copy email:', err));
 });
 
-// Cursor drawing effect
 const canvas = document.createElement('canvas');
 canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;';
 document.body.appendChild(canvas);
