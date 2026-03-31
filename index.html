@@ -336,16 +336,16 @@ footer p { margin:0; }
   </header>
   <main id="main-content"></main>
   <div class="cursor-coords" id="coords">X: 0, Y: 0</div>
-  <div class="contact-link" id="contact-link">contact → narisawa.noa@gmail.com</div>
+  <div class="contact-link" id="contact-link">contact → <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="127c73607b617365733c7c7d7352757f737b7e3c717d7f">[email&#160;protected]</a></div>
   <div class="image-modal" id="image-modal">
     <img src="" alt="">
   </div>
   <footer><p></p></footer>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const videoProjects = ['youtube'];
 const sculptureProjects = ['wedding', 'dogs', 'plotter', 'sky', 'wood', 'plottedimages', 'light', 'hole', 'tide', 'metal'];
-const interactiveProjects = ['bounds', 'hallucinations', 'forest'];
+const interactiveProjects = ['bounds', 'hallucinations', 'forest', 'recordplayer'];
 
 const projects = {
   wedding: {
@@ -372,6 +372,18 @@ const projects = {
       { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/metalpov.mp4' },
       { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/closeupmetal.mp4' },
       { type: 'image', src: 'images/spin3.JPG' }
+    ]
+  },
+  recordplayer: {
+    title: "Synthesizer",
+    meta: "March 2026 / p5.js",
+    year: 2026,
+    monthOrder: 3,
+    thumb: { type: 'youtube', src: '33iM7q3U5Pc' },
+    media: [
+      { type: 'youtube', src: 'T83aniUjtfg' },
+      { type: 'youtube', src: '33iM7q3U5Pc' },
+      { type: 'link', src: 'https://editor.p5js.org/epplllll/full/SJlYyLuvJ', label: '→ open p5.js sketch' }
     ]
   },
   dogs: {
@@ -613,6 +625,8 @@ function showProject(key) {
   const mediaHTML = p.media.map(m => {
     if (m.type === 'youtube') {
       return `<iframe src="https://www.youtube.com/embed/${m.src}?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+    } else if (m.type === 'link') {
+      return `<div style="padding:40px 30px;"><a href="${m.src}" target="_blank" rel="noopener" style="font-size:16px;color:var(--fg);text-decoration:none;border-bottom:1px solid var(--fg);">${m.label}</a></div>`;
     } else if (m.type === 'video') {
       return `<video controls preload="metadata"><source src="${m.src}" type="video/mp4"><source src="${m.src}" type="video/quicktime">Your browser does not support the video tag.</video>`;
     } else {
