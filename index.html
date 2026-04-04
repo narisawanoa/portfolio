@@ -67,46 +67,75 @@ header nav a {
   font-size: 14px;
 }
 header nav a:hover, header nav a.active { border-bottom-color: transparent; }
-.portfolio-container { padding: 30px; }
 
-.main-works-wrapper-full {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 20px 30px 0px 30px;
+/* ── FULL-PAGE THUMBNAIL GRID ── */
+.works-grid {
   display: grid;
-  grid-template-columns: 600px 1fr;
-  gap: 80px;
-  position: relative;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
 }
-.titles-list { max-width: 600px; }
-.title-item-wrapper {
-  margin-bottom: 8px;
+
+.grid-item {
+  position: relative;
+  overflow: hidden;
   cursor: pointer;
-  transition: opacity 0.3s ease;
-  position: relative;
+  aspect-ratio: 4/3;
+  background: #f0f0f0;
+}
+
+.grid-item img,
+.grid-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
-}
-.title-item-wrapper:hover { opacity: 0.7; z-index: 100; }
-.title-item-wrapper .title-item { padding: 8px 0; }
-
-.thumbnails-column {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-  align-content: start;
-  padding-top: 10px;
-  padding-bottom: 40px;
+  transition: transform 0.5s ease, opacity 0.3s ease;
 }
 
-.upcoming-section { margin-top: 10px; padding-left: 30px; }
-.upcoming-title { font-size: 12px; font-weight: 400; margin-bottom: 10px; color: #000; }
+.grid-item video { pointer-events: none; }
+
+.grid-item:hover img,
+.grid-item:hover video {
+  transform: scale(1.04);
+  opacity: 0.7;
+}
+
+.grid-item-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px 18px;
+  background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 55%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.grid-item:hover .grid-item-overlay { opacity: 1; }
+
+.grid-item-title {
+  font-size: 15px;
+  font-weight: 300;
+  color: #fff;
+  line-height: 1.3;
+  margin: 0 0 3px;
+}
+
+.grid-item-meta {
+  font-size: 11px;
+  color: rgba(255,255,255,0.8);
+  margin: 0;
+}
+
+/* upcoming banner */
+.upcoming-section { margin-top: 0; padding: 18px 30px; border-top: 1px solid var(--border); }
+.upcoming-title { font-size: 12px; font-weight: 400; margin-bottom: 6px; color: #000; }
 .scrolling-banner {
   overflow: hidden;
   white-space: nowrap;
   font-size: 12px;
   color: #000;
-  max-width: 400px;
-  text-align: left;
   position: relative;
 }
 .banner-content {
@@ -118,64 +147,7 @@ header nav a:hover, header nav a.active { border-bottom-color: transparent; }
   100% { transform: translateX(-50%); }
 }
 
-.title-thumbnail {
-  width: 100%;
-  height: 160px;
-  overflow: hidden;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f5f5f5;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  cursor: pointer;
-  transition: opacity 0.3s ease;
-  position: relative !important;
-  left: auto !important;
-  top: auto !important;
-}
-.title-thumbnail:hover { opacity: 0.8; }
-.title-thumbnail img, .title-thumbnail video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.title-thumbnail video { pointer-events: none; }
-
-.left-titles-column { position: relative; }
-.titles-container { position: relative; }
-
-.title-item {
-  transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1), opacity 0.3s ease;
-  padding: 10px 0;
-  cursor: pointer;
-  font-size: 18px;
-  font-weight: 300;
-}
-.title-item:hover { color: red; }
-
-.sort-tabs { display: flex; flex-direction: column; gap: 15px; margin-bottom: 40px; padding-bottom: 15px; }
-.sort-tab { font-size: 12px; color: var(--muted); cursor: pointer; padding: 5px 0; transition: color 0.3s ease; }
-.sort-tab:hover { color: var(--fg); }
-.sort-tab.active { color: var(--fg); font-weight: 500; }
-
-.tab-content { display: none; }
-.tab-content.active { display: block; }
-
-.thumbnail-display {
-  width: 100%; max-width: 100%; max-height: 500px;
-  border-radius: 8px; overflow: hidden;
-  display: none; align-items: center; justify-content: center;
-  background: transparent;
-}
-.thumbnail-display.active { display: flex; }
-.thumbnail-display img, .thumbnail-display video {
-  max-width: 100%; max-height: 500px;
-  width: auto; height: auto; object-fit: contain; display: block;
-}
-.thumbnail-display video { pointer-events: none; }
-
+/* ── PROJECT PAGE ── */
 .project-page { display: none; }
 .project-page.active { display: block; }
 
@@ -186,51 +158,23 @@ header nav a:hover, header nav a.active { border-bottom-color: transparent; }
 }
 .project-header h1 { font-size: 24px; font-weight: 400; margin: 0 0 20px; }
 .project-meta { color: #000000; font-size: 16px; margin-bottom: 30px; }
-.project-description {
-  font-size: 18px; line-height: 1.8; margin-bottom: 30px;
-  max-width: 800px; margin-left: auto; margin-right: auto;
-}
 
-.project-gallery {
-  width: 100%;
-  max-width: 100%;
-  margin: 0;
-  padding: 0;
-}
+.project-gallery { width: 100%; max-width: 100%; margin: 0; padding: 0; }
 .project-gallery img {
-  width: 100%;
-  max-height: none;
-  height: auto;
-  object-fit: cover;
-  display: block;
-  margin: 0;
-  padding: 0;
-  border-radius: 0;
-  cursor: pointer;
-  transition: opacity 0.3s ease;
+  width: 100%; max-height: none; height: auto;
+  object-fit: cover; display: block;
+  margin: 0; padding: 0; border-radius: 0;
+  cursor: pointer; transition: opacity 0.3s ease;
 }
 .project-gallery video {
-  width: 100%;
-  max-width: 100%;
-  max-height: none;
-  height: auto;
-  display: block;
-  margin: 0;
-  padding: 0;
-  border-radius: 0;
-  cursor: default;
-  transition: opacity 0.3s ease;
+  width: 100%; max-width: 100%; max-height: none; height: auto;
+  display: block; margin: 0; padding: 0; border-radius: 0;
+  cursor: default; transition: opacity 0.3s ease;
 }
 .project-gallery iframe {
-  width: 100%;
-  max-width: 100%;
-  display: block;
-  margin: 0;
-  padding: 0;
-  border-radius: 0;
-  border: none;
-  aspect-ratio: 16/9;
-  height: auto;
+  width: 100%; max-width: 100%; display: block;
+  margin: 0; padding: 0; border-radius: 0; border: none;
+  aspect-ratio: 16/9; height: auto;
 }
 
 .back-link {
@@ -241,9 +185,19 @@ header nav a:hover, header nav a.active { border-bottom-color: transparent; }
 }
 .back-link:hover { background-color: var(--border); }
 
-.profile-section { margin-bottom: 50px; }
-.profile-section h3 { font-size: 20px; font-weight: 500; margin: 0 0 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
-.profile-meta { color: var(--muted); font-size: 14px; margin-bottom: 10px; }
+/* all works list at bottom of project page */
+.all-works-list {
+  padding: 40px 30px;
+  max-width: 700px;
+}
+.all-works-list h2 { font-size: 14px; font-weight: 400; color: var(--muted); margin: 0 0 20px; }
+.all-works-list .title-item {
+  font-size: 18px; font-weight: 300;
+  padding: 8px 0; cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.2s;
+}
+.all-works-list .title-item:hover { color: red; }
 
 .cursor-coords {
   position: fixed; top: 35px; right: 10px; color: white;
@@ -274,46 +228,25 @@ footer { padding:20px; font-size:14px; text-align: center; }
 footer p { margin:0; }
 
 @media (max-width: 768px) {
-  body { font-size: 12px; padding: 25px; }
-  header { padding: 15px 15px; margin: -25px -25px 25px -25px; }
-  .header-container { flex-direction: column; gap: 15px; }
-  .header-left { width: 100%; }
+  body { font-size: 12px; }
+  header { padding: 15px; }
   header h1 { font-size: 16px; }
   .header-left-description { font-size: 10px; max-width: 100%; }
-  .dolphin-image { height: 16px; }
-  header nav { margin-top: 10px; gap: 20px; }
-  header nav a { font-size: 11px; }
-  .header-center { position: static; padding: 0; font-size: 10px; margin-top: 10px; }
-  .cursor-coords { top: 10px; right: 10px; font-size: 10px; padding: 6px 10px; }
-  .contact-link { top: auto; bottom: 10px; right: 10px; font-size: 11px; padding: 8px 12px; }
-  .portfolio-container { padding: 15px 0; }
-  .main-works-wrapper-full { grid-template-columns: 1fr; gap: 30px; padding: 15px 0; }
-  .titles-list { max-width: 100%; }
-  .title-item { font-size: 11px; padding: 8px 0; }
-  .title-item-wrapper { margin-bottom: 6px; }
-  .thumbnails-column { grid-template-columns: repeat(2, 1fr); gap: 15px; padding-top: 0; margin-top: 20px; }
-  .title-thumbnail { height: 90px; }
-  .upcoming-section { margin-top: 30px; padding-left: 0; }
-  .upcoming-title { font-size: 10px; }
-  .scrolling-banner { font-size: 10px; max-width: 100%; }
-  .project-page { padding-top: 50px; }
-  .back-link { top: 15px; left: 15px; font-size: 10px; padding: 6px 12px; }
+  .header-container { flex-direction: column; gap: 10px; }
+  .header-center { position: static; padding: 0; font-size: 10px; margin-top: 6px; }
+  .works-grid { grid-template-columns: repeat(2, 1fr); }
+  .grid-item-overlay { opacity: 1; }
+  .grid-item-title { font-size: 12px; }
+  .cursor-coords { display: none; }
+  .contact-link { top: auto; bottom: 10px; right: 10px; font-size: 11px; }
   .project-header { padding: 30px 15px 15px; }
-  .project-header h1 { font-size: 13px; margin-bottom: 15px; }
-  .project-meta { font-size: 10px; margin-bottom: 20px; color: #000000; }
-  .project-description { font-size: 11px; line-height: 1.7; margin-bottom: 30px; }
-  .main-works-wrapper { flex-direction: column; gap: 20px; }
-  .thumbnail-display { max-height: 150px; }
-  .thumbnail-display img, .thumbnail-display video { max-height: 150px; }
-  .image-modal img { max-width: 95%; max-height: 95%; }
-  footer { padding: 15px; font-size: 10px; }
+  .project-header h1 { font-size: 16px; }
+  .back-link { top: 15px; left: 15px; font-size: 10px; padding: 6px 12px; }
   canvas { display: none !important; }
 }
 
-@media (max-width: 1024px) and (min-width: 769px) {
-  .main-works-wrapper-full { grid-template-columns: 500px 1fr; gap: 60px; }
-  .thumbnails-column { grid-template-columns: repeat(2, 1fr); }
-  .title-thumbnail { height: 130px; }
+@media (max-width: 480px) {
+  .works-grid { grid-template-columns: 1fr; }
 }
   </style>
 </head>
@@ -336,23 +269,18 @@ footer p { margin:0; }
   </header>
   <main id="main-content"></main>
   <div class="cursor-coords" id="coords">X: 0, Y: 0</div>
-  <div class="contact-link" id="contact-link">contact → <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="127c73607b617365733c7c7d7352757f737b7e3c717d7f">[email&#160;protected]</a></div>
+  <div class="contact-link" id="contact-link">contact → narisawa.noa@gmail.com</div>
   <div class="image-modal" id="image-modal">
     <img src="" alt="">
   </div>
   <footer><p></p></footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-const videoProjects = ['youtube'];
-const sculptureProjects = ['wedding', 'dogs', 'plotter', 'sky', 'wood', 'plottedimages', 'light', 'hole', 'tide', 'metal'];
-const interactiveProjects = ['bounds', 'hallucinations', 'forest', 'recordplayer'];
-
+  <script>
 const projects = {
   wedding: {
     title: "The Wedding",
     meta: "March 2026 / plaster, PETG, tubes, pumps, arduino, plywood, multimedia installation",
-    year: 2026,
-    monthOrder: 2,
+    year: 2026, monthOrder: 2,
     thumb: { type: 'youtube', src: 'Q5XgxCGeDkw' },
     media: [
       { type: 'youtube', src: 'Q5XgxCGeDkw' },
@@ -364,9 +292,8 @@ const projects = {
   bounds: {
     title: "Spinnig bounds",
     meta: "March 2026 / steel, motors, MPU 6050, arduino, multimedia installation",
-    year: 2026,
-    monthOrder: 1,
-    thumb: {type: 'youtube', src: 'yBeKLQdEfHM'},
+    year: 2026, monthOrder: 1,
+    thumb: { type: 'youtube', src: 'yBeKLQdEfHM' },
     media: [
       { type: 'youtube', src: 'yBeKLQdEfHM' },
       { type: 'video', src: 'https://github.com/narisawanoa/portfolio/releases/download/media-v1/metalpov.mp4' },
@@ -377,8 +304,7 @@ const projects = {
   recordplayer: {
     title: "Synthesizer",
     meta: "March 2026 / p5.js",
-    year: 2026,
-    monthOrder: 3,
+    year: 2026, monthOrder: 3,
     thumb: { type: 'youtube', src: '33iM7q3U5Pc' },
     media: [
       { type: 'youtube', src: 'T83aniUjtfg' },
@@ -538,13 +464,25 @@ const projects = {
 };
 
 const monthMap = {
-  'January': 1, 'February': 2, 'March': 3, 'April': 4, 'May': 5, 'June': 6,
-  'July': 7, 'August': 8, 'September': 9, 'October': 10, 'November': 11, 'December': 12
+  'January':1,'February':2,'March':3,'April':4,'May':5,'June':6,
+  'July':7,'August':8,'September':9,'October':10,'November':11,'December':12
 };
 
-function renderThumbnailMedia(item) {
+function getSortedKeys() {
+  return Object.keys(projects).sort((a, b) => {
+    const pa = projects[a], pb = projects[b];
+    if (pb.year !== pa.year) return pb.year - pa.year;
+    const matchA = pa.meta.match(/^(January|February|March|April|May|June|July|August|September|October|November|December)/);
+    const matchB = pb.meta.match(/^(January|February|March|April|May|June|July|August|September|October|November|December)/);
+    const monthA = (pa.monthOrder||0) + (matchA ? monthMap[matchA[1]]*10 : 0);
+    const monthB = (pb.monthOrder||0) + (matchB ? monthMap[matchB[1]]*10 : 0);
+    return monthB - monthA;
+  });
+}
+
+function renderThumbMedia(item) {
   if (item.type === 'youtube') {
-    return `<img src="https://img.youtube.com/vi/${item.src}/maxresdefault.jpg" alt="YouTube thumbnail">`;
+    return `<img src="https://img.youtube.com/vi/${item.src}/maxresdefault.jpg" alt="">`;
   } else if (item.type === 'video') {
     return `<video autoplay loop muted playsinline><source src="${item.src}" type="video/mp4"></video>`;
   } else {
@@ -552,73 +490,28 @@ function renderThumbnailMedia(item) {
   }
 }
 
-function showUnderConstruction() {
-  document.getElementById('main-content').innerHTML = `
-    <div class="tab-content active">
-      <div class="main-works-wrapper-full">
-        <div class="left-titles-column">
-          <div class="sort-tabs">
-            <span class="sort-tab active">under construction</span>
-          </div>
-          <div class="titles-container titles-list"></div>
-        </div>
-        <div class="thumbnails-column"></div>
-      </div>
-      <div class="upcoming-section">
-        <div class="upcoming-title">upcoming...</div>
-        <div class="scrolling-banner">
-          <div class="banner-content">exposed handmade hardwares, following a command, simulated personal experience, bringing distance closer, something embrasive, ... &nbsp;&nbsp;&nbsp;&nbsp; exposed handmade hardwares, following a command, simulated personal experience, bringing distance closer, something embrasive, ... &nbsp;&nbsp;&nbsp;&nbsp; </div>
-        </div>
-      </div>
-    </div>`;
-}
-
-function showTitleList() {
-  let titlesHTML = '';
-  let thumbsHTML = '';
-
-  // collect all projects and sort by year desc, then month desc
-  const allKeys = Object.keys(projects);
-  const sorted = allKeys.sort((a, b) => {
-    const pa = projects[a];
-    const pb = projects[b];
-    if (pb.year !== pa.year) return pb.year - pa.year;
-    const matchA = pa.meta.match(/^(January|February|March|April|May|June|July|August|September|October|November|December)/);
-    const matchB = pb.meta.match(/^(January|February|March|April|May|June|July|August|September|October|November|December)/);
-    const monthA = pa.monthOrder !== undefined ? pa.monthOrder + (matchA ? monthMap[matchA[1]] * 10 : 0) : (matchA ? monthMap[matchA[1]] * 10 : 0);
-    const monthB = pb.monthOrder !== undefined ? pb.monthOrder + (matchB ? monthMap[matchB[1]] * 10 : 0) : (matchB ? monthMap[matchB[1]] * 10 : 0);
-    return monthB - monthA;
-  });
-
-  sorted.forEach(key => {
+function showWorks() {
+  const sorted = getSortedKeys();
+  const gridHTML = sorted.map(key => {
     const p = projects[key];
-    titlesHTML += `<div class="title-item-wrapper" data-project="${key}" onclick="showProject('${key}')">
-      <div class="title-item" data-project="${key}">${p.title}</div>
+    return `<div class="grid-item" onclick="showProject('${key}')">
+      ${renderThumbMedia(p.thumb)}
+      <div class="grid-item-overlay">
+        <div class="grid-item-title">${p.title}</div>
+        <div class="grid-item-meta">${p.meta.split('/')[0].trim()}</div>
+      </div>
     </div>`;
-    thumbsHTML += `<div class="title-thumbnail" onclick="showProject('${key}')" style="cursor:pointer;">${renderThumbnailMedia(p.thumb)}</div>`;
-  });
+  }).join('');
 
   document.getElementById('main-content').innerHTML = `
-    <div class="tab-content active">
-      <div class="main-works-wrapper-full">
-        <div class="left-titles-column">
-          <div class="sort-tabs">
-            <span class="sort-tab" onclick="showUnderConstruction()">under construction</span>
-          </div>
-          <div class="titles-container titles-list">${titlesHTML}</div>
-        </div>
-        <div class="thumbnails-column">${thumbsHTML}</div>
-      </div>
-      <div class="upcoming-section">
-        <div class="upcoming-title">upcoming...</div>
-        <div class="scrolling-banner">
-          <div class="banner-content">exposed handmade hardwares, following a command, simulated personal experience, bringing distance closer, something embrasive, ... &nbsp;&nbsp;&nbsp;&nbsp; exposed handmade hardwares, following a command, simulated personal experience, bringing distance closer, something embrasive, ... &nbsp;&nbsp;&nbsp;&nbsp; </div>
-        </div>
+    <div class="works-grid">${gridHTML}</div>
+    <div class="upcoming-section">
+      <div class="upcoming-title">upcoming...</div>
+      <div class="scrolling-banner">
+        <div class="banner-content">exposed handmade hardwares, following a command, simulated personal experience, bringing distance closer, something embrasive, ... &nbsp;&nbsp;&nbsp;&nbsp; exposed handmade hardwares, following a command, simulated personal experience, bringing distance closer, something embrasive, ... &nbsp;&nbsp;&nbsp;&nbsp; </div>
       </div>
     </div>`;
 }
-
-function showWorks() { showTitleList(); }
 
 function showProject(key) {
   const p = projects[key];
@@ -634,10 +527,9 @@ function showProject(key) {
     }
   }).join('');
 
-  const allProjectsTitles = Object.keys(projects).map(k => {
-    const proj = projects[k];
-    return `<div class="title-item" data-project="${k}" onclick="showProject('${k}')" style="cursor:pointer;">${proj.title}</div>`;
-  }).join('');
+  const allTitles = getSortedKeys().map(k =>
+    `<div class="title-item" onclick="showProject('${k}')">${projects[k].title}</div>`
+  ).join('');
 
   document.getElementById('main-content').innerHTML = `
     <div class="project-page active">
@@ -647,16 +539,9 @@ function showProject(key) {
         <div class="project-meta">${p.meta}</div>
       </div>
       <div class="project-gallery">${mediaHTML}</div>
-      <div class="portfolio-container">
-        <div class="main-works-wrapper">
-          <div class="left-titles-column">
-            <h2>All Works</h2>
-            ${allProjectsTitles}
-          </div>
-          <div class="right-thumbnail-column">
-            <div class="thumbnail-display" id="all-works-thumbnail"></div>
-          </div>
-        </div>
+      <div class="all-works-list">
+        <h2>All works</h2>
+        ${allTitles}
       </div>
     </div>`;
 
@@ -672,7 +557,7 @@ function showProject(key) {
 }
 
 document.querySelectorAll('.nav-link').forEach(link => {
-  link.addEventListener('click', (e) => {
+  link.addEventListener('click', e => {
     e.preventDefault();
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
     link.classList.add('active');
@@ -689,67 +574,44 @@ document.getElementById('image-modal').addEventListener('click', function() {
 document.getElementById('contact-link').addEventListener('click', function() {
   const email = 'narisawa.noa@gmail.com';
   navigator.clipboard.writeText(email).then(() => {
-    const originalText = this.textContent;
+    const orig = this.textContent;
     this.textContent = 'contact → copied!';
-    setTimeout(() => { this.textContent = originalText; }, 1500);
-  }).catch(err => console.error('Failed to copy email:', err));
+    setTimeout(() => { this.textContent = orig; }, 1500);
+  }).catch(err => console.error(err));
 });
 
 const canvas = document.createElement('canvas');
 canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;';
 document.body.appendChild(canvas);
-
 const ctx = canvas.getContext('2d');
-let isDrawing = false;
-let lastX = 0, lastY = 0, lastTime = Date.now();
+let isDrawing = false, lastX = 0, lastY = 0, lastTime = Date.now();
 
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
 
-document.addEventListener('mousemove', (e) => {
+document.addEventListener('mousemove', e => {
   const coordsEl = document.getElementById('coords');
   coordsEl.textContent = `X: ${e.clientX}, Y: ${e.clientY}`;
-
   const r = Math.round((e.clientX / window.innerWidth) * 255);
   const g = Math.round((e.clientY / window.innerHeight) * 255);
   const b = Math.round(255 - ((r + g) / 2));
-  const colorValue = `rgb(${r}, ${g}, ${b})`;
-
+  const colorValue = `rgb(${r},${g},${b})`;
   coordsEl.style.color = colorValue;
   const contactEl = document.getElementById('contact-link');
   if (contactEl) contactEl.style.color = colorValue;
-
-  if (!isDrawing) {
-    lastX = e.clientX; lastY = e.clientY;
-    lastTime = Date.now(); isDrawing = true; return;
-  }
-
+  if (!isDrawing) { lastX = e.clientX; lastY = e.clientY; lastTime = Date.now(); isDrawing = true; return; }
   const currentTime = Date.now();
   const timeDelta = Math.max(currentTime - lastTime, 1);
   const distance = Math.hypot(e.clientX - lastX, e.clientY - lastY);
   const velocity = distance / timeDelta;
   const opacity = Math.max(0.2, Math.min(0.9, 0.9 - velocity * 0.3));
-
-  ctx.beginPath();
-  ctx.moveTo(lastX, lastY);
-  ctx.lineTo(e.clientX, e.clientY);
-  ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${opacity})`;
-  ctx.lineWidth = 2;
-  ctx.stroke();
-
-  lastX = e.clientX;
-  lastY = e.clientY;
-  lastTime = currentTime;
+  ctx.beginPath(); ctx.moveTo(lastX, lastY); ctx.lineTo(e.clientX, e.clientY);
+  ctx.strokeStyle = `rgba(${r},${g},${b},${opacity})`; ctx.lineWidth = 2; ctx.stroke();
+  lastX = e.clientX; lastY = e.clientY; lastTime = currentTime;
 });
 
-document.addEventListener('click', () => {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  isDrawing = false;
-});
+document.addEventListener('click', () => { ctx.clearRect(0, 0, canvas.width, canvas.height); isDrawing = false; });
   </script>
 </body>
 </html>
