@@ -13,11 +13,28 @@
     #lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); }
     #lightbox.active { display: flex; align-items: center; justify-content: center; }
     #lightbox img { max-width: 90vw; max-height: 90vh; }
-    textarea { width: 100%; min-height: 100px; }
-    input[type="text"], input[type="date"], select { width: 100%; }
-    .entry-media img { max-width: 400px; cursor: pointer; }
-    .entry-media video { max-width: 400px; }
     hr { margin: 1rem 0; }
+    body { font-family: 'Segoe UI', sans-serif; }
+
+    /* editor blocks */
+    .editor { border: 1px solid #ccc; padding: 0.5rem; }
+    .block { margin: 0.25rem 0; display: flex; align-items: flex-start; gap: 0.5rem; }
+    .block textarea {
+      width: 100%;
+      min-height: 60px;
+      resize: vertical;
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 1rem;
+    }
+    .block img { max-width: 400px; display: block; }
+    .block video { max-width: 400px; display: block; }
+    .block-controls { display: flex; flex-direction: column; gap: 2px; }
+    .block-controls button { font-size: 0.7rem; cursor: pointer; }
+
+    /* rendered entry */
+    .entry-block-text { margin: 0.5rem 0; white-space: pre-wrap; }
+    .entry-block-img img { max-width: 400px; cursor: pointer; margin: 0.5rem 0; display: block; }
+    .entry-block-video video { max-width: 400px; margin: 0.5rem 0; display: block; }
   </style>
 </head>
 <body>
@@ -28,7 +45,7 @@
 <div id="add-form">
   <p><a href="#" onclick="toggleForm(); return false;">+ new entry</a></p>
   <div class="form-body" id="form-body">
-    <p><label>Title<br><input type="text" id="f-title" /></label></p>
+    <p><label>Title<br><input type="text" id="f-title" style="width:100%" /></label></p>
     <p><label>Date<br><input type="date" id="f-date" /></label></p>
     <p><label>Type<br>
       <select id="f-type">
@@ -39,15 +56,20 @@
         <option value="process">process</option>
       </select>
     </label></p>
-    <p><label>Content<br><textarea id="f-text"></textarea></label></p>
-    <p><label>Media<br><input type="file" id="f-media" multiple accept="image/*,video/*" onchange="handleFiles(this.files)" /></label></p>
-    <div id="media-preview"></div>
+
+    <p>Content — use the buttons to add text or media blocks in any order:</p>
+    <div class="editor" id="editor"></div>
+    <p>
+      <button onclick="addTextBlock('editor')">+ text</button>
+      <button onclick="triggerMediaInsert('editor')">+ image/video</button>
+      <input type="file" id="media-insert-input" multiple accept="image/*,video/*" style="display:none" onchange="handleMediaInsert(this)" />
+    </p>
+
     <p><button onclick="addEntry()">publish</button></p>
   </div>
 </div>
 
 <hr>
-
 <div id="empty-state">no entries yet.</div>
 <div id="entries"></div>
 
@@ -57,54 +79,163 @@
 
 <script>
   let entries = JSON.parse(localStorage.getItem('devlog-entries') || '[]');
-  let pendingMedia = [];
+  let activeEditorId = null; // which editor triggered media insert
 
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('f-date').value = today;
+  // Start new entry editor with one text block
+  addTextBlock('editor');
   renderAll();
 
   function toggleForm() {
     document.getElementById('form-body').classList.toggle('visible');
   }
 
-  function handleFiles(files) {
-    Array.from(files).forEach(file => {
-      const reader = new FileReader();
-      reader.onload = e => {
-        pendingMedia.push({ dataUrl: e.target.result, type: file.type, name: file.name });
-        renderPreviews();
-      };
-      reader.readAsDataURL(file);
+  // ── BLOCK EDITOR ──
+
+  function addTextBlock(editorId, afterEl) {
+    const editor = document.getElementById(editorId);
+    const block = document.createElement('div');
+    block.className = 'block';
+    block.dataset.type = 'text';
+    block.innerHTML = `
+      <textarea placeholder="write here..."></textarea>
+      <div class="block-controls">
+        <button onclick="moveBlock(this, -1)">↑</button>
+        <button onclick="moveBlock(this, 1)">↓</button>
+        <button onclick="removeBlock(this)">✕</button>
+      </div>`;
+    if (afterEl) afterEl.after(block);
+    else editor.appendChild(block);
+    block.querySelector('textarea').focus();
+  }
+
+  function addMediaBlock(editorId, file, afterEl) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const editor = document.getElementById(editorId);
+      const block = document.createElement('div');
+      block.className = 'block';
+      block.dataset.type = file.type.startsWith('image') ? 'image' : 'video';
+      block.dataset.dataUrl = e.target.result;
+      block.dataset.name = file.name;
+      block.dataset.mime = file.type;
+
+      const media = file.type.startsWith('image')
+        ? `<img src="${e.target.result}" style="max-width:300px" />`
+        : `<video src="${e.target.result}" controls style="max-width:300px"></video>`;
+
+      block.innerHTML = `
+        ${media}
+        <div class="block-controls">
+          <button onclick="moveBlock(this, -1)">↑</button>
+          <button onclick="moveBlock(this, 1)">↓</button>
+          <button onclick="removeBlock(this)">✕</button>
+        </div>`;
+      if (afterEl) afterEl.after(block);
+      else editor.appendChild(block);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function triggerMediaInsert(editorId) {
+    activeEditorId = editorId;
+    const input = document.getElementById('media-insert-input');
+    input.value = '';
+    input.click();
+  }
+
+  function handleMediaInsert(input) {
+    Array.from(input.files).forEach(file => {
+      addMediaBlock(activeEditorId, file, null);
     });
   }
 
-  function renderPreviews() {
-    const el = document.getElementById('media-preview');
-    el.innerHTML = pendingMedia.map(m =>
-      m.type.startsWith('image')
-        ? `<img src="${m.dataUrl}" width="80" />`
-        : `<span>[video: ${m.name}]</span>`
-    ).join(' ');
+  function moveBlock(btn, dir) {
+    const block = btn.closest('.block');
+    const editor = block.parentElement;
+    if (dir === -1 && block.previousElementSibling) {
+      editor.insertBefore(block, block.previousElementSibling);
+    } else if (dir === 1 && block.nextElementSibling) {
+      editor.insertBefore(block.nextElementSibling, block);
+    }
   }
 
+  function removeBlock(btn) {
+    btn.closest('.block').remove();
+  }
+
+  function readEditorBlocks(editorId) {
+    const blocks = [];
+    document.getElementById(editorId).querySelectorAll('.block').forEach(block => {
+      const type = block.dataset.type;
+      if (type === 'text') {
+        const val = block.querySelector('textarea').value.trim();
+        if (val) blocks.push({ type: 'text', content: val });
+      } else {
+        blocks.push({ type, dataUrl: block.dataset.dataUrl, name: block.dataset.name, mime: block.dataset.mime });
+      }
+    });
+    return blocks;
+  }
+
+  function buildEditor(editorId, blocks) {
+    const editor = document.getElementById(editorId);
+    editor.innerHTML = '';
+    if (!blocks || blocks.length === 0) { addTextBlock(editorId); return; }
+    blocks.forEach(b => {
+      if (b.type === 'text') {
+        const block = document.createElement('div');
+        block.className = 'block';
+        block.dataset.type = 'text';
+        block.innerHTML = `
+          <textarea placeholder="write here...">${escHtml(b.content)}</textarea>
+          <div class="block-controls">
+            <button onclick="moveBlock(this, -1)">↑</button>
+            <button onclick="moveBlock(this, 1)">↓</button>
+            <button onclick="removeBlock(this)">✕</button>
+          </div>`;
+        editor.appendChild(block);
+      } else {
+        const block = document.createElement('div');
+        block.className = 'block';
+        block.dataset.type = b.type;
+        block.dataset.dataUrl = b.dataUrl;
+        block.dataset.name = b.name;
+        block.dataset.mime = b.mime;
+        const media = b.type === 'image'
+          ? `<img src="${b.dataUrl}" style="max-width:300px" />`
+          : `<video src="${b.dataUrl}" controls style="max-width:300px"></video>`;
+        block.innerHTML = `
+          ${media}
+          <div class="block-controls">
+            <button onclick="moveBlock(this, -1)">↑</button>
+            <button onclick="moveBlock(this, 1)">↓</button>
+            <button onclick="removeBlock(this)">✕</button>
+          </div>`;
+        editor.appendChild(block);
+      }
+    });
+  }
+
+  // ── ADD ENTRY ──
   function addEntry() {
     const title = document.getElementById('f-title').value.trim();
     const date  = document.getElementById('f-date').value;
     const type  = document.getElementById('f-type').value;
-    const text  = document.getElementById('f-text').value.trim();
-    if (!title && !text) { alert('Add a title or content first.'); return; }
-    entries.unshift({ id: Date.now(), title: title || '(untitled)', date, type, text, media: [...pendingMedia] });
+    const blocks = readEditorBlocks('editor');
+    if (!title && blocks.length === 0) { alert('Add a title or content first.'); return; }
+    entries.unshift({ id: Date.now(), title: title || '(untitled)', date, type, blocks });
     save(); renderAll();
     document.getElementById('f-title').value = '';
     document.getElementById('f-date').value = today;
-    document.getElementById('f-text').value = '';
     document.getElementById('f-type').value = 'devlog';
-    document.getElementById('media-preview').innerHTML = '';
-    document.getElementById('f-media').value = '';
-    pendingMedia = [];
+    document.getElementById('editor').innerHTML = '';
+    addTextBlock('editor');
     document.getElementById('form-body').classList.remove('visible');
   }
 
+  // ── RENDER ──
   function renderAll() {
     const container = document.getElementById('entries');
     const empty = document.getElementById('empty-state');
@@ -114,65 +245,66 @@
     container.innerHTML = entries.map(e => renderEntry(e)).join('');
   }
 
+  function renderBlocks(blocks) {
+    if (!blocks) return '';
+    return blocks.map(b => {
+      if (b.type === 'text') return `<div class="entry-block-text">${escHtml(b.content)}</div>`;
+      if (b.type === 'image') return `<div class="entry-block-img"><img src="${b.dataUrl}" alt="${b.name}" onclick="openLightbox('${b.dataUrl}')" /></div>`;
+      if (b.type === 'video') return `<div class="entry-block-video"><video src="${b.dataUrl}" controls></video></div>`;
+      return '';
+    }).join('');
+  }
+
   function renderEntry(e) {
     const displayDate = e.date ? new Date(e.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
-    const mediaHTML = e.media && e.media.length
-      ? `<div class="entry-media">${e.media.map(m =>
-          m.type.startsWith('image')
-            ? `<img src="${m.dataUrl}" alt="${m.name}" onclick="openLightbox('${m.dataUrl}')" />`
-            : `<video src="${m.dataUrl}" controls></video>`
-        ).join('')}</div>`
-      : '';
+    const editEditorId = `editor-edit-${e.id}`;
     return `
       <div class="entry" id="entry-${e.id}">
         <div class="entry-view">
           <p><strong>${escHtml(e.title)}</strong> &mdash; ${displayDate} &mdash; ${e.type}</p>
-          ${e.text ? `<p>${escHtml(e.text)}</p>` : ''}
-          ${mediaHTML}
+          ${renderBlocks(e.blocks)}
           <p><button onclick="startEdit(${e.id})">edit</button> <button onclick="deleteEntry(${e.id})">delete</button></p>
           <hr>
         </div>
         <div class="entry-edit-form">
-          <p><label>Title<br><input type="text" id="edit-title-${e.id}" value="${escAttr(e.title)}" /></label></p>
+          <p><label>Title<br><input type="text" id="edit-title-${e.id}" value="${escAttr(e.title)}" style="width:100%" /></label></p>
           <p><label>Date<br><input type="date" id="edit-date-${e.id}" value="${e.date}" /></label></p>
           <p><label>Type<br>
             <select id="edit-type-${e.id}">
               ${['devlog','vlog','note','experiment','process'].map(t => `<option value="${t}" ${e.type===t?'selected':''}>${t}</option>`).join('')}
             </select>
           </label></p>
-          <p><label>Content<br><textarea id="edit-text-${e.id}">${escHtml(e.text)}</textarea></label></p>
-          <p><label>Add media<br><input type="file" multiple accept="image/*,video/*" onchange="addEditMedia(${e.id}, this.files)" /></label></p>
+          <p>Content:</p>
+          <div class="editor" id="${editEditorId}"></div>
+          <p>
+            <button onclick="addTextBlock('${editEditorId}')">+ text</button>
+            <button onclick="triggerMediaInsert('${editEditorId}')">+ image/video</button>
+          </p>
           <p><button onclick="saveEdit(${e.id})">save</button> <button onclick="cancelEdit(${e.id})">cancel</button></p>
           <hr>
         </div>
       </div>`;
   }
 
-  function startEdit(id) { document.getElementById(`entry-${id}`).classList.add('editing'); }
-  function cancelEdit(id) { document.getElementById(`entry-${id}`).classList.remove('editing'); }
+  // ── EDIT ──
+  function startEdit(id) {
+    const entry = entries.find(e => e.id === id);
+    document.getElementById(`entry-${id}`).classList.add('editing');
+    buildEditor(`editor-edit-${id}`, entry.blocks);
+  }
+
+  function cancelEdit(id) {
+    document.getElementById(`entry-${id}`).classList.remove('editing');
+  }
 
   function saveEdit(id) {
     const idx = entries.findIndex(e => e.id === id);
     if (idx === -1) return;
-    entries[idx].title = document.getElementById(`edit-title-${id}`).value.trim() || '(untitled)';
-    entries[idx].date  = document.getElementById(`edit-date-${id}`).value;
-    entries[idx].type  = document.getElementById(`edit-type-${id}`).value;
-    entries[idx].text  = document.getElementById(`edit-text-${id}`).value.trim();
+    entries[idx].title  = document.getElementById(`edit-title-${id}`).value.trim() || '(untitled)';
+    entries[idx].date   = document.getElementById(`edit-date-${id}`).value;
+    entries[idx].type   = document.getElementById(`edit-type-${id}`).value;
+    entries[idx].blocks = readEditorBlocks(`editor-edit-${id}`);
     save(); renderAll();
-  }
-
-  function addEditMedia(id, files) {
-    const idx = entries.findIndex(e => e.id === id);
-    if (idx === -1) return;
-    Array.from(files).forEach(file => {
-      const reader = new FileReader();
-      reader.onload = ev => {
-        entries[idx].media.push({ dataUrl: ev.target.result, type: file.type, name: file.name });
-        save(); renderAll();
-        setTimeout(() => startEdit(id), 50);
-      };
-      reader.readAsDataURL(file);
-    });
   }
 
   function deleteEntry(id) {
@@ -181,16 +313,15 @@
     save(); renderAll();
   }
 
+  // ── LIGHTBOX ──
   function openLightbox(src) {
     document.getElementById('lightbox-img').src = src;
     document.getElementById('lightbox').classList.add('active');
   }
-
   function closeLightbox() {
     document.getElementById('lightbox').classList.remove('active');
     document.getElementById('lightbox-img').src = '';
   }
-
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
   function save() { localStorage.setItem('devlog-entries', JSON.stringify(entries)); }
