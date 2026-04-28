@@ -199,12 +199,11 @@
 
   function renderEntry(e) {
     const fid = e.firestoreId;
-    const displayDate = e.date ? new Date(e.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : '';
+    const displayDate = e.date ? new Date(e.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
     return `
       <div class="entry" id="entry-${fid}">
         <div class="entry-view">
-          <div class="entry-date-label">${displayDate}</div>
-          <h2 class="entry-title">${escHtml(e.title)}</h2>
+          <p><strong>${escHtml(e.title)}</strong> &mdash; ${displayDate} &mdash; ${e.type}</p>
           ${renderBlocks(e.blocks)}
           <div class="entry-admin-actions admin-only">
             <button onclick="startEdit('${fid}')">edit</button>
