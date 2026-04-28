@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Notes</title>
   <style>
-    body { font-family: 'Segoe UI', sans-serif; }
+    body { font-family: 'Segoe UI', sans-serif; max-width: 680px; margin: 0 auto; padding: 2rem 1.5rem; }
     .form-body { display: none; }
     .form-body.visible { display: block; }
     .entry.editing .entry-view { display: none; }
@@ -14,7 +14,6 @@
     #lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); }
     #lightbox.active { display: flex; align-items: center; justify-content: center; }
     #lightbox img { max-width: 90vw; max-height: 90vh; }
-    hr { margin: 1rem 0; }
     .editor { border: 1px solid #ccc; padding: 0.5rem; }
     .block { margin: 0.25rem 0; display: flex; align-items: flex-start; gap: 0.5rem; }
     .block textarea { width: 100%; min-height: 120px; resize: vertical; font-family: 'Segoe UI', sans-serif; font-size: 1rem; }
@@ -22,12 +21,24 @@
     .block video { max-width: 400px; display: block; }
     .block-controls { display: flex; flex-direction: column; gap: 2px; }
     .block-controls button { font-size: 0.7rem; cursor: pointer; }
-    .entry-block-text { margin: 0.5rem 0; white-space: pre-wrap; }
-    .entry-block-img img { max-width: 400px; cursor: pointer; margin: 0.5rem 0; display: block; }
-    .entry-block-video video { max-width: 400px; margin: 0.5rem 0; display: block; }
-    #admin-bar { position: fixed; top: 1rem; right: 1rem; } #admin-btn { background: none; border: none; cursor: pointer; font-family: 'Segoe UI', sans-serif; font-size: 1.5rem; color: #aaa; padding: 0; } #admin-btn:hover { color: #000; } .admin-active #admin-btn { color: red; font-weight: bold; } #admin-status { display: none; }
+    .entry-block-text { margin: 0.5rem 0; white-space: pre-wrap; line-height: 1.7; }
+    .entry-block-img img { max-width: 100%; cursor: pointer; margin: 0.75rem 0; display: block; }
+    .entry-block-video video { max-width: 100%; margin: 0.75rem 0; display: block; }
+    #admin-bar { position: fixed; top: 1rem; right: 1rem; }
+    #admin-btn { background: none; border: none; cursor: pointer; font-family: 'Segoe UI', sans-serif; font-size: 1.5rem; color: #aaa; padding: 0; }
+    #admin-btn:hover { color: #000; }
+    .admin-active #admin-btn { color: red; font-weight: bold; }
+    #admin-status { display: none; }
     .admin-only { display: none; }
     .admin-active .admin-only { display: inline; }
+    /* entry layout like blog */
+    .entry { margin-bottom: 3rem; }
+    .entry-date-label { font-size: 0.75rem; color: #888; margin-bottom: 0.4rem; }
+    .entry-title { font-size: 1.5rem; font-weight: normal; margin: 0 0 0.75rem 0; }
+    .entry-type-label { font-size: 0.75rem; color: #aaa; margin-bottom: 0.5rem; }
+    .entry-admin-actions { margin-top: 0.5rem; font-size: 0.8rem; }
+    #entry-count { color: #aaa; font-size: 0.8rem; margin-bottom: 2rem; }
+    h1 { font-size: 1.8rem; font-weight: normal; margin-bottom: 0.25rem; }
   </style>
 </head>
 <body>
@@ -66,7 +77,6 @@
   </div>
 </div>
 
-<hr>
 
 <div id="entries"></div>
 
@@ -78,8 +88,8 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  // ── PASTE YOUR FIREBASE CONFIG HERE ──
   const firebaseConfig = {
     apiKey: "AIzaSyBYY6PZA1oR3OA7cMmVjOYc1QvBjyaIpYk",
     authDomain: "devlog-43b86.firebaseapp.com",
@@ -89,11 +99,9 @@
     appId: "1:490846315184:web:f9662938bb9d354d369175"
   };
 
-  // ── YOUR ADMIN PASSWORD ──
-  const ADMIN_PASSWORD = "Noanoa0118";
-
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
+  const auth = getAuth(app);
   const COL = "notes";
 
   let entries = [];
@@ -102,24 +110,31 @@
 
   const today = new Date().toISOString().split('T')[0];
 
-  // ── ADMIN ──
-  window.toggleAdmin = function() {
+  // ── AUTH STATE ──
+  onAuthStateChanged(auth, user => {
+    isAdmin = !!user;
     if (isAdmin) {
-      isAdmin = false;
+      document.body.classList.add('admin-active');
+      document.getElementById('admin-btn').textContent = '×';
+      document.getElementById('f-date').value = today;
+      if (!document.getElementById('editor').children.length) addTextBlock('editor');
+    } else {
       document.body.classList.remove('admin-active');
-      document.getElementById('admin-status').textContent = 'viewing';
-      document.getElementById('admin-btn').textContent = 'admin login';
+      document.getElementById('admin-btn').textContent = '+';
+    }
+  });
+
+  // ── ADMIN ──
+  window.toggleAdmin = async function() {
+    if (isAdmin) {
+      await signOut(auth);
       return;
     }
     const pw = prompt("Password:");
-    if (pw === ADMIN_PASSWORD) {
-      isAdmin = true;
-      document.body.classList.add('admin-active');
-      document.getElementById('admin-status').textContent = 'admin mode';
-      document.getElementById('admin-btn').textContent = 'logout';
-      document.getElementById('f-date').value = today;
-      addTextBlock('editor');
-    } else if (pw !== null) {
+    if (!pw) return;
+    try {
+      await signInWithEmailAndPassword(auth, "narisawa.noa@gmail.com", pw);
+    } catch(e) {
       alert("Wrong password.");
     }
   };
@@ -186,7 +201,7 @@
   function renderAll() {
     const container = document.getElementById('entries');
     const empty = document.getElementById('empty-state');
-    document.getElementById('entry-count').textContent = entries.length + ' ' + (entries.length === 1 ? 'entry' : 'entries');
+    document.getElementById('entry-count').textContent = '';
     if (entries.length === 0) {  container.innerHTML = ''; return; }
     
     container.innerHTML = entries.map(e => renderEntry(e)).join('');
@@ -204,17 +219,17 @@
 
   function renderEntry(e) {
     const fid = e.firestoreId;
-    const displayDate = e.date ? new Date(e.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+    const displayDate = e.date ? new Date(e.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : '';
     return `
       <div class="entry" id="entry-${fid}">
         <div class="entry-view">
-          <p><strong>${escHtml(e.title)}</strong> &mdash; ${displayDate} &mdash; ${e.type}</p>
+          <div class="entry-date-label">${displayDate}</div>
+          <h2 class="entry-title">${escHtml(e.title)}</h2>
           ${renderBlocks(e.blocks)}
-          <p class="admin-only">
+          <div class="entry-admin-actions admin-only">
             <button onclick="startEdit('${fid}')">edit</button>
             <button onclick="deleteEntry('${fid}')">delete</button>
-          </p>
-          <hr>
+          </div>
         </div>
         <div class="entry-edit-form">
           <p><label>Title<br><input type="text" id="edit-title-${fid}" value="${escAttr(e.title)}" style="width:100%" /></label></p>
@@ -231,7 +246,6 @@
             <button onclick="triggerMediaInsert('editor-edit-${fid}')">+ image/video</button>
           </p>
           <p><button onclick="saveEdit('${fid}')">save</button> <button onclick="cancelEdit('${fid}')">cancel</button></p>
-          <hr>
         </div>
       </div>`;
   }
