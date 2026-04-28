@@ -3,24 +3,199 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Devlog</title>
+  <title>Notes</title>
   <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background: #fff;
-      color: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
+    .form-body { display: none; }
+    .form-body.visible { display: block; }
+    .entry.editing .entry-view { display: none; }
+    .entry-edit-form { display: none; }
+    .entry.editing .entry-edit-form { display: block; }
+    #lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); }
+    #lightbox.active { display: flex; align-items: center; justify-content: center; }
+    #lightbox img { max-width: 90vw; max-height: 90vh; }
+    textarea { width: 100%; min-height: 100px; }
+    input[type="text"], input[type="date"], select { width: 100%; }
+    .entry-media img { max-width: 400px; cursor: pointer; }
+    .entry-media video { max-width: 400px; }
+    hr { margin: 1rem 0; }
   </style>
 </head>
 <body>
-  <div>
-    <h1>Devlog</h1>
-    <p>(empty for now)</p>
+
+<h1>Notes</h1>
+<p id="entry-count"></p>
+
+<div id="add-form">
+  <p><a href="#" onclick="toggleForm(); return false;">+ new entry</a></p>
+  <div class="form-body" id="form-body">
+    <p><label>Title<br><input type="text" id="f-title" /></label></p>
+    <p><label>Date<br><input type="date" id="f-date" /></label></p>
+    <p><label>Type<br>
+      <select id="f-type">
+        <option value="devlog">devlog</option>
+        <option value="vlog">vlog</option>
+        <option value="note">note</option>
+        <option value="experiment">experiment</option>
+        <option value="process">process</option>
+      </select>
+    </label></p>
+    <p><label>Content<br><textarea id="f-text"></textarea></label></p>
+    <p><label>Media<br><input type="file" id="f-media" multiple accept="image/*,video/*" onchange="handleFiles(this.files)" /></label></p>
+    <div id="media-preview"></div>
+    <p><button onclick="addEntry()">publish</button></p>
   </div>
+</div>
+
+<hr>
+
+<div id="empty-state">no entries yet.</div>
+<div id="entries"></div>
+
+<div id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="" />
+</div>
+
+<script>
+  let entries = JSON.parse(localStorage.getItem('devlog-entries') || '[]');
+  let pendingMedia = [];
+
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('f-date').value = today;
+  renderAll();
+
+  function toggleForm() {
+    document.getElementById('form-body').classList.toggle('visible');
+  }
+
+  function handleFiles(files) {
+    Array.from(files).forEach(file => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        pendingMedia.push({ dataUrl: e.target.result, type: file.type, name: file.name });
+        renderPreviews();
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function renderPreviews() {
+    const el = document.getElementById('media-preview');
+    el.innerHTML = pendingMedia.map(m =>
+      m.type.startsWith('image')
+        ? `<img src="${m.dataUrl}" width="80" />`
+        : `<span>[video: ${m.name}]</span>`
+    ).join(' ');
+  }
+
+  function addEntry() {
+    const title = document.getElementById('f-title').value.trim();
+    const date  = document.getElementById('f-date').value;
+    const type  = document.getElementById('f-type').value;
+    const text  = document.getElementById('f-text').value.trim();
+    if (!title && !text) { alert('Add a title or content first.'); return; }
+    entries.unshift({ id: Date.now(), title: title || '(untitled)', date, type, text, media: [...pendingMedia] });
+    save(); renderAll();
+    document.getElementById('f-title').value = '';
+    document.getElementById('f-date').value = today;
+    document.getElementById('f-text').value = '';
+    document.getElementById('f-type').value = 'devlog';
+    document.getElementById('media-preview').innerHTML = '';
+    document.getElementById('f-media').value = '';
+    pendingMedia = [];
+    document.getElementById('form-body').classList.remove('visible');
+  }
+
+  function renderAll() {
+    const container = document.getElementById('entries');
+    const empty = document.getElementById('empty-state');
+    document.getElementById('entry-count').textContent = entries.length + ' ' + (entries.length === 1 ? 'entry' : 'entries');
+    if (entries.length === 0) { empty.style.display = 'block'; container.innerHTML = ''; return; }
+    empty.style.display = 'none';
+    container.innerHTML = entries.map(e => renderEntry(e)).join('');
+  }
+
+  function renderEntry(e) {
+    const displayDate = e.date ? new Date(e.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+    const mediaHTML = e.media && e.media.length
+      ? `<div class="entry-media">${e.media.map(m =>
+          m.type.startsWith('image')
+            ? `<img src="${m.dataUrl}" alt="${m.name}" onclick="openLightbox('${m.dataUrl}')" />`
+            : `<video src="${m.dataUrl}" controls></video>`
+        ).join('')}</div>`
+      : '';
+    return `
+      <div class="entry" id="entry-${e.id}">
+        <div class="entry-view">
+          <p><strong>${escHtml(e.title)}</strong> &mdash; ${displayDate} &mdash; ${e.type}</p>
+          ${e.text ? `<p>${escHtml(e.text)}</p>` : ''}
+          ${mediaHTML}
+          <p><button onclick="startEdit(${e.id})">edit</button> <button onclick="deleteEntry(${e.id})">delete</button></p>
+          <hr>
+        </div>
+        <div class="entry-edit-form">
+          <p><label>Title<br><input type="text" id="edit-title-${e.id}" value="${escAttr(e.title)}" /></label></p>
+          <p><label>Date<br><input type="date" id="edit-date-${e.id}" value="${e.date}" /></label></p>
+          <p><label>Type<br>
+            <select id="edit-type-${e.id}">
+              ${['devlog','vlog','note','experiment','process'].map(t => `<option value="${t}" ${e.type===t?'selected':''}>${t}</option>`).join('')}
+            </select>
+          </label></p>
+          <p><label>Content<br><textarea id="edit-text-${e.id}">${escHtml(e.text)}</textarea></label></p>
+          <p><label>Add media<br><input type="file" multiple accept="image/*,video/*" onchange="addEditMedia(${e.id}, this.files)" /></label></p>
+          <p><button onclick="saveEdit(${e.id})">save</button> <button onclick="cancelEdit(${e.id})">cancel</button></p>
+          <hr>
+        </div>
+      </div>`;
+  }
+
+  function startEdit(id) { document.getElementById(`entry-${id}`).classList.add('editing'); }
+  function cancelEdit(id) { document.getElementById(`entry-${id}`).classList.remove('editing'); }
+
+  function saveEdit(id) {
+    const idx = entries.findIndex(e => e.id === id);
+    if (idx === -1) return;
+    entries[idx].title = document.getElementById(`edit-title-${id}`).value.trim() || '(untitled)';
+    entries[idx].date  = document.getElementById(`edit-date-${id}`).value;
+    entries[idx].type  = document.getElementById(`edit-type-${id}`).value;
+    entries[idx].text  = document.getElementById(`edit-text-${id}`).value.trim();
+    save(); renderAll();
+  }
+
+  function addEditMedia(id, files) {
+    const idx = entries.findIndex(e => e.id === id);
+    if (idx === -1) return;
+    Array.from(files).forEach(file => {
+      const reader = new FileReader();
+      reader.onload = ev => {
+        entries[idx].media.push({ dataUrl: ev.target.result, type: file.type, name: file.name });
+        save(); renderAll();
+        setTimeout(() => startEdit(id), 50);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function deleteEntry(id) {
+    if (!confirm('Delete this entry?')) return;
+    entries = entries.filter(e => e.id !== id);
+    save(); renderAll();
+  }
+
+  function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('active');
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.getElementById('lightbox-img').src = '';
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  function save() { localStorage.setItem('devlog-entries', JSON.stringify(entries)); }
+  function escHtml(str) { return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function escAttr(str) { return (str||'').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+</script>
 </body>
 </html>
