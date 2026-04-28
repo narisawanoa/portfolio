@@ -25,7 +25,7 @@
     .entry-block-text { margin: 0.5rem 0; white-space: pre-wrap; }
     .entry-block-img img { max-width: 400px; cursor: pointer; margin: 0.5rem 0; display: block; }
     .entry-block-video video { max-width: 400px; margin: 0.5rem 0; display: block; }
-    #admin-bar { background: #f0f0f0; padding: 0.5rem 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
+    #admin-bar { position: fixed; top: 1rem; right: 1rem; } #admin-btn { background: none; border: none; cursor: pointer; font-family: 'Segoe UI', sans-serif; font-size: 1.5rem; color: #aaa; padding: 0; } #admin-btn:hover { color: #000; } .admin-active #admin-btn { color: red; font-weight: bold; } #admin-status { display: none; }
     .admin-only { display: none; }
     .admin-active .admin-only { display: inline; }
   </style>
@@ -35,8 +35,8 @@
 <h1>Notes</h1>
 
 <div id="admin-bar">
-  <span id="admin-status">viewing</span>
-  <button id="admin-btn" onclick="toggleAdmin()">admin login</button>
+  
+  <button id="admin-btn" onclick="toggleAdmin()">+</button>
 </div>
 
 <p id="entry-count"></p>
@@ -67,7 +67,7 @@
 </div>
 
 <hr>
-<div id="empty-state" style="display:none">no entries yet.</div>
+
 <div id="entries"></div>
 
 <div id="lightbox" onclick="closeLightbox()">
@@ -187,8 +187,8 @@
     const container = document.getElementById('entries');
     const empty = document.getElementById('empty-state');
     document.getElementById('entry-count').textContent = entries.length + ' ' + (entries.length === 1 ? 'entry' : 'entries');
-    if (entries.length === 0) { empty.style.display = 'block'; container.innerHTML = ''; return; }
-    empty.style.display = 'none';
+    if (entries.length === 0) {  container.innerHTML = ''; return; }
+    
     container.innerHTML = entries.map(e => renderEntry(e)).join('');
   }
 
