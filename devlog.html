@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Notes</title>
   <style>
+    body { font-family: 'Segoe UI', sans-serif; }
     .form-body { display: none; }
     .form-body.visible { display: block; }
     .entry.editing .entry-view { display: none; }
@@ -14,35 +15,33 @@
     #lightbox.active { display: flex; align-items: center; justify-content: center; }
     #lightbox img { max-width: 90vw; max-height: 90vh; }
     hr { margin: 1rem 0; }
-    body { font-family: 'Segoe UI', sans-serif; }
-
-    /* editor blocks */
     .editor { border: 1px solid #ccc; padding: 0.5rem; }
     .block { margin: 0.25rem 0; display: flex; align-items: flex-start; gap: 0.5rem; }
-    .block textarea {
-      width: 100%;
-      min-height: 60px;
-      resize: vertical;
-      font-family: 'Segoe UI', sans-serif;
-      font-size: 1rem;
-    }
+    .block textarea { width: 100%; min-height: 60px; resize: vertical; font-family: 'Segoe UI', sans-serif; font-size: 1rem; }
     .block img { max-width: 400px; display: block; }
     .block video { max-width: 400px; display: block; }
     .block-controls { display: flex; flex-direction: column; gap: 2px; }
     .block-controls button { font-size: 0.7rem; cursor: pointer; }
-
-    /* rendered entry */
     .entry-block-text { margin: 0.5rem 0; white-space: pre-wrap; }
     .entry-block-img img { max-width: 400px; cursor: pointer; margin: 0.5rem 0; display: block; }
     .entry-block-video video { max-width: 400px; margin: 0.5rem 0; display: block; }
+    #admin-bar { background: #f0f0f0; padding: 0.5rem 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
+    .admin-only { display: none; }
+    .admin-active .admin-only { display: inline; }
   </style>
 </head>
 <body>
 
 <h1>Notes</h1>
+
+<div id="admin-bar">
+  <span id="admin-status">viewing</span>
+  <button id="admin-btn" onclick="toggleAdmin()">admin login</button>
+</div>
+
 <p id="entry-count"></p>
 
-<div id="add-form">
+<div id="add-form" class="admin-only">
   <p><a href="#" onclick="toggleForm(); return false;">+ new entry</a></p>
   <div class="form-body" id="form-body">
     <p><label>Title<br><input type="text" id="f-title" style="width:100%" /></label></p>
@@ -56,184 +55,132 @@
         <option value="process">process</option>
       </select>
     </label></p>
-
-    <p>Content — use the buttons to add text or media blocks in any order:</p>
+    <p>Content:</p>
     <div class="editor" id="editor"></div>
     <p>
       <button onclick="addTextBlock('editor')">+ text</button>
       <button onclick="triggerMediaInsert('editor')">+ image/video</button>
       <input type="file" id="media-insert-input" multiple accept="image/*,video/*" style="display:none" onchange="handleMediaInsert(this)" />
     </p>
-
     <p><button onclick="addEntry()">publish</button></p>
   </div>
 </div>
 
 <hr>
-<div id="empty-state">no entries yet.</div>
+<div id="empty-state" style="display:none">no entries yet.</div>
 <div id="entries"></div>
 
 <div id="lightbox" onclick="closeLightbox()">
   <img id="lightbox-img" src="" alt="" />
 </div>
 
-<script>
-  let entries = JSON.parse(localStorage.getItem('devlog-entries') || '[]');
-  let activeEditorId = null; // which editor triggered media insert
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  // ── PASTE YOUR FIREBASE CONFIG HERE ──
+  const firebaseConfig = {
+    apiKey: "AIzaSyBYY6PZA1oR3OA7cMmVjOYc1QvBjyaIpYk",
+    authDomain: "devlog-43b86.firebaseapp.com",
+    projectId: "devlog-43b86",
+    storageBucket: "devlog-43b86.firebasestorage.app",
+    messagingSenderId: "490846315184",
+    appId: "1:490846315184:web:f9662938bb9d354d369175"
+  };
+
+  // ── YOUR ADMIN PASSWORD ──
+  const ADMIN_PASSWORD = "Noanoa0118";
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const COL = "notes";
+
+  let entries = [];
+  let isAdmin = false;
+  let activeEditorId = null;
 
   const today = new Date().toISOString().split('T')[0];
-  document.getElementById('f-date').value = today;
-  // Start new entry editor with one text block
-  addTextBlock('editor');
-  renderAll();
 
-  function toggleForm() {
-    document.getElementById('form-body').classList.toggle('visible');
-  }
+  // ── ADMIN ──
+  window.toggleAdmin = function() {
+    if (isAdmin) {
+      isAdmin = false;
+      document.body.classList.remove('admin-active');
+      document.getElementById('admin-status').textContent = 'viewing';
+      document.getElementById('admin-btn').textContent = 'admin login';
+      return;
+    }
+    const pw = prompt("Password:");
+    if (pw === ADMIN_PASSWORD) {
+      isAdmin = true;
+      document.body.classList.add('admin-active');
+      document.getElementById('admin-status').textContent = 'admin mode';
+      document.getElementById('admin-btn').textContent = 'logout';
+      document.getElementById('f-date').value = today;
+      addTextBlock('editor');
+    } else if (pw !== null) {
+      alert("Wrong password.");
+    }
+  };
 
-  // ── BLOCK EDITOR ──
-
-  function addTextBlock(editorId, afterEl) {
-    const editor = document.getElementById(editorId);
-    const block = document.createElement('div');
-    block.className = 'block';
-    block.dataset.type = 'text';
-    block.innerHTML = `
-      <textarea placeholder="write here..."></textarea>
-      <div class="block-controls">
-        <button onclick="moveBlock(this, -1)">↑</button>
-        <button onclick="moveBlock(this, 1)">↓</button>
-        <button onclick="removeBlock(this)">✕</button>
-      </div>`;
-    if (afterEl) afterEl.after(block);
-    else editor.appendChild(block);
-    block.querySelector('textarea').focus();
-  }
-
-  function addMediaBlock(editorId, file, afterEl) {
-    const reader = new FileReader();
-    reader.onload = e => {
-      const editor = document.getElementById(editorId);
-      const block = document.createElement('div');
-      block.className = 'block';
-      block.dataset.type = file.type.startsWith('image') ? 'image' : 'video';
-      block.dataset.dataUrl = e.target.result;
-      block.dataset.name = file.name;
-      block.dataset.mime = file.type;
-
-      const media = file.type.startsWith('image')
-        ? `<img src="${e.target.result}" style="max-width:300px" />`
-        : `<video src="${e.target.result}" controls style="max-width:300px"></video>`;
-
-      block.innerHTML = `
-        ${media}
-        <div class="block-controls">
-          <button onclick="moveBlock(this, -1)">↑</button>
-          <button onclick="moveBlock(this, 1)">↓</button>
-          <button onclick="removeBlock(this)">✕</button>
-        </div>`;
-      if (afterEl) afterEl.after(block);
-      else editor.appendChild(block);
-    };
-    reader.readAsDataURL(file);
-  }
-
-  function triggerMediaInsert(editorId) {
-    activeEditorId = editorId;
-    const input = document.getElementById('media-insert-input');
-    input.value = '';
-    input.click();
-  }
-
-  function handleMediaInsert(input) {
-    Array.from(input.files).forEach(file => {
-      addMediaBlock(activeEditorId, file, null);
-    });
-  }
-
-  function moveBlock(btn, dir) {
-    const block = btn.closest('.block');
-    const editor = block.parentElement;
-    if (dir === -1 && block.previousElementSibling) {
-      editor.insertBefore(block, block.previousElementSibling);
-    } else if (dir === 1 && block.nextElementSibling) {
-      editor.insertBefore(block.nextElementSibling, block);
+  // ── LOAD ──
+  async function loadEntries() {
+    document.getElementById('entry-count').textContent = 'loading...';
+    try {
+      const q = query(collection(db, COL), orderBy("createdAt", "desc"));
+      const snap = await getDocs(q);
+      entries = snap.docs.map(d => ({ firestoreId: d.id, ...d.data() }));
+      renderAll();
+    } catch(e) {
+      document.getElementById('entry-count').textContent = 'error loading — check Firebase config';
+      console.error(e);
     }
   }
 
-  function removeBlock(btn) {
-    btn.closest('.block').remove();
-  }
+  loadEntries();
 
-  function readEditorBlocks(editorId) {
-    const blocks = [];
-    document.getElementById(editorId).querySelectorAll('.block').forEach(block => {
-      const type = block.dataset.type;
-      if (type === 'text') {
-        const val = block.querySelector('textarea').value.trim();
-        if (val) blocks.push({ type: 'text', content: val });
-      } else {
-        blocks.push({ type, dataUrl: block.dataset.dataUrl, name: block.dataset.name, mime: block.dataset.mime });
-      }
-    });
-    return blocks;
-  }
-
-  function buildEditor(editorId, blocks) {
-    const editor = document.getElementById(editorId);
-    editor.innerHTML = '';
-    if (!blocks || blocks.length === 0) { addTextBlock(editorId); return; }
-    blocks.forEach(b => {
-      if (b.type === 'text') {
-        const block = document.createElement('div');
-        block.className = 'block';
-        block.dataset.type = 'text';
-        block.innerHTML = `
-          <textarea placeholder="write here...">${escHtml(b.content)}</textarea>
-          <div class="block-controls">
-            <button onclick="moveBlock(this, -1)">↑</button>
-            <button onclick="moveBlock(this, 1)">↓</button>
-            <button onclick="removeBlock(this)">✕</button>
-          </div>`;
-        editor.appendChild(block);
-      } else {
-        const block = document.createElement('div');
-        block.className = 'block';
-        block.dataset.type = b.type;
-        block.dataset.dataUrl = b.dataUrl;
-        block.dataset.name = b.name;
-        block.dataset.mime = b.mime;
-        const media = b.type === 'image'
-          ? `<img src="${b.dataUrl}" style="max-width:300px" />`
-          : `<video src="${b.dataUrl}" controls style="max-width:300px"></video>`;
-        block.innerHTML = `
-          ${media}
-          <div class="block-controls">
-            <button onclick="moveBlock(this, -1)">↑</button>
-            <button onclick="moveBlock(this, 1)">↓</button>
-            <button onclick="removeBlock(this)">✕</button>
-          </div>`;
-        editor.appendChild(block);
-      }
-    });
-  }
-
-  // ── ADD ENTRY ──
-  function addEntry() {
+  // ── ADD ──
+  window.addEntry = async function() {
     const title = document.getElementById('f-title').value.trim();
     const date  = document.getElementById('f-date').value;
     const type  = document.getElementById('f-type').value;
     const blocks = readEditorBlocks('editor');
     if (!title && blocks.length === 0) { alert('Add a title or content first.'); return; }
-    entries.unshift({ id: Date.now(), title: title || '(untitled)', date, type, blocks });
-    save(); renderAll();
+    const entry = { title: title || '(untitled)', date, type, blocks, createdAt: Date.now() };
+    const docRef = await addDoc(collection(db, COL), entry);
+    entries.unshift({ firestoreId: docRef.id, ...entry });
+    renderAll();
     document.getElementById('f-title').value = '';
     document.getElementById('f-date').value = today;
     document.getElementById('f-type').value = 'devlog';
     document.getElementById('editor').innerHTML = '';
     addTextBlock('editor');
     document.getElementById('form-body').classList.remove('visible');
-  }
+  };
+
+  // ── SAVE EDIT ──
+  window.saveEdit = async function(firestoreId) {
+    const idx = entries.findIndex(e => e.firestoreId === firestoreId);
+    if (idx === -1) return;
+    const updated = {
+      title:  document.getElementById(`edit-title-${firestoreId}`).value.trim() || '(untitled)',
+      date:   document.getElementById(`edit-date-${firestoreId}`).value,
+      type:   document.getElementById(`edit-type-${firestoreId}`).value,
+      blocks: readEditorBlocks(`editor-edit-${firestoreId}`)
+    };
+    await updateDoc(doc(db, COL, firestoreId), updated);
+    Object.assign(entries[idx], updated);
+    renderAll();
+  };
+
+  // ── DELETE ──
+  window.deleteEntry = async function(firestoreId) {
+    if (!confirm('Delete this entry?')) return;
+    await deleteDoc(doc(db, COL, firestoreId));
+    entries = entries.filter(e => e.firestoreId !== firestoreId);
+    renderAll();
+  };
 
   // ── RENDER ──
   function renderAll() {
@@ -248,7 +195,7 @@
   function renderBlocks(blocks) {
     if (!blocks) return '';
     return blocks.map(b => {
-      if (b.type === 'text') return `<div class="entry-block-text">${escHtml(b.content)}</div>`;
+      if (b.type === 'text')  return `<div class="entry-block-text">${escHtml(b.content)}</div>`;
       if (b.type === 'image') return `<div class="entry-block-img"><img src="${b.dataUrl}" alt="${b.name}" onclick="openLightbox('${b.dataUrl}')" /></div>`;
       if (b.type === 'video') return `<div class="entry-block-video"><video src="${b.dataUrl}" controls></video></div>`;
       return '';
@@ -256,75 +203,175 @@
   }
 
   function renderEntry(e) {
+    const fid = e.firestoreId;
     const displayDate = e.date ? new Date(e.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
-    const editEditorId = `editor-edit-${e.id}`;
     return `
-      <div class="entry" id="entry-${e.id}">
+      <div class="entry" id="entry-${fid}">
         <div class="entry-view">
           <p><strong>${escHtml(e.title)}</strong> &mdash; ${displayDate} &mdash; ${e.type}</p>
           ${renderBlocks(e.blocks)}
-          <p><button onclick="startEdit(${e.id})">edit</button> <button onclick="deleteEntry(${e.id})">delete</button></p>
+          <p class="admin-only">
+            <button onclick="startEdit('${fid}')">edit</button>
+            <button onclick="deleteEntry('${fid}')">delete</button>
+          </p>
           <hr>
         </div>
         <div class="entry-edit-form">
-          <p><label>Title<br><input type="text" id="edit-title-${e.id}" value="${escAttr(e.title)}" style="width:100%" /></label></p>
-          <p><label>Date<br><input type="date" id="edit-date-${e.id}" value="${e.date}" /></label></p>
+          <p><label>Title<br><input type="text" id="edit-title-${fid}" value="${escAttr(e.title)}" style="width:100%" /></label></p>
+          <p><label>Date<br><input type="date" id="edit-date-${fid}" value="${e.date}" /></label></p>
           <p><label>Type<br>
-            <select id="edit-type-${e.id}">
+            <select id="edit-type-${fid}">
               ${['devlog','vlog','note','experiment','process'].map(t => `<option value="${t}" ${e.type===t?'selected':''}>${t}</option>`).join('')}
             </select>
           </label></p>
           <p>Content:</p>
-          <div class="editor" id="${editEditorId}"></div>
+          <div class="editor" id="editor-edit-${fid}"></div>
           <p>
-            <button onclick="addTextBlock('${editEditorId}')">+ text</button>
-            <button onclick="triggerMediaInsert('${editEditorId}')">+ image/video</button>
+            <button onclick="addTextBlock('editor-edit-${fid}')">+ text</button>
+            <button onclick="triggerMediaInsert('editor-edit-${fid}')">+ image/video</button>
           </p>
-          <p><button onclick="saveEdit(${e.id})">save</button> <button onclick="cancelEdit(${e.id})">cancel</button></p>
+          <p><button onclick="saveEdit('${fid}')">save</button> <button onclick="cancelEdit('${fid}')">cancel</button></p>
           <hr>
         </div>
       </div>`;
   }
 
-  // ── EDIT ──
-  function startEdit(id) {
-    const entry = entries.find(e => e.id === id);
-    document.getElementById(`entry-${id}`).classList.add('editing');
-    buildEditor(`editor-edit-${id}`, entry.blocks);
+  window.startEdit = function(fid) {
+    const entry = entries.find(e => e.firestoreId === fid);
+    document.getElementById(`entry-${fid}`).classList.add('editing');
+    buildEditor(`editor-edit-${fid}`, entry.blocks);
+  };
+
+  window.cancelEdit = function(fid) {
+    document.getElementById(`entry-${fid}`).classList.remove('editing');
+  };
+
+  // ── BLOCK EDITOR ──
+  window.addTextBlock = function(editorId, afterEl) {
+    const editor = document.getElementById(editorId);
+    if (!editor) return;
+    const block = document.createElement('div');
+    block.className = 'block';
+    block.dataset.type = 'text';
+    block.innerHTML = `
+      <textarea placeholder="write here..."></textarea>
+      <div class="block-controls">
+        <button onclick="moveBlock(this,-1)">↑</button>
+        <button onclick="moveBlock(this,1)">↓</button>
+        <button onclick="removeBlock(this)">✕</button>
+      </div>`;
+    if (afterEl) afterEl.after(block); else editor.appendChild(block);
+    block.querySelector('textarea').focus();
+  };
+
+  window.triggerMediaInsert = function(editorId) {
+    activeEditorId = editorId;
+    const input = document.getElementById('media-insert-input');
+    input.value = '';
+    input.click();
+  };
+
+  window.handleMediaInsert = function(input) {
+    Array.from(input.files).forEach(file => addMediaBlock(activeEditorId, file));
+  };
+
+  function addMediaBlock(editorId, file) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const editor = document.getElementById(editorId);
+      if (!editor) return;
+      const block = document.createElement('div');
+      block.className = 'block';
+      block.dataset.type = file.type.startsWith('image') ? 'image' : 'video';
+      block.dataset.dataUrl = e.target.result;
+      block.dataset.name = file.name;
+      block.dataset.mime = file.type;
+      const media = file.type.startsWith('image')
+        ? `<img src="${e.target.result}" style="max-width:300px" />`
+        : `<video src="${e.target.result}" controls style="max-width:300px"></video>`;
+      block.innerHTML = `${media}<div class="block-controls">
+        <button onclick="moveBlock(this,-1)">↑</button>
+        <button onclick="moveBlock(this,1)">↓</button>
+        <button onclick="removeBlock(this)">✕</button>
+      </div>`;
+      editor.appendChild(block);
+    };
+    reader.readAsDataURL(file);
   }
 
-  function cancelEdit(id) {
-    document.getElementById(`entry-${id}`).classList.remove('editing');
+  window.moveBlock = function(btn, dir) {
+    const block = btn.closest('.block');
+    const editor = block.parentElement;
+    if (dir === -1 && block.previousElementSibling) editor.insertBefore(block, block.previousElementSibling);
+    else if (dir === 1 && block.nextElementSibling) editor.insertBefore(block.nextElementSibling, block);
+  };
+
+  window.removeBlock = function(btn) { btn.closest('.block').remove(); };
+
+  function readEditorBlocks(editorId) {
+    const blocks = [];
+    const editor = document.getElementById(editorId);
+    if (!editor) return blocks;
+    editor.querySelectorAll('.block').forEach(block => {
+      const type = block.dataset.type;
+      if (type === 'text') {
+        const val = block.querySelector('textarea').value.trim();
+        if (val) blocks.push({ type: 'text', content: val });
+      } else {
+        blocks.push({ type, dataUrl: block.dataset.dataUrl, name: block.dataset.name, mime: block.dataset.mime });
+      }
+    });
+    return blocks;
   }
 
-  function saveEdit(id) {
-    const idx = entries.findIndex(e => e.id === id);
-    if (idx === -1) return;
-    entries[idx].title  = document.getElementById(`edit-title-${id}`).value.trim() || '(untitled)';
-    entries[idx].date   = document.getElementById(`edit-date-${id}`).value;
-    entries[idx].type   = document.getElementById(`edit-type-${id}`).value;
-    entries[idx].blocks = readEditorBlocks(`editor-edit-${id}`);
-    save(); renderAll();
+  function buildEditor(editorId, blocks) {
+    const editor = document.getElementById(editorId);
+    if (!editor) return;
+    editor.innerHTML = '';
+    if (!blocks || blocks.length === 0) { addTextBlock(editorId); return; }
+    blocks.forEach(b => {
+      const block = document.createElement('div');
+      block.className = 'block';
+      if (b.type === 'text') {
+        block.dataset.type = 'text';
+        block.innerHTML = `<textarea placeholder="write here...">${escHtml(b.content)}</textarea>
+          <div class="block-controls">
+            <button onclick="moveBlock(this,-1)">↑</button>
+            <button onclick="moveBlock(this,1)">↓</button>
+            <button onclick="removeBlock(this)">✕</button>
+          </div>`;
+      } else {
+        block.dataset.type = b.type;
+        block.dataset.dataUrl = b.dataUrl;
+        block.dataset.name = b.name;
+        block.dataset.mime = b.mime;
+        const media = b.type === 'image'
+          ? `<img src="${b.dataUrl}" style="max-width:300px" />`
+          : `<video src="${b.dataUrl}" controls style="max-width:300px"></video>`;
+        block.innerHTML = `${media}<div class="block-controls">
+          <button onclick="moveBlock(this,-1)">↑</button>
+          <button onclick="moveBlock(this,1)">↓</button>
+          <button onclick="removeBlock(this)">✕</button>
+        </div>`;
+      }
+      editor.appendChild(block);
+    });
   }
 
-  function deleteEntry(id) {
-    if (!confirm('Delete this entry?')) return;
-    entries = entries.filter(e => e.id !== id);
-    save(); renderAll();
-  }
+  window.toggleForm = function() {
+    document.getElementById('form-body').classList.toggle('visible');
+  };
 
-  // ── LIGHTBOX ──
-  function openLightbox(src) {
+  window.openLightbox = function(src) {
     document.getElementById('lightbox-img').src = src;
     document.getElementById('lightbox').classList.add('active');
-  }
-  function closeLightbox() {
+  };
+  window.closeLightbox = function() {
     document.getElementById('lightbox').classList.remove('active');
     document.getElementById('lightbox-img').src = '';
-  }
+  };
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
-  function save() { localStorage.setItem('devlog-entries', JSON.stringify(entries)); }
   function escHtml(str) { return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
   function escAttr(str) { return (str||'').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 </script>
