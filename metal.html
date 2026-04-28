@@ -43,7 +43,7 @@
 <body>
 
 <h1>Notes</h1>
-<p><strong>intro to computation</strong> &nbsp; <a href="metal.html">metal &amp; performance</a></p>
+<p><a href="devlog.html">intro to computation</a> &nbsp; <strong>metal &amp; performance</strong></p>
 
 <div id="admin-bar">
   <button id="admin-btn" onclick="toggleAdmin()">+</button>
@@ -100,7 +100,7 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const auth = getAuth(app);
-  const COL = "notes";
+  const COL = "metal-performance";
 
   let entries = [];
   let isAdmin = false;
