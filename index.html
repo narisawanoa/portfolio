@@ -157,39 +157,6 @@ header nav a:hover, header nav a.active { border-bottom-color: transparent; }
   transform: scale(1.02);
 }
 
-/* ── HOME / LANDING VIEW ── */
-.home-view {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  margin-top: -40px;
-  overflow: hidden;
-  box-sizing: border-box;
-}
-.home-profile-img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.home-works-link {
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
-  font-size: 20px;
-  color: #fff;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  padding: 4px 14px;
-  text-shadow: 0 1px 6px rgba(0,0,0,0.6);
-  letter-spacing: 0.5px;
-}
-.home-works-link:hover { opacity: 0.75; }
-
 /* upcoming banner */
 .upcoming-section { margin-top: 0; padding: 18px 30px; border-top: 1px solid var(--border); margin-left: 30px; margin-right: 30px; }
 .upcoming-title { font-size: 12px; font-weight: 400; margin-bottom: 6px; color: #000; }
@@ -356,11 +323,6 @@ header nav a:hover, header nav a.active { border-bottom-color: transparent; }
 }
 .all-works-list .title-item:hover { color: red; }
 
-.cursor-coords {
-  position: fixed; top: 35px; right: 10px;
-  padding: 8px 12px; border-radius: 4px; font-size: 12px;
-  font-family: monospace; z-index: 100; pointer-events: none;
-}
 .info-btn {
   display: inline-flex; align-items: center; justify-content: center;
   width: 14px; height: 14px; border: 1px solid currentColor;
@@ -403,7 +365,6 @@ footer p { margin:0; }
   .header-center { position: static; padding: 0; font-size: 10px; margin-top: 6px; }
   .works-grid { grid-template-columns: repeat(2, 1fr); }
   .grid-item-title { font-size: 10px; }
-  .cursor-coords { display: none; }
   .contact-link { top: auto; bottom: 10px; right: 10px; font-size: 11px; }
   .project-header { padding: 30px 15px 15px; }
   .project-header h1 { font-size: 16px; }
@@ -420,11 +381,11 @@ footer p { margin:0; }
   <header>
     <div class="header-container">
       <div class="header-left">
-        <h1 style="display:flex;align-items:center;gap:8px;position:relative;"><a href="#" onclick="showHome(); return false;" style="text-decoration:none;"><span id="name-letters" style="display:inline-flex;font-family:'Smooch Sans',sans-serif;">NoaNarisawa</span></a> <button class="info-btn" id="info-btn" aria-label="Show contact info">i</button>
+        <h1 style="display:flex;align-items:center;gap:8px;position:relative;"><a href="#" onclick="showWorks(); return false;" style="text-decoration:none;"><span id="name-letters" style="display:inline-flex;font-family:'Smooch Sans',sans-serif;">NoaNarisawa</span></a> <button class="info-btn" id="info-btn" aria-label="Show contact info">i</button>
           <div class="contact-popup" id="contact-popup">contact:<br><a href="mailto:narisawa.noa@gmail.com">narisawa.noa@gmail.com</a><a href="https://www.instagram.com/epplllll" target="_blank" rel="noopener">@epplllll</a><br>CV:<br>Exhibitions<br>Sleight of Hand, Memorial Hall, Providence RI, 2026</div>
         </h1>
         <div class="header-left-description">
-          There is a secret dolphin in this html file <img src="images/dolphin.jpg" alt="dolphin" class="dolphin-image">
+          There is a secret dolphin in this file <img src="images/dolphin.jpg" alt="dolphin" class="dolphin-image">
         </div>
       </div>
       <div class="header-center">
@@ -436,7 +397,6 @@ footer p { margin:0; }
     </nav>
   </header>
   <main id="main-content"></main>
-  <div class="cursor-coords" id="coords">X: 0, Y: 0</div>
   <div class="image-modal" id="image-modal">
     <img src="" alt="">
   </div>
@@ -445,6 +405,19 @@ footer p { margin:0; }
   <script>
 
 const projects = {
+
+  untitledNov2026: {
+    title: "untitled",
+    meta: "2026 / bent plywood-layered MDF, wooden dowels, latex, clear vinyl tubing, water, aluminum frame, arduino, capacitive water sensors, submersible pumps, relays, amplifiers, speakers",
+    year: 2026, monthOrder: 7,
+    description: "",
+    thumb: { type: 'image', src: 'images/3loops_clear.jpg' },
+    media: [
+      { type: 'image', src: 'images/3loops_clear.jpg' },
+      { type: 'image', src: 'images/3loops_closeup.jpg' },
+      { type: 'image', src: 'images/3loops_side.jpg' }
+    ]
+  },
 
   sketches16: {
     title: "16 sketches",
@@ -732,25 +705,6 @@ function randomThumbCaptionClass() {
   return classes[Math.floor(Math.random() * classes.length)];
 }
 
-function sizeHomeView() {
-  const view = document.querySelector('.home-view');
-  const header = document.querySelector('header');
-  if (!view || !header) return;
-  view.style.height = (window.innerHeight - header.offsetHeight) + 'px';
-}
-
-function showHome() {
-  document.querySelector('header').style.display = 'none';
-  document.getElementById('main-content').innerHTML = `
-    <div class="home-view">
-      <a href="#works" class="home-works-link" onclick="showWorks(); return false;">works</a>
-      <img src="images/profile.jpg" alt="Noa Narisawa" class="home-profile-img">
-    </div>`;
-  sizeHomeView();
-  window.scrollTo(0, 0);
-}
-window.addEventListener('resize', sizeHomeView);
-
 function showWorks() {
   document.querySelector('header').style.display = '';
   document.getElementById('main-nav').style.display = 'flex';
@@ -902,7 +856,7 @@ function alignNavWithGrid() {
   }
 }
 
-showHome();
+showWorks();
 requestAnimationFrame(alignNavWithGrid);
 window.addEventListener('resize', alignNavWithGrid);
 
@@ -931,13 +885,10 @@ resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
 
 document.addEventListener('mousemove', e => {
-  const coordsEl = document.getElementById('coords');
-  coordsEl.textContent = `X: ${e.clientX}, Y: ${e.clientY}`;
   const r = Math.round((e.clientX / window.innerWidth) * 255);
   const g = Math.round((e.clientY / window.innerHeight) * 255);
   const b = Math.round(255 - ((r + g) / 2));
   const colorValue = `rgb(${r},${g},${b})`;
-  coordsEl.style.color = colorValue;
   const nameEl = document.getElementById('name-letters');
   if (nameEl) nameEl.style.color = colorValue;
   if (!isDrawing) { lastX = e.clientX; lastY = e.clientY; lastTime = Date.now(); isDrawing = true; return; }
